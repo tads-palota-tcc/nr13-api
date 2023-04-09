@@ -1,0 +1,1 @@
+alter sequence nr13_api.tb_users_id_seq restart with 10000;
