@@ -4,6 +4,8 @@ import br.com.smartnr.nr13api.domain.model.User;
 import br.com.smartnr.nr13api.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,6 +24,11 @@ public class UserService {
 
     private User findOrFail(Long id) {
         return userRepository.findById(id).orElseThrow(() -> new RuntimeException(String.format("Usuário com id=%d não encontrado", id)));
+    }
+
+    public User getAuthenticatedUser() {
+        String username = ((Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getClaimAsString("preferred_username");
+        return findOrFail(Long.parseLong(username));
     }
 
 }
