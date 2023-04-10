@@ -1,9 +1,7 @@
 package br.com.smartnr.nr13api.domain.service;
 
 import br.com.smartnr.nr13api.domain.model.Plant;
-import br.com.smartnr.nr13api.domain.model.User;
 import br.com.smartnr.nr13api.domain.repository.PlantRepository;
-import br.com.smartnr.nr13api.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
