@@ -1,3 +1,5 @@
+drop table if exists audit.tb_plants_audit;
+
 delete from nr13_api.tb_user_plants;
 delete from nr13_api.tb_plants;
 delete from nr13_api.tb_users;
