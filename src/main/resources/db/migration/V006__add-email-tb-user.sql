@@ -1,0 +1,1 @@
+alter table nr13_api.tb_users add column email varchar(100) unique not null;
