@@ -7,7 +7,7 @@ delete from nr13_api.tb_users;
 alter sequence nr13_api.tb_users_id_seq restart with 100000;
 alter sequence nr13_api.tb_plants_id_seq restart with 1;
 
-insert into nr13_api.tb_users (email) values ('alexandre.palota@gmail.com');
+insert into nr13_api.tb_users (name, email, password) values ('Alexandre Palota da Silva', 'alexandre.palota@gmail.com', '$2a$12$VoUaSPN6Axxo2T4HITqRluBfQL6JL1ksP4OPSa1.KYss4j4YjS8Ba');
 
 insert into
         nr13_api.tb_plants (code, name, street_name, number, complement, neighborhood, city, state, zip_code, active, updated_by)
