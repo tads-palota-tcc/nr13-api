@@ -4,6 +4,7 @@ import br.com.smartnr.nr13api.api.assembler.PlantAssembler;
 import br.com.smartnr.nr13api.api.dto.request.PlantCreationRequest;
 import br.com.smartnr.nr13api.api.dto.response.PlantDetailResponse;
 import br.com.smartnr.nr13api.api.dto.response.PlantSummaryResponse;
+import br.com.smartnr.nr13api.domain.repository.filters.PlantFilter;
 import br.com.smartnr.nr13api.domain.service.PlantService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -39,9 +39,9 @@ public class PlantController {
     }
 
     @GetMapping
-    public Page<PlantSummaryResponse> findByFilter(@RequestParam(required = false) String filter, Pageable pageable) {
+    public Page<PlantSummaryResponse> findByFilter(PlantFilter filter, Pageable pageable) {
         log.info("Recebendo chamada para listagem de Plantas");
-        var entities = plantService.findByRestriction(filter, pageable);
+        var entities = plantService.findByFilter(filter, pageable);
         return plantAssembler.toSummaryPageResponse(entities);
     }
 
