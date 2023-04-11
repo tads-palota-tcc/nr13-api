@@ -35,4 +35,13 @@ public class PlantService {
         return plantRepository.findAll(PlantSpecs.withFilter(filter), pageable);
     }
 
+    public Plant findById(Long id) {
+        log.info("Iniciando busca de Planta id={}", id);
+        return findOrFail(id);
+    }
+
+    private Plant findOrFail(Long id) {
+        return plantRepository.findById(id).orElseThrow(() -> new RuntimeException());
+    }
+
 }

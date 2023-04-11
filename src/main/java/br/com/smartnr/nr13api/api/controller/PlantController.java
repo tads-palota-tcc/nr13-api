@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -43,6 +44,13 @@ public class PlantController {
         log.info("Recebendo chamada para listagem de Plantas");
         var entities = plantService.findByFilter(filter, pageable);
         return plantAssembler.toSummaryPageResponse(entities);
+    }
+
+    @GetMapping("/{id}")
+    public PlantDetailResponse findById(@PathVariable Long id) {
+        log.info("Recebendo chamada para consulta de Planta");
+        var entity = plantService.findById(id);
+        return plantAssembler.toDetailResponse(entity);
     }
 
 }
