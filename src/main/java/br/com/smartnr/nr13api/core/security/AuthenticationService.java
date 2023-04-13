@@ -16,8 +16,8 @@ public class AuthenticationService implements UserDetailsService {
     @Transactional(readOnly = true)
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        var user = userRepository.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado com o e-mail informado"));
+        var user = userRepository.findById(Long.parseLong(username))
+                .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado com o ID informado"));
         user.getAuthorities();
         return user;
     }

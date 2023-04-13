@@ -24,11 +24,11 @@ public class TokenService {
     @Value("${jwt.secret}")
     private String secret;
 
-    public String generateToken(User user) {
+    public String generateToken(User user, Long seconds) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             return JWT.create()
-                    .withExpiresAt(expirationDate())
+                    .withExpiresAt(expirationDate(seconds))
                     .withIssuedAt(new Date())
                     .withSubject(user.getUsername())
                     .withClaim("name", user.getName())
@@ -36,6 +36,19 @@ public class TokenService {
                     .sign(algorithm);
         } catch (JWTCreationException exception){
             throw new RuntimeException("Erro ao gerar token");
+        }
+    }
+
+    public String generateRefreshToken(User user, Long seconds) {
+        try {
+            Algorithm algorithm = Algorithm.HMAC256(secret);
+            return JWT.create()
+                    .withExpiresAt(expirationDate(seconds))
+                    .withIssuedAt(new Date())
+                    .withSubject(user.getUsername())
+                    .sign(algorithm);
+        } catch (JWTCreationException exception){
+            throw new RuntimeException("Erro ao gerar refresh-token");
         }
     }
 
@@ -55,7 +68,8 @@ public class TokenService {
         return authorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
     }
 
-    private Instant expirationDate() {
-        return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));
+    private Instant expirationDate(Long seconds) {
+        return LocalDateTime.now().plusSeconds(seconds).toInstant(ZoneOffset.of("-03:00"));
     }
+
 }
