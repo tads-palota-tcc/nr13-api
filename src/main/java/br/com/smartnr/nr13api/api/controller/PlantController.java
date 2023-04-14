@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,6 +39,13 @@ public class PlantController {
         var entity = plantService.create(plantAssembler.toEntity(request));
         URI uri = uriComponentsBuilder.path("/plants/{id}").buildAndExpand(entity.getId()).toUri();
         return ResponseEntity.created(uri).body(plantAssembler.toDetailResponse(entity));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<PlantDetailResponse> update(@PathVariable Long id, @RequestBody @Valid PlantCreationRequest request) {
+        log.info("Recebendo chamada para atualização de Planta");
+        var entity = plantService.update(id, plantAssembler.toEntity(request));
+        return ResponseEntity.ok(plantAssembler.toDetailResponse(entity));
     }
 
     @GetMapping

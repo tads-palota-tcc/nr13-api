@@ -1,12 +1,12 @@
 package br.com.smartnr.nr13api.domain.service;
 
 import br.com.smartnr.nr13api.domain.model.Plant;
-import br.com.smartnr.nr13api.domain.model.User;
 import br.com.smartnr.nr13api.domain.repository.PlantRepository;
 import br.com.smartnr.nr13api.domain.repository.filters.PlantFilter;
 import br.com.smartnr.nr13api.domain.repository.specs.PlantSpecs;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,16 +23,25 @@ public class PlantService {
 
     private final PlantRepository plantRepository;
     private final UserService userService;
+    private final ModelMapper modelMapper;
 
     @Transactional
     public Plant create(Plant plant) {
-        log.info("Iniciando processo de cadastro de Planta obj={}", plant);
-        var user = new User();
-        user.setId(100000L);
-        plant.setUpdatedBy(user);
+        log.info("Iniciando processo de cadastro de Planta: {}", plant.getCode());
+        plant.setUpdatedBy(userService.getAuthenticatedUser());
         plant = plantRepository.save(plant);
         log.info("Cadastro de Planta realizado com sucesso id={}", plant.getId());
         return plant;
+    }
+
+    @Transactional
+    public Plant update(Long id, Plant plant) {
+        log.info("Iniciando processo de atualização de Planta: {}", plant.getCode());
+        var existing = this.findOrFail(id);
+        modelMapper.map(plant, existing);
+        existing.setUpdatedBy(userService.getAuthenticatedUser());
+        plantRepository.save(existing);
+        return existing;
     }
 
     public Page<Plant> findByFilter(PlantFilter filter, Pageable pageable) {
