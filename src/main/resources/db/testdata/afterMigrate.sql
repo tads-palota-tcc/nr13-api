@@ -57,3 +57,5 @@ insert into
         ('POA3', 'Unidade Porto Alegre 3', 'Av. Ipiranta', '121', null, 'Centro', 'Porto Alegre', 'RS', '96200000', 'true', 100000),
         ('POA4', 'Unidade Porto Alegre 4', 'Av. Ipiranta', '121', null, 'Centro', 'Porto Alegre', 'RS', '96200000', 'true', 100000),
         ('POA5', 'Unidade Porto Alegre 5', 'Av. Ipiranta', '121', null, 'Centro', 'Porto Alegre', 'RS', '96200000', 'true', 100000);
+
+insert into nr13_api.tb_user_plants (user_id, plant_id) values (100000, 1), (100000, 3), (100000, 6), (100000, 11);

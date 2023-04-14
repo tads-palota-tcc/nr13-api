@@ -9,8 +9,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -38,6 +42,12 @@ public class PlantService {
     public Plant findById(Long id) {
         log.info("Iniciando busca de Planta id={}", id);
         return findOrFail(id);
+    }
+
+    public List<Plant> findByUser() {
+        var user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        log.info("Iniciando processo de listagem de Planta por usuário Id={}", user.getUsername());
+        return plantRepository.findByUserId(Long.parseLong(user.getUsername()));
     }
 
     private Plant findOrFail(Long id) {

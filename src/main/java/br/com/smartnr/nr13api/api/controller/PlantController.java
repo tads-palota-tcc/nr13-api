@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/plants")
@@ -46,11 +47,19 @@ public class PlantController {
         return plantAssembler.toSummaryPageResponse(entities);
     }
 
+    @GetMapping("/from-user")
+    public List<PlantSummaryResponse> findByUser() {
+        log.info("Recebendo chamada para listagem de Plantas vinculadas ao usuário");
+        var entities = plantService.findByUser();
+        return plantAssembler.toSummaryList(entities);
+    }
+
     @GetMapping("/{id}")
     public PlantDetailResponse findById(@PathVariable Long id) {
         log.info("Recebendo chamada para consulta de Planta");
         var entity = plantService.findById(id);
         return plantAssembler.toDetailResponse(entity);
     }
+
 
 }

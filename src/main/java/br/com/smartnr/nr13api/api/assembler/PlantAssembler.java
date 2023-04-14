@@ -9,6 +9,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @RequiredArgsConstructor
 public class PlantAssembler {
@@ -27,4 +29,7 @@ public class PlantAssembler {
         return plants.map(p -> modelMapper.map(p, PlantSummaryResponse.class));
     }
 
+    public List<PlantSummaryResponse> toSummaryList(List<Plant> plants) {
+        return plants.stream().map(p -> modelMapper.map(p, PlantSummaryResponse.class)).toList();
+    }
 }
