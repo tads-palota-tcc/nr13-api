@@ -13,7 +13,7 @@ import lombok.EqualsAndHashCode;
 @Table(name = "tb_plants")
 @Data
 @EqualsAndHashCode(of = {"id"}, callSuper = false)
-public class Plant extends BaseEntity<Long> {
+public class Plant extends BaseEntity<Long> implements Comparable<Plant> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,4 +26,8 @@ public class Plant extends BaseEntity<Long> {
     @Embedded
     private Address address;
 
+    @Override
+    public int compareTo(Plant plant) {
+        return getCode().compareTo(plant.getCode());
+    }
 }

@@ -22,6 +22,7 @@ import java.util.List;
 public class PlantService {
 
     private final PlantRepository plantRepository;
+    private final UserService userService;
 
     @Transactional
     public Plant create(Plant plant) {
@@ -47,7 +48,8 @@ public class PlantService {
     public List<Plant> findByUser() {
         var user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         log.info("Iniciando processo de listagem de Planta por usuário Id={}", user.getUsername());
-        return plantRepository.findByUserId(Long.parseLong(user.getUsername()));
+        return userService.findById(Long.parseLong(user.getUsername())).getPlants()
+                .stream().sorted().toList();
     }
 
     private Plant findOrFail(Long id) {
