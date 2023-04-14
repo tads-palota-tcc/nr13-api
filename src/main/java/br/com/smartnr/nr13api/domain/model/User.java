@@ -11,21 +11,16 @@ import jakarta.persistence.Table;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id", callSuper = false)
 @Entity
 @Table(name = "tb_users")
-public class User implements UserDetails {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -56,37 +51,5 @@ public class User implements UserDetails {
     private Boolean active = Boolean.TRUE;
 
     private Boolean locked = Boolean.FALSE;
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return groups.stream().flatMap(group -> group.getPermissions().stream())
-                .map(permission -> new SimpleGrantedAuthority(permission.getName().toUpperCase()))
-                .collect(Collectors.toSet());
-    }
-
-    @Override
-    public String getUsername() {
-        return String.valueOf(id);
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return !locked;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return getActive();
-    }
 
 }

@@ -1,7 +1,6 @@
 package br.com.smartnr.nr13api.core.security;
 
 import br.com.smartnr.nr13api.domain.exception.TokenValidationException;
-import br.com.smartnr.nr13api.domain.model.User;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
@@ -24,7 +23,7 @@ public class TokenService {
     @Value("${jwt.secret}")
     private String secret;
 
-    public String generateToken(User user, Long seconds) {
+    public String generateToken(UserDetailsImpl user, Long seconds) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             return JWT.create()
@@ -39,7 +38,7 @@ public class TokenService {
         }
     }
 
-    public String generateRefreshToken(User user, Long seconds) {
+    public String generateRefreshToken(UserDetailsImpl user, Long seconds) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             return JWT.create()

@@ -13,13 +13,12 @@ public class AuthenticationService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
-    @Transactional(readOnly = true)
+    @Transactional
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         var user = userRepository.findById(Long.parseLong(username))
                 .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado com o ID informado"));
-        user.getAuthorities();
-        return user;
+        return UserDetailsImpl.build(user);
     }
 
 }
