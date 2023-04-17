@@ -4,6 +4,7 @@ import br.com.smartnr.nr13api.domain.exception.BusinessException;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -11,12 +12,10 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.springframework.util.ObjectUtils;
 
 import java.util.HashSet;
@@ -37,7 +36,7 @@ public class Equipment extends BaseEntity<Long> {
 
     private String tag;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "area_id")
     private Area area;
 
@@ -103,11 +102,9 @@ public class Equipment extends BaseEntity<Long> {
     @JoinColumn(name = "installation_project_file_id")
     private File installationProjectFile;
 
-    @Setter(AccessLevel.NONE)
     @OneToMany(mappedBy = "equipment")
     private Set<PressureSafetyValve> pressureSafetyValves = new HashSet<>();
 
-    @Setter(AccessLevel.NONE)
     @OneToMany(mappedBy = "equipment")
     private Set<PressureIndicator> pressureIndicators = new HashSet<>();
 

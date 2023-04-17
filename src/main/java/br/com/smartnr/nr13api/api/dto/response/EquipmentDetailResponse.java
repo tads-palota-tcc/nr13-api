@@ -40,8 +40,8 @@ public class EquipmentDetailResponse {
     private boolean hasDatabook;
     private boolean hasSafetyJournal;
     private boolean hasInstallationProject;
-    private List<PressureSafetyValve> pressureSafetyValves;
-    private List<PressureIndicator> pressureIndicators;
+    private List<PressureSafetyValveSummaryResponse> pressureSafetyValves;
+    private List<PressureIndicatorSummaryResponse> pressureIndicators;
     private boolean active;
 
 }

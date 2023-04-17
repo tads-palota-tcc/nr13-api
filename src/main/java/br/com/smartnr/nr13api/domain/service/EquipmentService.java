@@ -4,6 +4,8 @@ import br.com.smartnr.nr13api.domain.exception.BusinessException;
 import br.com.smartnr.nr13api.domain.exception.EntityNotFoundException;
 import br.com.smartnr.nr13api.domain.exception.EquipmentNotFoundException;
 import br.com.smartnr.nr13api.domain.model.Equipment;
+import br.com.smartnr.nr13api.domain.model.PressureIndicator;
+import br.com.smartnr.nr13api.domain.model.PressureSafetyValve;
 import br.com.smartnr.nr13api.domain.repository.EquipmentRepository;
 import br.com.smartnr.nr13api.domain.repository.filters.EquipmentFilter;
 import br.com.smartnr.nr13api.domain.repository.specs.EquipmentSpecs;
@@ -14,6 +16,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
