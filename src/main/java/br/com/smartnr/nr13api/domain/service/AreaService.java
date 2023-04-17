@@ -35,9 +35,9 @@ public class AreaService {
     public Area update(Long id, Area area) {
         log.info("Iniciando processo de atualização de Área: {}", area.getCode());
         var existing = this.findOrFail(id);
+        modelMapper.map(area, existing);
         var plant = plantService.findById(area.getPlant().getId());
         area.setPlant(plant);
-        modelMapper.map(area, existing);
         existing.setUpdatedBy(userService.getAuthenticatedUser());
         areaRepository.save(existing);
         return existing;
