@@ -1,16 +1,21 @@
 drop table if exists audit.tb_plants_audit;
+drop table if exists audit.tb_areas_audit;
+drop table if exists audit.tb_equipments_audit;
 
 delete from nr13_api.tb_user_groups;
 delete from nr13_api.tb_group_permissions;
 delete from nr13_api.tb_groups;
 delete from nr13_api.tb_permissions;
 delete from nr13_api.tb_user_plants;
+delete from nr13_api.tb_equipments;
 delete from nr13_api.tb_areas;
 delete from nr13_api.tb_plants;
 delete from nr13_api.tb_users;
 
 alter sequence nr13_api.tb_users_id_seq restart with 100000;
 alter sequence nr13_api.tb_plants_id_seq restart with 1;
+alter sequence nr13_api.tb_areas_id_seq restart with 1;
+alter sequence nr13_api.tb_equipments_id_seq restart with 1;
 alter sequence nr13_api.tb_groups_id_seq restart with 1;
 alter sequence nr13_api.tb_permissions_id_seq restart with 1;
 
@@ -60,3 +65,11 @@ insert into
         ('POA5', 'Unidade Porto Alegre 5', 'Av. Ipiranta', '121', null, 'Centro', 'Porto Alegre', 'RS', '96200000', 'true', 100000);
 
 insert into nr13_api.tb_user_plants (user_id, plant_id) values (100000, 1), (100000, 3), (100000, 6), (100000, 11);
+
+insert into
+        nr13_api.tb_areas (code, name, plant_id, updated_by, active)
+    values
+        ('CMP-01', 'Unidade de compressão de gás', 1, 100000, true),
+        ('RFG-01', 'Unidade de refrigeração', 1, 100000, true),
+        ('RFG-02', 'Unidade de refrigeração de água', 1, 100000, false),
+        ('PNT-01', 'Unidade de pintura', 2, 100000, true);

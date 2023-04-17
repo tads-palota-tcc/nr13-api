@@ -1,5 +1,6 @@
 package br.com.smartnr.nr13api.domain.service;
 
+import br.com.smartnr.nr13api.domain.exception.AreaNotFoundException;
 import br.com.smartnr.nr13api.domain.model.Area;
 import br.com.smartnr.nr13api.domain.repository.AreaRepository;
 import br.com.smartnr.nr13api.domain.repository.filters.AreaFilter;
@@ -54,7 +55,8 @@ public class AreaService {
     }
 
     private Area findOrFail(Long id) {
-        return areaRepository.findById(id).orElseThrow(() -> new RuntimeException());
+        return areaRepository.findById(id)
+                .orElseThrow(() -> new AreaNotFoundException(id));
     }
 
 }

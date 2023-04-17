@@ -1,5 +1,6 @@
 package br.com.smartnr.nr13api.domain.service;
 
+import br.com.smartnr.nr13api.domain.exception.PlantNotFoundException;
 import br.com.smartnr.nr13api.domain.model.Plant;
 import br.com.smartnr.nr13api.domain.repository.PlantRepository;
 import br.com.smartnr.nr13api.domain.repository.filters.PlantFilter;
@@ -62,7 +63,8 @@ public class PlantService {
     }
 
     private Plant findOrFail(Long id) {
-        return plantRepository.findById(id).orElseThrow(() -> new RuntimeException());
+        return plantRepository.findById(id)
+                .orElseThrow(() -> new PlantNotFoundException(id));
     }
 
 }
