@@ -5,6 +5,7 @@ delete from nr13_api.tb_group_permissions;
 delete from nr13_api.tb_groups;
 delete from nr13_api.tb_permissions;
 delete from nr13_api.tb_user_plants;
+delete from nr13_api.tb_areas;
 delete from nr13_api.tb_plants;
 delete from nr13_api.tb_users;
 
