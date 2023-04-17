@@ -10,8 +10,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -47,6 +51,11 @@ public class AreaService {
     public Page<Area> findByFilter(AreaFilter filter, Pageable pageable) {
         log.info("Iniciando processo de listagem de Área filtro={}", filter);
         return areaRepository.findAll(AreaSpecs.withFilter(filter), pageable);
+    }
+
+    public List<Area> findByUser() {
+        log.info("Iniciando processo de listagem de Planta por usuário logado");
+        return areaRepository.findByUser(userService.getAuthenticatedUser().getId());
     }
 
     public Area findById(Long id) {

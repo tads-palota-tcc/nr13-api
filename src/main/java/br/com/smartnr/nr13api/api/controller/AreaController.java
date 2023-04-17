@@ -4,6 +4,7 @@ import br.com.smartnr.nr13api.api.assembler.AreaAssembler;
 import br.com.smartnr.nr13api.api.dto.request.AreaCreationRequest;
 import br.com.smartnr.nr13api.api.dto.response.AreaDetailResponse;
 import br.com.smartnr.nr13api.api.dto.response.AreaSummaryResponse;
+import br.com.smartnr.nr13api.api.dto.response.PlantSummaryResponse;
 import br.com.smartnr.nr13api.domain.repository.filters.AreaFilter;
 import br.com.smartnr.nr13api.domain.service.AreaService;
 import jakarta.validation.Valid;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/areas")
@@ -59,6 +61,13 @@ public class AreaController {
         log.info("Recebendo chamada para consulta de Área");
         var entity = areaService.findById(id);
         return areaAssembler.toDetailResponse(entity);
+    }
+
+    @GetMapping("/from-user")
+    public List<AreaSummaryResponse> findByUser() {
+        log.info("Recebendo chamada para listagem de Áreas vinculadas ao usuário");
+        var entities = areaService.findByUser();
+        return areaAssembler.toSummaryList(entities);
     }
 
 
