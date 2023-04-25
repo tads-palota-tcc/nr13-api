@@ -11,7 +11,7 @@ import lombok.Setter;
 @Table(name = "tb_pressure_safety_valves")
 public class PressureSafetyValve extends Device {
 
-    private String size;
+    private String bodySize;
 
     private Double openingPressure;
 

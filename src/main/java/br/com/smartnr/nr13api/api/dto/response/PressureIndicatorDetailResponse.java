@@ -5,12 +5,15 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class PressureIndicatorSummaryResponse {
+public class PressureIndicatorDetailResponse {
 
     private Long id;
     private String tag;
     private String description;
+    private String manufacturer;
+    private String model;
     private String gaugeSize;
+    private String connectionSize;
     private Double minGauge;
     private Double maxGauge;
     private PlantSummaryResponse plant;

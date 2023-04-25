@@ -1,20 +1,20 @@
 package br.com.smartnr.nr13api.domain.repository.specs;
 
-import br.com.smartnr.nr13api.domain.model.Equipment;
-import br.com.smartnr.nr13api.domain.repository.filters.EquipmentFilter;
+import br.com.smartnr.nr13api.domain.model.PressureSafetyValve;
+import br.com.smartnr.nr13api.domain.repository.filters.PressureSafetyValveFilter;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.ObjectUtils;
 
 import java.util.ArrayList;
 
-public class EquipmentSpecs {
+public class PressureSafetyValveSpecs {
 
-    public static Specification<Equipment> withFilter(EquipmentFilter filter) {
+    public static Specification<PressureSafetyValve> withFilter(PressureSafetyValveFilter filter) {
         return (root, query, criteriaBuilder) -> {
 
-            if (Equipment.class.equals(query.getResultType())) {
-                root.fetch("area");
+            if (PressureSafetyValve.class.equals(query.getResultType())) {
+                root.fetch("plant");
             }
 
             var predicates = new ArrayList<Predicate>();
@@ -37,12 +37,20 @@ public class EquipmentSpecs {
                 predicates.add(criteriaBuilder.like(criteriaBuilder.upper(root.get("tag")), "%" + filter.getTag().toUpperCase() + "%"));
             }
 
-            if (!ObjectUtils.isEmpty(filter.getName())) {
-                predicates.add(criteriaBuilder.like(criteriaBuilder.upper(root.get("name")), "%" + filter.getName().toUpperCase() + "%"));
+            if (!ObjectUtils.isEmpty(filter.getBodySize())) {
+                predicates.add(criteriaBuilder.like(criteriaBuilder.upper(root.get("bodySize")), "%" + filter.getBodySize().toUpperCase() + "%"));
             }
 
-            if (!ObjectUtils.isEmpty(filter.getAreaCode())) {
-                predicates.add(criteriaBuilder.like(criteriaBuilder.upper(root.get("area").get("code")), "%" + filter.getAreaCode().toUpperCase() + "%"));
+            if (!ObjectUtils.isEmpty(filter.getOpeningPressure())) {
+                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("openingPressure").as(Double.class), filter.getOpeningPressure()));
+            }
+
+            if (!ObjectUtils.isEmpty(filter.getClosingPressure())) {
+                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("closingPressure").as(Double.class), filter.getClosingPressure()));
+            }
+
+            if (!ObjectUtils.isEmpty(filter.getPlantCode())) {
+                predicates.add(criteriaBuilder.like(criteriaBuilder.upper(root.get("plant").get("code")), "%" + filter.getPlantCode().toUpperCase() + "%"));
             }
 
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));

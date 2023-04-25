@@ -5,13 +5,13 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class EquipmentFilter {
+public class PressureIndicatorFilter {
 
     private Long id;
     private String tag;
-    private String name;
-    private String areaCode;
-    private String category;
+    private Double minGauge;
+    private Double maxGauge;
+    private String plantCode;
     private String status;
 
 }

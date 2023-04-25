@@ -14,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -60,6 +61,13 @@ public class EquipmentController {
         log.info("Recebendo chamada para consulta de Equipamento");
         var entity = equipmentService.findById(id);
         return equipmentAssembler.toDetailResponse(entity);
+    }
+
+    @PatchMapping("/{id}/pressure-safety-valves/{psvId}")
+    public ResponseEntity<Void> bindPsv(@PathVariable Long id, @PathVariable Long psvId) {
+        log.info("Recebendo chamada para vincular Válvula de Segurança ao Equipamento");
+        equipmentService.bindPsv(id, psvId);
+        return ResponseEntity.noContent().build();
     }
 
 }

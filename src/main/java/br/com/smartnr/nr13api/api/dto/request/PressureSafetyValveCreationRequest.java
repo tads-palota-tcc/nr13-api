@@ -8,7 +8,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class PressureIndicatorCreationRequest {
+public class PressureSafetyValveCreationRequest {
 
     @NotBlank
     private String tag;
@@ -19,13 +19,11 @@ public class PressureIndicatorCreationRequest {
 
     private String model;
 
-    private String gaugeSize;
+    private String bodySize;
 
-    private String connectionSize;
+    private Double openingPressure;
 
-    private Double maxGauge;
-
-    private Double minGauge;
+    private Double closingPressure;
 
     @NotNull
     @Valid

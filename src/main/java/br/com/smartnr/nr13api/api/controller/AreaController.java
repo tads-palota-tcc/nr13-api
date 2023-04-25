@@ -4,7 +4,6 @@ import br.com.smartnr.nr13api.api.assembler.AreaAssembler;
 import br.com.smartnr.nr13api.api.dto.request.AreaCreationRequest;
 import br.com.smartnr.nr13api.api.dto.response.AreaDetailResponse;
 import br.com.smartnr.nr13api.api.dto.response.AreaSummaryResponse;
-import br.com.smartnr.nr13api.api.dto.response.PlantSummaryResponse;
 import br.com.smartnr.nr13api.domain.repository.filters.AreaFilter;
 import br.com.smartnr.nr13api.domain.service.AreaService;
 import jakarta.validation.Valid;

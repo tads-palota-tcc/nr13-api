@@ -109,11 +109,14 @@ public class Equipment extends BaseEntity<Long> {
     private Set<PressureIndicator> pressureIndicators = new HashSet<>();
 
     public void addPressureSafetyValve(PressureSafetyValve pressureSafetyValve) {
-        if (pressureSafetyValve.getEquipment() != null || !pressureSafetyValve.getEquipment().equals(this)) {
+        if (pressureSafetyValve.getEquipment() == null) {
+            pressureSafetyValve.setEquipment(this);
+            this.pressureSafetyValves.add(pressureSafetyValve);
+        } else if (!pressureSafetyValve.getEquipment().equals(this)) {
             throw new BusinessException("Válvula de segurança pertence a outro equipamento");
+        } else {
+            throw new BusinessException("Válvula de segurança já pertence a este equipamento");
         }
-        pressureSafetyValve.setEquipment(this);
-        this.pressureSafetyValves.add(pressureSafetyValve);
     }
 
     public void removePressureSafetyValve(PressureSafetyValve pressureSafetyValve) {
@@ -125,11 +128,14 @@ public class Equipment extends BaseEntity<Long> {
     }
 
     public void addPressureIndicator(PressureIndicator pressureIndicator) {
-        if (pressureIndicator.getEquipment() != null || !pressureIndicator.getEquipment().equals(this)) {
+        if (pressureIndicator.getEquipment() == null) {
+            pressureIndicator.setEquipment(this);
+            this.pressureIndicators.add(pressureIndicator);
+        } else if (!pressureIndicator.getEquipment().equals(this)) {
             throw new BusinessException("Indicador de pressão pertence a outro equipamento");
+        } else {
+            throw new BusinessException("Indicador de pressão já pertence a este equipamento");
         }
-        pressureIndicator.setEquipment(this);
-        this.pressureIndicators.add(pressureIndicator);
     }
 
     public void removePressureIndicator(PressureIndicator pressureIndicator) {

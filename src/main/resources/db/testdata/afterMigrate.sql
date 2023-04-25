@@ -89,24 +89,24 @@ insert into
         (tag, manufacturer, model, plant_id, equipment_id, updated_by, active)
     values
         ('PI-0001', 'ASCO', 'ASCO-PI40', 1, 1, 100000, true),
-        ('PI-0002', 'ASCO', 'ASCO-PI40', 1, null, 100000, true),
+        ('PI-0002', 'ASCO', 'ASCO-PI40', 1, 1, 100000, true),
         ('PI-0003', 'ASCO', 'ASCO-PI40', 1, null, 100000, true),
         ('PI-0004', 'ASCO', 'ASCO-PI40', 1, null, 100000, true),
         ('PSV-0001', 'ASCO', 'ASCO-PSV40', 1, 1, 100000, true),
-        ('PSV-0002', 'ASCO', 'ASCO-PSV40', 1, null, 100000, true),
+        ('PSV-0002', 'ASCO', 'ASCO-PSV40', 1, 1, 100000, true),
         ('PSV-0003', 'ASCO', 'ASCO-PSV40', 1, null, 100000, true),
         ('PSV-0004', 'ASCO', 'ASCO-PSV40', 1, null, 100000, true);
 
 insert into
         nr13_api.tb_pressure_indicators (id, gauge_size, connection_size, min_gauge, max_gauge)
     values
-        (1, '4 in', '3/4 in', 0, 25),
-        (2, '2 in', '3/4 in', 0, 12),
-        (3, '3 in', '3/4 in', 0, 4),
-        (4, '8 in', '3/4 in', 0, 15);
+        (1, '4 in', '3/4 in', 0, 8),
+        (2, '2 in', '3/4 in', 1, 9),
+        (3, '3 in', '3/4 in', 2, 10),
+        (4, '8 in', '3/4 in', 3, 11);
 
 insert into
-        nr13_api.tb_pressure_safety_valves (id, size, opening_pressure, closing_pressure)
+        nr13_api.tb_pressure_safety_valves (id, body_size, opening_pressure, closing_pressure)
     values
         (5, '2"', 10, 9.5),
         (6, '1/2"', 12, 11),

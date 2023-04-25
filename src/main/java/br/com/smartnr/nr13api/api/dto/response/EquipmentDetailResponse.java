@@ -2,8 +2,6 @@ package br.com.smartnr.nr13api.api.dto.response;
 
 import br.com.smartnr.nr13api.domain.model.Category;
 import br.com.smartnr.nr13api.domain.model.FluidClass;
-import br.com.smartnr.nr13api.domain.model.PressureIndicator;
-import br.com.smartnr.nr13api.domain.model.PressureSafetyValve;
 import lombok.Getter;
 import lombok.Setter;
 
