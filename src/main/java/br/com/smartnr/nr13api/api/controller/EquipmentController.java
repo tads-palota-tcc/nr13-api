@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -67,6 +68,27 @@ public class EquipmentController {
     public ResponseEntity<Void> bindPsv(@PathVariable Long id, @PathVariable Long psvId) {
         log.info("Recebendo chamada para vincular Válvula de Segurança ao Equipamento");
         equipmentService.bindPsv(id, psvId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{id}/pressure-indicators/{piId}")
+    public ResponseEntity<Void> bindPi(@PathVariable Long id, @PathVariable Long piId) {
+        log.info("Recebendo chamada para vincular Indicador de Pressão ao Equipamento");
+        equipmentService.bindPi(id, piId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{id}/pressure-safety-valves/{psvId}")
+    public ResponseEntity<Void> unbindPsv(@PathVariable Long id, @PathVariable Long psvId) {
+        log.info("Recebendo chamada para desvincular Válvula de Segurança do Equipamento");
+        equipmentService.unbindPsv(id, psvId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{id}/pressure-indicators/{piId}")
+    public ResponseEntity<Void> unbindPi(@PathVariable Long id, @PathVariable Long piId) {
+        log.info("Recebendo chamada para desvincular Indicador de Pressão do Equipamento");
+        equipmentService.unbindPi(id, piId);
         return ResponseEntity.noContent().build();
     }
 

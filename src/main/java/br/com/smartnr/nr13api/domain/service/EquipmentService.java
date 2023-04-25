@@ -25,6 +25,7 @@ public class EquipmentService {
     private final PlantService plantService;
     private final UserService userService;
     private final PressureSafetyValveService psvService;
+    private final PressureIndicatorService piService;
     private final ModelMapper modelMapper;
 
     @Transactional
@@ -81,5 +82,26 @@ public class EquipmentService {
         var equipment = findOrFail(id);
         var psv = psvService.findById(psvId);
         equipment.addPressureSafetyValve(psv);
+    }
+
+    @Transactional
+    public void unbindPsv(Long id, Long psvId) {
+        var equipment = findOrFail(id);
+        var psv = psvService.findById(psvId);
+        equipment.removePressureSafetyValve(psv);
+    }
+
+    @Transactional
+    public void bindPi(Long id, Long piId) {
+        var equipment = findOrFail(id);
+        var pi = piService.findById(piId);
+        equipment.addPressureIndicator(pi);
+    }
+
+    @Transactional
+    public void unbindPi(Long id, Long piId) {
+        var equipment = findOrFail(id);
+        var pi = piService.findById(piId);
+        equipment.removePressureIndicator(pi);
     }
 }
