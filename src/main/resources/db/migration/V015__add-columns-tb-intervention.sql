@@ -1,0 +1,1 @@
+alter table nr13_api.tb_interventions add column cost decimal(10, 2) default '0.0';
