@@ -1,7 +1,6 @@
 package br.com.smartnr.nr13api.domain.repository.specs;
 
 import br.com.smartnr.nr13api.domain.model.Calibration;
-import br.com.smartnr.nr13api.domain.model.PressureIndicator;
 import br.com.smartnr.nr13api.domain.repository.filters.CalibrationFilter;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
@@ -12,7 +11,7 @@ import java.util.ArrayList;
 
 public class CalibrationSpecs {
 
-    public static Specification<PressureIndicator> withFilter(CalibrationFilter filter) {
+    public static Specification<Calibration> withFilter(CalibrationFilter filter) {
         return (root, query, criteriaBuilder) -> {
 
             if (Calibration.class.equals(query.getResultType())) {
@@ -20,16 +19,6 @@ public class CalibrationSpecs {
             }
 
             var predicates = new ArrayList<Predicate>();
-
-            if (!ObjectUtils.isEmpty(filter.getStatus())) {
-                if (filter.getStatus().equals("inactive")) {
-                    predicates.add(criteriaBuilder.equal(root.get("active"), Boolean.FALSE));
-                } else if (!filter.getStatus().equals("all")) {
-                    predicates.add(criteriaBuilder.equal(root.get("active"), Boolean.TRUE));
-                }
-            } else {
-                predicates.add(criteriaBuilder.equal(root.get("active"), Boolean.TRUE));
-            }
 
             if (!ObjectUtils.isEmpty(filter.getId())) {
                 predicates.add(criteriaBuilder.equal(root.get("id"), filter.getId()));

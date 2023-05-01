@@ -25,6 +25,10 @@ public class PressureIndicatorAssembler {
         return modelMapper.map(entity, PressureIndicatorDetailResponse.class);
     }
 
+    public PressureIndicatorSummaryResponse toSummaryResponse(PressureIndicator entity) {
+        return modelMapper.map(entity, PressureIndicatorSummaryResponse.class);
+    }
+
     public Page<PressureIndicatorSummaryResponse> toSummaryPageResponse(Page<PressureIndicator> entities) {
         return entities.map(p -> modelMapper.map(p, PressureIndicatorSummaryResponse.class));
     }

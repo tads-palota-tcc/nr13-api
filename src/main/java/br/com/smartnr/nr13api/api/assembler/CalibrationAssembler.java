@@ -1,9 +1,6 @@
 package br.com.smartnr.nr13api.api.assembler;
 
 import br.com.smartnr.nr13api.api.dto.request.CalibrationCreationRequest;
-import br.com.smartnr.nr13api.api.dto.request.DeviceIdRequest;
-import br.com.smartnr.nr13api.api.dto.request.PressureIndicatorIdRequest;
-import br.com.smartnr.nr13api.api.dto.request.PressureSafetyValveIdRequest;
 import br.com.smartnr.nr13api.api.dto.response.CalibrationDetailResponse;
 import br.com.smartnr.nr13api.api.dto.response.CalibrationSummaryResponse;
 import br.com.smartnr.nr13api.domain.model.Calibration;

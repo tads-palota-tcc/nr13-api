@@ -5,11 +5,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class PressureIndicatorSummaryResponse {
+public class PressureIndicatorSummaryResponse extends DeviceSummaryResponse {
 
-    private Long id;
-    private String tag;
-    private String description;
     private String gaugeSize;
     private Double minGauge;
     private Double maxGauge;

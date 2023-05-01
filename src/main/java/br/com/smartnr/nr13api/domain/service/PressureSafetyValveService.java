@@ -54,6 +54,12 @@ public class PressureSafetyValveService {
         return psvRepository.findAvailableByPlants(plantService.findByUser());
     }
 
+    public PressureSafetyValve findByTagAndPlantCode(String tag, String plantCode) {
+        log.info("Iniciando consulta de Válvula de Segurança por Tag={} e Planta={}", tag, plantCode);
+        return psvRepository.findByTagAndPlantCode(tag, plantCode)
+                .orElseThrow(() -> new DeviceNotFoundException(String.format("Não foi encontrado um dispositivo do tipo PSV com Tag=%s para a planta de código=%s", tag, plantCode)));
+    }
+
     public PressureSafetyValve findById(Long id) {
         log.info("Iniciando processo de consulta de Válvulas de Segurança por id: {}", id);
         return findOrFail(id);

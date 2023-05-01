@@ -7,9 +7,12 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PressureIndicatorRepository extends JpaRepository<PressureIndicator, Long>, JpaSpecificationExecutor<PressureIndicator> {
 
     @Query("from PressureIndicator pi where pi.plant in :plants and pi.equipment is null")
     List<PressureIndicator> findAvailableByPlants(List<Plant> plants);
+
+    Optional<PressureIndicator> findByTagAndPlantCode(String tag, String code);
 }

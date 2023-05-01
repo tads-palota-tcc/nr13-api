@@ -54,6 +54,12 @@ public class PressureIndicatorService {
         return piRepository.findAvailableByPlants(plantService.findByUser());
     }
 
+    public PressureIndicator findByTagAndPlantCode(String tag, String plantCode) {
+        log.info("Iniciando consulta de Indicadores de Pressão por Tag={} e Planta={}", tag, plantCode);
+        return piRepository.findByTagAndPlantCode(tag, plantCode)
+                .orElseThrow(() -> new DeviceNotFoundException(String.format("Não foi encontrado um dispositivo do tipo PI com Tag=%s para a planta de código=%s", tag, plantCode)));
+    }
+
     public PressureIndicator findById(Long id) {
         log.info("Iniciando busca de Indicador de Pressão por id={}", id);
         return findOrFail(id);

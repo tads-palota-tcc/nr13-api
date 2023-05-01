@@ -29,6 +29,10 @@ public class PressureSafetyValveAssembler {
         return entities.map(p -> modelMapper.map(p, PressureSafetyValveSummaryResponse.class));
     }
 
+    public PressureSafetyValveSummaryResponse toSummaryResponse(PressureSafetyValve entity) {
+        return modelMapper.map(entity, PressureSafetyValveSummaryResponse.class);
+    }
+
     public List<PressureSafetyValveSummaryResponse> toSummaryList(List<PressureSafetyValve> entities) {
         return entities.stream().map(p -> modelMapper.map(p, PressureSafetyValveSummaryResponse.class)).toList();
     }

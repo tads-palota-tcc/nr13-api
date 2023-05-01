@@ -1,7 +1,14 @@
 drop table if exists audit.tb_plants_audit;
 drop table if exists audit.tb_areas_audit;
 drop table if exists audit.tb_equipments_audit;
+drop table if exists audit.tb_devices_autit;
+drop table if exists audit.tb_interventions_audit;
+drop table if exists audit.tb_calibrations_audit;
+drop table if exists audit.tb_inspections_audit;
 
+delete from nr13_api.tb_calibrations;
+delete from nr13_api.tb_inspections;
+delete from nr13_api.tb_interventions;
 delete from nr13_api.tb_user_groups;
 delete from nr13_api.tb_group_permissions;
 delete from nr13_api.tb_groups;
@@ -16,6 +23,7 @@ delete from nr13_api.tb_plants;
 delete from nr13_api.tb_users;
 delete from nr13_api.tb_files;
 
+alter sequence nr13_api.tb_interventions_id_seq restart with 1;
 alter sequence nr13_api.tb_users_id_seq restart with 100000;
 alter sequence nr13_api.tb_plants_id_seq restart with 1;
 alter sequence nr13_api.tb_areas_id_seq restart with 1;
@@ -112,3 +120,22 @@ insert into
         (6, '1/2"', 12, 11),
         (7, '2.1/2"', 6, 5.5),
         (8, '3"', 8, 5.4);
+
+insert into
+        nr13_api.tb_interventions (report_number, executor_company, execution_date, comments, status, updated_by, cost)
+    values
+        (null, 'MegaSteam', '2021-05-02', 'Calibrado no local', 'WAITING_REPORT', 100000, '45.16'),
+        (null, 'MegaSteam', '2022-05-02', 'Calibrado no local', 'WAITING_REPORT', 100000, '45.16'),
+        (null, 'MegaSteam', '2021-05-02', 'Calibrado no local', 'WAITING_REPORT', 100000, '45.16'),
+        (null, 'MegaSteam', '2022-05-02', 'Calibrado no local', 'WAITING_REPORT', 100000, '45.16'),
+        (null, 'MegaSteam', '2023-05-02', 'Calibrado no local', 'WAITING_REPORT', 100000, '45.16'),
+        (null, 'MegaSteam', '2021-05-02', 'Calibrado no local', 'WAITING_REPORT', 100000, '45.16'),
+        (null, 'MegaSteam', '2021-05-02', 'Calibrado no local', 'WAITING_REPORT', 100000, '45.16'),
+        (null, 'MegaSteam', '2021-05-02', 'Calibrado no local', 'WAITING_REPORT', 100000, '45.16'),
+        (null, 'MegaSteam', '2021-05-02', 'Calibrado no local', 'WAITING_REPORT', 100000, '45.16'),
+        (null, 'MegaSteam', '2021-05-02', 'Calibrado no local', 'WAITING_REPORT', 100000, '45.16');
+
+insert into
+        nr13_api.tb_calibrations (id, device_id)
+    values
+        (1, 1), (2, 1), (3, 2), (4, 2), (5, 2), (6, 3), (7, 4), (8, 5), (9, 6), (10, 7);

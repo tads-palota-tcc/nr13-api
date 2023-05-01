@@ -5,10 +5,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class PressureSafetyValveSummaryResponse {
+public class PressureSafetyValveSummaryResponse extends DeviceSummaryResponse {
 
-    private Long id;
-    private String tag;
     private String bodySize;
     private Double openingPressure;
     private Double closingPressure;

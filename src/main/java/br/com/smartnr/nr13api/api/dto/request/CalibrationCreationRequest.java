@@ -27,8 +27,10 @@ public class CalibrationCreationRequest {
 
     private String comments;
 
+    @NotNull
     private Status status;
 
+    @NotNull
     @PositiveOrZero
     private BigDecimal cost;
 
