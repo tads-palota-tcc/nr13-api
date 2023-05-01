@@ -9,11 +9,9 @@ import java.time.LocalDate;
 @Setter
 public class CalibrationFilter {
 
-    private Long id;
-    private String reportNumber;
-    private String calibrationStatus;
     private LocalDate executionDate;
-    private String deviceTag;
+    private String reportNumber;
+    private String executorCompany;
     private String status;
 
 }

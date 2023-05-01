@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class CalibrationSpecs {
 
-    public static Specification<Calibration> withFilter(CalibrationFilter filter) {
+    public static Specification<Calibration> withFilter(CalibrationFilter filter, Long deviceId) {
         return (root, query, criteriaBuilder) -> {
 
             if (Calibration.class.equals(query.getResultType())) {
@@ -20,28 +20,27 @@ public class CalibrationSpecs {
 
             var predicates = new ArrayList<Predicate>();
 
-            if (!ObjectUtils.isEmpty(filter.getId())) {
-                predicates.add(criteriaBuilder.equal(root.get("id"), filter.getId()));
-            }
-
-            if (!ObjectUtils.isEmpty(filter.getReportNumber())) {
-                predicates.add(criteriaBuilder.like(criteriaBuilder.upper(root.get("reportNumber")), "%" + filter.getReportNumber().toUpperCase() + "%"));
-            }
-
-            if (!ObjectUtils.isEmpty(filter.getCalibrationStatus())) {
-                predicates.add(criteriaBuilder.like(criteriaBuilder.upper(root.get("calibrationStatus")), "%" + filter.getCalibrationStatus().toUpperCase() + "%"));
-            }
-
-            if (!ObjectUtils.isEmpty(filter.getDeviceTag())) {
-                predicates.add(criteriaBuilder.like(criteriaBuilder.upper(root.get("getDeviceTag")), "%" + filter.getDeviceTag().toUpperCase() + "%"));
+            if (!ObjectUtils.isEmpty(deviceId)) {
+                predicates.add(criteriaBuilder.equal(root.get("device").get("id"), deviceId));
             }
 
             if (!ObjectUtils.isEmpty(filter.getExecutionDate())) {
                 predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("executionDate").as(LocalDate.class), filter.getExecutionDate()));
             }
 
-            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
+            if (!ObjectUtils.isEmpty(filter.getReportNumber())) {
+                predicates.add(criteriaBuilder.like(criteriaBuilder.upper(root.get("reportNumber")), "%" + filter.getReportNumber().toUpperCase() + "%"));
+            }
 
+            if (!ObjectUtils.isEmpty(filter.getReportNumber())) {
+                predicates.add(criteriaBuilder.like(criteriaBuilder.upper(root.get("executorCompany")), "%" + filter.getExecutorCompany().toUpperCase() + "%"));
+            }
+
+            if (!ObjectUtils.isEmpty(filter.getStatus())) {
+                predicates.add(criteriaBuilder.like(criteriaBuilder.upper(root.get("status")), "%" + filter.getStatus().toUpperCase() + "%"));
+            }
+
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };
     }
 }

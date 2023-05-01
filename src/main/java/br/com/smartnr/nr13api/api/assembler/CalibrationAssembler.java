@@ -5,6 +5,7 @@ import br.com.smartnr.nr13api.api.dto.response.CalibrationDetailResponse;
 import br.com.smartnr.nr13api.api.dto.response.CalibrationSummaryResponse;
 import br.com.smartnr.nr13api.domain.model.Calibration;
 import br.com.smartnr.nr13api.domain.model.DeviceType;
+import br.com.smartnr.nr13api.domain.model.Plant;
 import br.com.smartnr.nr13api.domain.model.PressureIndicator;
 import br.com.smartnr.nr13api.domain.model.PressureSafetyValve;
 import lombok.RequiredArgsConstructor;
@@ -29,13 +30,17 @@ public class CalibrationAssembler {
         entity.setStatus(request.getStatus());
         entity.setCost(request.getCost());
         entity.setExecutionDate(request.getExecutionDate());
+        var plant = new Plant();
+        plant.setCode(request.getDevice().getPlant().getCode());
         if (request.getType().equals(DeviceType.PI)) {
             var device = new PressureIndicator();
-            device.setId(request.getDevice().getId());
+            device.setTag(request.getDevice().getTag());
+            device.setPlant(plant);
             entity.setDevice(device);
         } else {
             var device = new PressureSafetyValve();
-            device.setId(request.getDevice().getId());
+            device.setTag(request.getDevice().getTag());
+            device.setPlant(plant);
             entity.setDevice(device);
         }
         return entity;

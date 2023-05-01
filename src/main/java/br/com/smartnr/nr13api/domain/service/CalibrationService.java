@@ -18,6 +18,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -34,8 +36,9 @@ public class CalibrationService {
     public Calibration create(Calibration entity) {
         log.info("Iniciando processo de cadastro de Calibração: {}", entity.getDevice().getId());
         try {
-            var deviceId = entity.getDevice().getId();
-            var device = entity.getType().equals(DeviceType.PI) ? piService.findById(deviceId) : psvService.findById(deviceId);
+            var tag = entity.getDevice().getTag();
+            var code = entity.getDevice().getPlant().getCode();
+            var device = entity.getType().equals(DeviceType.PI) ? piService.findByTagAndPlantCode(tag, code) : psvService.findByTagAndPlantCode(tag, code);
             var userPlants = plantService.findByUser();
             if (!userPlants.contains(device.getPlant())) {
                 throw new BusinessException(String
@@ -72,7 +75,12 @@ public class CalibrationService {
 
     public Page<Calibration> findByFilter(CalibrationFilter filter, Pageable pageable) {
         log.info("Iniciando processo de listagem de Calibração filtro={}", filter);
-        return calibrationRepository.findAll(CalibrationSpecs.withFilter(filter), pageable);
+        return calibrationRepository.findAll(CalibrationSpecs.withFilter(filter, null), pageable);
+    }
+
+    public List<Calibration> findLas10ByDeviceid(Long deviceId) {
+        log.info("Iniciando processo de listagem de Calibração pelo Id do dispositivo={}", deviceId);
+        return calibrationRepository.findTop10ByDeviceIdOrderByExecutionDateDesc(deviceId);
     }
 
     public Calibration findById(Long id) {

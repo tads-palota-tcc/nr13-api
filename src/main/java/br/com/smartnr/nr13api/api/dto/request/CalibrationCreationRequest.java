@@ -40,6 +40,7 @@ public class CalibrationCreationRequest {
 
     @NotNull
     @Valid
-    private DeviceIdRequest device;
+    private DeviceForCalibrationRequest device;
+
 
 }

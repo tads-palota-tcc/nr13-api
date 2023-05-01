@@ -10,5 +10,6 @@ public class DeviceSummaryResponse {
     private Long id;
     private String tag;
     private String description;
+    private PlantSummaryResponse plant;
 
 }

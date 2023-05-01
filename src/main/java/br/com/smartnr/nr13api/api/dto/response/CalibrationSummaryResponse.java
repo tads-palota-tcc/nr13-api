@@ -11,9 +11,9 @@ import java.time.LocalDate;
 public class CalibrationSummaryResponse {
 
     private Long id;
-    private String reportNumber;
-    private Status status;
     private LocalDate executionDate;
-    private DeviceSummaryResponse device;
+    private String reportNumber;
+    private String executorCompany;
+    private Status status;
 
 }
