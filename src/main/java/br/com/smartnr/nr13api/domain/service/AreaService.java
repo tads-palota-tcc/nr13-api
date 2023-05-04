@@ -1,6 +1,7 @@
 package br.com.smartnr.nr13api.domain.service;
 
 import br.com.smartnr.nr13api.domain.exception.AreaNotFoundException;
+import br.com.smartnr.nr13api.domain.exception.BusinessException;
 import br.com.smartnr.nr13api.domain.model.Area;
 import br.com.smartnr.nr13api.domain.repository.AreaRepository;
 import br.com.smartnr.nr13api.domain.repository.filters.AreaFilter;
@@ -52,6 +53,26 @@ public class AreaService {
     public Area findById(Long id) {
         log.info("Iniciando busca de Área id={}", id);
         return findOrFail(id);
+    }
+
+    @Transactional
+    public void inactivate(Long id) {
+        log.info("Iniciando processo de inativação de Área Id={}", id);
+        var entity = this.findOrFail(id);
+        if (!entity.getActive()) {
+            throw new BusinessException(String.format("Área com id=%d já encontra-se inativa", id));
+        }
+        entity.setActive(Boolean.FALSE);
+    }
+
+    @Transactional
+    public void activate(Long id) {
+        log.info("Iniciando processo de ativação de Área Id={}", id);
+        var entity = this.findOrFail(id);
+        if (entity.getActive()) {
+            throw new BusinessException(String.format("Área com id=%d já encontra-se ativa", id));
+        }
+        entity.setActive(Boolean.TRUE);
     }
 
     private Area findOrFail(Long id) {

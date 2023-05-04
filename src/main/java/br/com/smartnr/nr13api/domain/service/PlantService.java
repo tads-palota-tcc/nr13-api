@@ -1,5 +1,6 @@
 package br.com.smartnr.nr13api.domain.service;
 
+import br.com.smartnr.nr13api.domain.exception.BusinessException;
 import br.com.smartnr.nr13api.domain.exception.PlantNotFoundException;
 import br.com.smartnr.nr13api.domain.model.Plant;
 import br.com.smartnr.nr13api.domain.repository.PlantRepository;
@@ -65,6 +66,26 @@ public class PlantService {
     public List<Plant> findTop10(String code) {
         log.info("Iniciando processo de listagem das 10 primeiras Plantas ativas com código={}", code);
         return plantRepository.findTop10ByCodeContainingIgnoreCaseOrderByCode(code);
+    }
+
+    @Transactional
+    public void inactivate(Long id) {
+        log.info("Iniciando processo de inativação de Planta Id={}", id);
+        var entity = this.findOrFail(id);
+        if (!entity.getActive()) {
+            throw new BusinessException(String.format("Planta com id=%d já encontra-se inativa", id));
+        }
+        entity.setActive(Boolean.FALSE);
+    }
+
+    @Transactional
+    public void activate(Long id) {
+        log.info("Iniciando processo de ativação de Planta Id={}", id);
+        var entity = this.findOrFail(id);
+        if (entity.getActive()) {
+            throw new BusinessException(String.format("Planta com id=%d já encontra-se ativa", id));
+        }
+        entity.setActive(Boolean.TRUE);
     }
 
     private Plant findOrFail(Long id) {

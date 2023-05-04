@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -59,6 +60,20 @@ public class AreaController {
         log.info("Recebendo chamada para consulta de Área");
         var entity = areaService.findById(id);
         return areaAssembler.toDetailResponse(entity);
+    }
+
+    @PatchMapping("/{id}/inactivate")
+    public ResponseEntity<Void> inactivate(@PathVariable Long id) {
+        log.info("Recebendo chamada para inativação de Área");
+        areaService.inactivate(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{id}/activate")
+    public ResponseEntity<Void> activate(@PathVariable Long id) {
+        log.info("Recebendo chamada para ativação de Área");
+        areaService.activate(id);
+        return ResponseEntity.noContent().build();
     }
 
 }
