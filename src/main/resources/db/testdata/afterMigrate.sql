@@ -94,16 +94,16 @@ insert into nr13_api.tb_equipments
 
 insert into
         nr13_api.tb_devices
-        (tag, manufacturer, model, plant_id, equipment_id, updated_by, active)
+        (tag, manufacturer, model, plant_id, equipment_id, updated_by, last_calibration_date, active)
     values
-        ('PI-0001', 'ASCO', 'ASCO-PI40', 1, 1, 100000, true),
-        ('PI-0002', 'ASCO', 'ASCO-PI40', 1, 1, 100000, true),
-        ('PI-0003', 'ASCO', 'ASCO-PI40', 1, null, 100000, true),
-        ('PI-0004', 'ASCO', 'ASCO-PI40', 1, null, 100000, true),
-        ('PSV-0001', 'ASCO', 'ASCO-PSV40', 1, 1, 100000, true),
-        ('PSV-0002', 'ASCO', 'ASCO-PSV40', 1, 1, 100000, true),
-        ('PSV-0003', 'ASCO', 'ASCO-PSV40', 1, null, 100000, true),
-        ('PSV-0004', 'ASCO', 'ASCO-PSV40', 1, null, 100000, true);
+        ('PI-0001', 'ASCO', 'ASCO-PI40', 1, 1, 100000, '2022-05-02', true),
+        ('PI-0002', 'ASCO', 'ASCO-PI40', 1, 1, 100000, '2023-05-02', true),
+        ('PI-0003', 'ASCO', 'ASCO-PI40', 1, null, 100000, '2021-05-02', true),
+        ('PI-0004', 'ASCO', 'ASCO-PI40', 1, null, 100000, '2021-05-02', true),
+        ('PSV-0001', 'ASCO', 'ASCO-PSV40', 1, 1, 100000, '2021-05-02', true),
+        ('PSV-0002', 'ASCO', 'ASCO-PSV40', 1, 1, 100000, '2021-05-02', true),
+        ('PSV-0003', 'ASCO', 'ASCO-PSV40', 1, null, 100000, '2021-05-02', true),
+        ('PSV-0004', 'ASCO', 'ASCO-PSV40', 1, null, 100000, null, true);
 
 insert into
         nr13_api.tb_pressure_indicators (id, gauge_size, connection_size, min_gauge, max_gauge)
@@ -138,4 +138,4 @@ insert into
 insert into
         nr13_api.tb_calibrations (id, device_id)
     values
-        (1, 1), (2, 1), (3, 1), (4, 1), (5, 1), (6, 1), (7, 1), (8, 1), (9, 1), (10, 1);
+        (1, 1), (2, 1), (3, 2), (4, 2), (5, 2), (6, 3), (7, 4), (8, 5), (9, 6), (10, 7);

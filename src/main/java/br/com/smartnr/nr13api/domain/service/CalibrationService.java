@@ -46,6 +46,7 @@ public class CalibrationService {
                                 device.getId(),
                                 device.getTag()));
             }
+            device.setLastCalibrationDate(entity.getExecutionDate());
             entity.setDevice(device);
             entity.setUpdatedBy(userService.getAuthenticatedUser());
             entity = calibrationRepository.save(entity);
@@ -69,6 +70,7 @@ public class CalibrationService {
         var existing = this.findOrFail(id);
         modelMapper.map(entity, existing);
         existing.setUpdatedBy(userService.getAuthenticatedUser());
+        existing.getDevice().setLastCalibrationDate(entity.getExecutionDate());
         calibrationRepository.save(existing);
         return existing;
     }

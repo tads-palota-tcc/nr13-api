@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.util.List;
 
 @RestController
 @RequestMapping("/areas")
@@ -61,13 +60,5 @@ public class AreaController {
         var entity = areaService.findById(id);
         return areaAssembler.toDetailResponse(entity);
     }
-
-    @GetMapping("/from-user")
-    public List<AreaSummaryResponse> findByUser() {
-        log.info("Recebendo chamada para listagem de Áreas vinculadas ao usuário");
-        var entities = areaService.findByUser();
-        return areaAssembler.toSummaryList(entities);
-    }
-
 
 }

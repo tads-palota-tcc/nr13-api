@@ -32,14 +32,7 @@ public class EquipmentService {
     public Equipment create(Equipment equipment) {
         log.info("Iniciando processo de cadastro de Equipamento: {}", equipment.getTag());
         try {
-            var userPlants = plantService.findByUser();
             var area = areaService.findById(equipment.getArea().getId());
-            if (!userPlants.contains(area.getPlant())) {
-                throw new BusinessException(String
-                        .format("Área com id=%d e código=%s não pertence a uma Planta vinculada ao usuário",
-                        area.getId(),
-                        area.getCode()));
-            }
             equipment.setUpdatedBy(userService.getAuthenticatedUser());
             equipment.setArea(area);
         } catch (EntityNotFoundException e) {

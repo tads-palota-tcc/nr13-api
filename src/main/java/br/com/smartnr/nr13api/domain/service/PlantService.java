@@ -62,6 +62,11 @@ public class PlantService {
                 .stream().sorted().toList();
     }
 
+    public List<Plant> findTop10(String code) {
+        log.info("Iniciando processo de listagem das 10 primeiras Plantas ativas com código={}", code);
+        return plantRepository.findTop10ByCodeContainingIgnoreCaseOrderByCode(code);
+    }
+
     private Plant findOrFail(Long id) {
         return plantRepository.findById(id)
                 .orElseThrow(() -> new PlantNotFoundException(id));
