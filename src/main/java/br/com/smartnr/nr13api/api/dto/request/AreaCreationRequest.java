@@ -20,6 +20,4 @@ public class AreaCreationRequest {
     @Valid
     private PlantIdRequest plant;
 
-    private Boolean active = Boolean.TRUE;
-
 }

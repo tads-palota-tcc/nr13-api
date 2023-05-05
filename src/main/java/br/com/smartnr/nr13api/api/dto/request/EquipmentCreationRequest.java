@@ -54,8 +54,6 @@ public class EquipmentCreationRequest {
 
     private Category category;
 
-    private boolean active = true;
-
     private boolean hasTwoWideExits = false;
 
     private boolean hasVentilation = false;

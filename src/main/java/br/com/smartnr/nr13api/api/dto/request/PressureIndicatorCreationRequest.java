@@ -31,6 +31,4 @@ public class PressureIndicatorCreationRequest {
     @Valid
     private PlantIdRequest plant;
 
-    private Boolean active = Boolean.TRUE;
-
 }

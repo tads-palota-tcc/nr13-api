@@ -16,8 +16,6 @@ public class PlantCreationRequest {
     @NotBlank
     private String name;
 
-    private Boolean active = Boolean.TRUE;
-
     @NotNull
     @Valid
     private AddressCreationRequest address;

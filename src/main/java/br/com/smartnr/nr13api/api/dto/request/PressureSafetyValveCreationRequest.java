@@ -29,6 +29,4 @@ public class PressureSafetyValveCreationRequest {
     @Valid
     private PlantIdRequest plant;
 
-    private Boolean active = Boolean.TRUE;
-
 }
