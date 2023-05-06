@@ -1,18 +1,14 @@
 package br.com.smartnr.nr13api.core.security;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class AuthenticationDTO {
-
-    @NotNull
-    private Long id;
+public class RefreshTokenRequest {
 
     @NotBlank
-    private String password;
+    private String refreshToken;
 
 }

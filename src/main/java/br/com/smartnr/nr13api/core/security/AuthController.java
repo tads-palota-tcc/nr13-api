@@ -20,6 +20,7 @@ public class AuthController {
 
     private final AuthenticationManager authenticationManager;
     private final TokenService tokenService;
+    private final AuthenticationService authenticationService;
 
     @Value("${jwt.token.expiration}")
     private Long tokenExpiration;
@@ -28,19 +29,24 @@ public class AuthController {
     private Long refreshTokenExpiration;
 
     @PostMapping
-    public ResponseEntity login(@RequestBody @Valid AuthenticationDTO dto) {
+    public ResponseEntity login(@RequestBody @Valid AuthenticationRequest dto) {
         var authToken = new UsernamePasswordAuthenticationToken(dto.getId(), dto.getPassword());
         var authentication = authenticationManager.authenticate(authToken);
-
         var accessToken = tokenService.generateToken((UserDetailsImpl) authentication.getPrincipal(), tokenExpiration);
         var refreshToken = tokenService.generateRefreshToken((UserDetailsImpl) authentication.getPrincipal(), refreshTokenExpiration);
 
-        ResponseCookie accessTokenCookie = ResponseCookie.from("access-token", accessToken).path("/auth").maxAge(10 * 60 * 60).httpOnly(true).build();
-        ResponseCookie refreshTokenCookie = ResponseCookie.from("refresh-token", accessToken).path("/auth").maxAge(24 * 60 * 60).httpOnly(true).build();
+        ResponseCookie refreshTokenCookie = ResponseCookie.from("refresh-token", refreshToken).path("/auth").maxAge(24 * 60 * 60).httpOnly(true).build();
 
         return ResponseEntity.ok()
-                .header(HttpHeaders.SET_COOKIE, accessTokenCookie.toString())
                 .header(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString())
-                .body(new TokenDTO(accessToken, tokenExpiration, refreshToken, refreshTokenExpiration));
+                .body(new TokenResponse(accessToken, tokenExpiration));
+    }
+
+    @PostMapping("refresh-token")
+    public ResponseEntity refreshToken(@RequestBody @Valid RefreshTokenRequest dto) {
+        var user = authenticationService.loadUserByUsername(tokenService.getSubject(dto.getRefreshToken()));
+        var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+        var accessToken = tokenService.generateToken((UserDetailsImpl) authentication.getPrincipal(), tokenExpiration);
+        return ResponseEntity.ok().body(new TokenResponse(accessToken, tokenExpiration));
     }
 }

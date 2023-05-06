@@ -12,11 +12,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class TokenDTO {
+public class TokenResponse {
 
     private String accessToken;
     private Long accessTokenExp;
-    private String refreshToken;
-    private Long refreshTokenExp;
 
 }
