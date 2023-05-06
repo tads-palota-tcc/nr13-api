@@ -1,7 +1,6 @@
-package br.com.smartnr.nr13api.core.security;
+package br.com.smartnr.nr13api.core.security.dto;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,8 +8,8 @@ import lombok.Setter;
 @Setter
 public class AuthenticationRequest {
 
-    @NotNull
-    private Long id;
+    @NotBlank
+    private String email;
 
     @NotBlank
     private String password;

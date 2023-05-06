@@ -1,4 +1,4 @@
-package br.com.smartnr.nr13api.core.security;
+package br.com.smartnr.nr13api.core.security.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
