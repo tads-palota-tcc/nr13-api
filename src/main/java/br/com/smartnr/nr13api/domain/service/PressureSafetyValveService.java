@@ -1,5 +1,6 @@
 package br.com.smartnr.nr13api.domain.service;
 
+import br.com.smartnr.nr13api.domain.exception.BusinessException;
 import br.com.smartnr.nr13api.domain.exception.DeviceNotFoundException;
 import br.com.smartnr.nr13api.domain.model.PressureSafetyValve;
 import br.com.smartnr.nr13api.domain.repository.PressureSafetyValveRepository;
@@ -42,6 +43,26 @@ public class PressureSafetyValveService {
         existing.setUpdatedBy(userService.getAuthenticatedUser());
         psvRepository.save(existing);
         return existing;
+    }
+
+    @Transactional
+    public void inactivate(Long id) {
+        log.info("Iniciando processo de inativação de Válvula de segurança Id={}", id);
+        var entity = this.findOrFail(id);
+        if (!entity.getActive()) {
+            throw new BusinessException(String.format("Válvula de segurança com id=%d já encontra-se inativa", id));
+        }
+        entity.setActive(Boolean.FALSE);
+    }
+
+    @Transactional
+    public void activate(Long id) {
+        log.info("Iniciando processo de ativação de Válvula de segurança Id={}", id);
+        var entity = this.findOrFail(id);
+        if (entity.getActive()) {
+            throw new BusinessException(String.format("Válvula de segurança com id=%d já encontra-se ativa", id));
+        }
+        entity.setActive(Boolean.TRUE);
     }
 
     public Page<PressureSafetyValve> findByFilter(PressureSafetyValveFilter filter, Pageable pageable) {
