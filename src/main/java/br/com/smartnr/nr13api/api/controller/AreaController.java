@@ -19,10 +19,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/areas")
@@ -60,6 +62,13 @@ public class AreaController {
         log.info("Recebendo chamada para consulta de Área");
         var entity = areaService.findById(id);
         return areaAssembler.toDetailResponse(entity);
+    }
+
+    @GetMapping("/top10")
+    public List<AreaSummaryResponse> findTop10(@RequestParam(name = "code") String code) {
+        log.info("Recebendo chamada para listagem das 10 primeiras Áreas ativas com código={}", code);
+        var entities = areaService.findTop10(code);
+        return areaAssembler.toSummaryList(entities);
     }
 
     @PatchMapping("/{id}/inactivate")

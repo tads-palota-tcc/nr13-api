@@ -14,6 +14,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -53,6 +55,11 @@ public class AreaService {
     public Area findById(Long id) {
         log.info("Iniciando busca de Área id={}", id);
         return findOrFail(id);
+    }
+
+    public List<Area> findTop10(String code) {
+        log.info("Iniciando processo de listagem das 10 primeiras Áreas ativas com código={}", code);
+        return areaRepository.findTop10ByCodeContainingIgnoreCaseOrderByCode(code);
     }
 
     @Transactional
