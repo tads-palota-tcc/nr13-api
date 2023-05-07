@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @Setter
 public class UserDetailsImpl implements UserDetails {
 
-    private String id;
+    private Long id;
     private String name;
     private String email;
     @JsonIgnore
@@ -33,7 +33,7 @@ public class UserDetailsImpl implements UserDetails {
                 .map(permission -> new SimpleGrantedAuthority(permission.getName().toUpperCase()))
                 .collect(Collectors.toSet());
         return new UserDetailsImpl(
-                String.valueOf(user.getId()),
+                user.getId(),
                 user.getName(),
                 user.getEmail(),
                 user.getPassword(),

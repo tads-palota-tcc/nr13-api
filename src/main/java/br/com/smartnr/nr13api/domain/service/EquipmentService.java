@@ -55,6 +55,26 @@ public class EquipmentService {
         return existing;
     }
 
+    @Transactional
+    public void inactivate(Long id) {
+        log.info("Iniciando processo de inativação de Equipamento Id={}", id);
+        var entity = this.findOrFail(id);
+        if (!entity.getActive()) {
+            throw new BusinessException(String.format("Equipamento com id=%d já encontra-se inativo", id));
+        }
+        entity.setActive(Boolean.FALSE);
+    }
+
+    @Transactional
+    public void activate(Long id) {
+        log.info("Iniciando processo de ativação de Equipamento Id={}", id);
+        var entity = this.findOrFail(id);
+        if (entity.getActive()) {
+            throw new BusinessException(String.format("Equipamento com id=%d já encontra-se ativo", id));
+        }
+        entity.setActive(Boolean.TRUE);
+    }
+
     public Page<Equipment> findByFilter(EquipmentFilter filter, Pageable pageable) {
         log.info("Iniciando processo de listagem de Equipamento filtro={}", filter);
         return equipmentRepository.findAll(EquipmentSpecs.withFilter(filter), pageable);

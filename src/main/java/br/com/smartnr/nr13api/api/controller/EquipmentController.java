@@ -36,7 +36,7 @@ public class EquipmentController {
     private final EquipmentAssembler equipmentAssembler;
 
     @PostMapping
-    public ResponseEntity<EquipmentDetailResponse> create(@RequestBody @Valid EquipmentCreationRequest request, UriComponentsBuilder uriComponentsBuilder) {
+    public ResponseEntity<EquipmentDetailResponse> create(@RequestBody EquipmentCreationRequest request, UriComponentsBuilder uriComponentsBuilder) {
         log.info("Recebendo chamada para cadastro de Equipamento");
         var entity = equipmentService.create(equipmentAssembler.toEntity(request));
         URI uri = uriComponentsBuilder.path("/equipments/{id}").buildAndExpand(entity.getId()).toUri();
@@ -48,6 +48,20 @@ public class EquipmentController {
         log.info("Recebendo chamada para atualização de Equipamento");
         var entity = equipmentService.update(id, equipmentAssembler.toEntity(request));
         return ResponseEntity.ok(equipmentAssembler.toDetailResponse(entity));
+    }
+
+    @PatchMapping("/{id}/inactivate")
+    public ResponseEntity<Void> inactivate(@PathVariable Long id) {
+        log.info("Recebendo chamada para inativação de Equipamento");
+        equipmentService.inactivate(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{id}/activate")
+    public ResponseEntity<Void> activate(@PathVariable Long id) {
+        log.info("Recebendo chamada para ativação de Equipamento");
+        equipmentService.activate(id);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping

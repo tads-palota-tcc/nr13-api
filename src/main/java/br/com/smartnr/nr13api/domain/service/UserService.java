@@ -1,5 +1,6 @@
 package br.com.smartnr.nr13api.domain.service;
 
+import br.com.smartnr.nr13api.core.security.UserDetailsImpl;
 import br.com.smartnr.nr13api.core.security.UserRepository;
 import br.com.smartnr.nr13api.domain.model.User;
 import lombok.RequiredArgsConstructor;
@@ -21,8 +22,8 @@ public class UserService {
     }
 
     public User getAuthenticatedUser() {
-        var userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return findOrFail(Long.parseLong(userDetails.getUsername()));
+        var userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return findOrFail(userDetails.getId());
     }
 
     private User findOrFail(Long id) {
