@@ -1,5 +1,6 @@
 package br.com.smartnr.nr13api.domain.service;
 
+import br.com.smartnr.nr13api.domain.exception.BusinessException;
 import br.com.smartnr.nr13api.domain.exception.DeviceNotFoundException;
 import br.com.smartnr.nr13api.domain.model.PressureIndicator;
 import br.com.smartnr.nr13api.domain.repository.PressureIndicatorRepository;
@@ -42,6 +43,26 @@ public class PressureIndicatorService {
         existing.setUpdatedBy(userService.getAuthenticatedUser());
         piRepository.save(existing);
         return existing;
+    }
+
+    @Transactional
+    public void inactivate(Long id) {
+        log.info("Iniciando processo de inativação de Indicador de Pressão Id={}", id);
+        var entity = this.findOrFail(id);
+        if (!entity.getActive()) {
+            throw new BusinessException(String.format("Indicador de Pressão com id=%d já encontra-se inativo", id));
+        }
+        entity.setActive(Boolean.FALSE);
+    }
+
+    @Transactional
+    public void activate(Long id) {
+        log.info("Iniciando processo de ativação de Indicador de Pressão Id={}", id);
+        var entity = this.findOrFail(id);
+        if (entity.getActive()) {
+            throw new BusinessException(String.format("Indicador de Pressão com id=%d já encontra-se ativo", id));
+        }
+        entity.setActive(Boolean.TRUE);
     }
 
     public Page<PressureIndicator> findByFilter(PressureIndicatorFilter filter, Pageable pageable) {
