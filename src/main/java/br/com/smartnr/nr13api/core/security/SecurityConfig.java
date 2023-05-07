@@ -22,13 +22,12 @@ public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final FilterChainExceptionHandler filterChainExceptionHandler;
     private final AuthenticationProvider authenticationProvider;
-    private final UserDetailsServiceImpl userDetailsServiceImpl;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf().disable()
-                .cors().disable()
+//                .cors().disable()
                 .authorizeHttpRequests().requestMatchers("/auth/**").permitAll()
                 .and().authorizeHttpRequests().requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .anyRequest().authenticated()
