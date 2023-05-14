@@ -4,8 +4,8 @@ import br.com.smartnr.nr13api.api.assembler.CalibrationAssembler;
 import br.com.smartnr.nr13api.api.assembler.DeviceAssembler;
 import br.com.smartnr.nr13api.api.dto.response.CalibrationSummaryResponse;
 import br.com.smartnr.nr13api.api.dto.response.DeviceSummaryResponse;
-import br.com.smartnr.nr13api.domain.repository.DeviceRepository;
 import br.com.smartnr.nr13api.domain.service.CalibrationService;
+import br.com.smartnr.nr13api.domain.service.DeviceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -25,13 +25,15 @@ public class DeviceController {
 
     private final CalibrationService calibrationService;
     private final CalibrationAssembler calibrationAssembler;
-    private final DeviceRepository deviceRepository;
+    private final DeviceService deviceService;
     private final DeviceAssembler deviceAssembler;
 
-    @GetMapping(params = {"plantCode"})
-    public ResponseEntity<List<DeviceSummaryResponse>> findByPlant(@RequestParam(name = "plantCode") String plantCode) {
-        log.info("Recebendo chamada para consulta de Dispositivo código da Planta");
-        return ResponseEntity.ok(deviceAssembler.toSummaryList(deviceRepository.findTop10ByPlantCode(plantCode)));
+    @GetMapping(params = {"plantCode", "tag"})
+    public ResponseEntity<List<DeviceSummaryResponse>> findByPlantAndTag(
+            @RequestParam(name = "plantCode") String plantCode,
+            @RequestParam(name = "tag") String tag) {
+        log.info("Recebendo chamada para consulta de Dispositivo código da Planta e Tag");
+        return ResponseEntity.ok(deviceAssembler.toSummaryList(deviceService.findTop10ByPlantCodeAndTag(plantCode, tag)));
     }
 
     @GetMapping("/{id}/calibrations")
