@@ -59,7 +59,7 @@ public class PlantService {
     public List<Plant> findByUser() {
         var user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         log.info("Iniciando processo de listagem de Planta por usuário Id={}", user.getUsername());
-        return userService.findById(Long.parseLong(user.getUsername())).getPlants()
+        return userService.getAuthenticatedUser().getPlants()
                 .stream().sorted().toList();
     }
 

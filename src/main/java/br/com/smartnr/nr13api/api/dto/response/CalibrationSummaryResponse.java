@@ -15,5 +15,6 @@ public class CalibrationSummaryResponse {
     private String reportNumber;
     private String executorCompany;
     private Status status;
+    private FileUrlResponse file;
 
 }
