@@ -15,8 +15,6 @@ delete from nr13_api.tb_group_permissions;
 delete from nr13_api.tb_groups;
 delete from nr13_api.tb_permissions;
 delete from nr13_api.tb_user_plants;
-delete from nr13_api.tb_pressure_indicators;
-delete from nr13_api.tb_pressure_safety_valves;
 delete from nr13_api.tb_devices;
 delete from nr13_api.tb_equipments;
 delete from nr13_api.tb_areas;
@@ -96,32 +94,16 @@ insert into nr13_api.tb_equipments
 
 insert into
         nr13_api.tb_devices
-        (tag, manufacturer, model, plant_id, equipment_id, updated_by, last_calibration_date, active)
+        (tag, manufacturer, model, plant_id, equipment_id, updated_by, last_calibration_date, active, type, connection_size, body_size, min_gauge, max_gauge, opening_pressure, closing_pressure)
     values
-        ('PI-0001', 'ASCO', 'ASCO-PI40', 1, 1, 100000, '2022-05-02', true),
-        ('PI-0002', 'ASCO', 'ASCO-PI40', 1, 1, 100000, '2023-05-02', true),
-        ('PI-0003', 'ASCO', 'ASCO-PI40', 1, null, 100000, '2021-05-02', true),
-        ('PI-0004', 'ASCO', 'ASCO-PI40', 1, null, 100000, '2021-05-02', true),
-        ('PSV-0001', 'ASCO', 'ASCO-PSV40', 1, 1, 100000, '2021-05-02', true),
-        ('PSV-0002', 'ASCO', 'ASCO-PSV40', 1, 1, 100000, '2021-05-02', true),
-        ('PSV-0003', 'ASCO', 'ASCO-PSV40', 1, null, 100000, '2021-05-02', true),
-        ('PSV-0004', 'ASCO', 'ASCO-PSV40', 1, null, 100000, null, true);
-
-insert into
-        nr13_api.tb_pressure_indicators (id, gauge_size, connection_size, min_gauge, max_gauge)
-    values
-        (1, '4 in', '3/4 in', 0, 8),
-        (2, '2 in', '3/4 in', 1, 9),
-        (3, '3 in', '3/4 in', 2, 10),
-        (4, '8 in', '3/4 in', 3, 11);
-
-insert into
-        nr13_api.tb_pressure_safety_valves (id, body_size, opening_pressure, closing_pressure)
-    values
-        (5, '2"', 10, 9.5),
-        (6, '1/2"', 12, 11),
-        (7, '2.1/2"', 6, 5.5),
-        (8, '3"', 8, 5.4);
+        ('PI-0001', 'ASCO', 'ASCO-PI40', 1, 1, 100000, '2022-05-02', true, 'PI', '3/4"', null, 0.0, 25.0, null, null),
+        ('PI-0002', 'ASCO', 'ASCO-PI40', 1, 1, 100000, '2023-05-02', true, 'PI', '3/4"', null, 0.0, 25.0, null, null),
+        ('PI-0003', 'ASCO', 'ASCO-PI40', 2, null, 100000, '2021-05-02', true, 'PI', '3/4"', null, 0.0, 25.0, null, null),
+        ('PI-0004', 'ASCO', 'ASCO-PI40', 2, null, 100000, '2021-05-02', true, 'PI', '3/4"', null, 0.0, 25.0, null, null),
+        ('PSV-0001', 'ASCO', 'ASCO-PSV40', 1, 1, 100000, '2021-05-02', true, 'PSV', null, '2"', null, null, 14.0, 12.0),
+        ('PSV-0002', 'ASCO', 'ASCO-PSV40', 1, 1, 100000, '2021-05-02', true, 'PSV', null, '2"', null, null, 14.0, 12.0),
+        ('PSV-0003', 'ASCO', 'ASCO-PSV40', 2, null, 100000, '2021-05-02', true, 'PSV', null, '2"', null, null, 14.0, 12.0),
+        ('PSV-0004', 'ASCO', 'ASCO-PSV40', 2, null, 100000, null, true, 'PSV', null, '2"', null, null, 14.0, 12.0);
 
 insert into nr13_api.tb_files (name, description, type, url, updated_by) values
     ('relatorio_01.pdf', 'relatório de calibração', 'PDF', 'users/relatorios/', 100000),

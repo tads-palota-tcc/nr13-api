@@ -1,5 +1,6 @@
 package br.com.smartnr.nr13api.domain.model;
 
+import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,7 +21,8 @@ import java.time.LocalDate;
 @EqualsAndHashCode(of = "id", callSuper = false)
 @Entity
 @Table(name = "tb_devices")
-@Inheritance(strategy = InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "type")
 public abstract class Device extends BaseEntity<Long> {
 
     @Id
