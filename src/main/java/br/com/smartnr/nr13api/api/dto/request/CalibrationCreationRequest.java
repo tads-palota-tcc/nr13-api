@@ -1,6 +1,5 @@
 package br.com.smartnr.nr13api.api.dto.request;
 
-import br.com.smartnr.nr13api.domain.model.DeviceType;
 import br.com.smartnr.nr13api.domain.model.Status;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -16,9 +15,6 @@ import java.time.LocalDate;
 @Getter
 @Setter
 public class CalibrationCreationRequest {
-
-    @NotNull
-    private DeviceType type;
 
     private String reportNumber;
 
@@ -40,7 +36,6 @@ public class CalibrationCreationRequest {
 
     @NotNull
     @Valid
-    private DeviceForCalibrationRequest device;
-
+    private DeviceIdRequest device;
 
 }

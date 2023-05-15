@@ -1,6 +1,5 @@
 package br.com.smartnr.nr13api.domain.repository.filters;
 
-import br.com.smartnr.nr13api.domain.model.Category;
 import lombok.Getter;
 import lombok.Setter;
 
