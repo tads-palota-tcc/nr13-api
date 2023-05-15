@@ -23,7 +23,7 @@ import java.time.LocalDate;
 @Table(name = "tb_devices")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type")
-public abstract class Device extends BaseEntity<Long> {
+public class Device extends BaseEntity<Long> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

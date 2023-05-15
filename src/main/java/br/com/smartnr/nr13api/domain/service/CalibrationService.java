@@ -29,6 +29,7 @@ public class CalibrationService {
     private final PressureIndicatorService piService;
     private final PressureSafetyValveService psvService;
     private final PlantService plantService;
+    private final DeviceService deviceService;
     private final UserService userService;
     private final ModelMapper modelMapper;
 
@@ -36,9 +37,8 @@ public class CalibrationService {
     public Calibration create(Calibration entity) {
         log.info("Iniciando processo de cadastro de Calibração: {}", entity.getDevice().getId());
         try {
-            var tag = entity.getDevice().getTag();
-            var code = entity.getDevice().getPlant().getCode();
-            var device = entity.getType().equals(DeviceType.PI) ? piService.findByTagAndPlantCode(tag, code) : psvService.findByTagAndPlantCode(tag, code);
+//            var device = entity.getType().equals(DeviceType.PI) ? piService.findByTagAndPlantCode(tag, code) : psvService.findByTagAndPlantCode(tag, code);
+            var device = deviceService.findById(entity.getDevice().getId());
             var userPlants = plantService.findByUser();
             if (!userPlants.contains(device.getPlant())) {
                 throw new BusinessException(String

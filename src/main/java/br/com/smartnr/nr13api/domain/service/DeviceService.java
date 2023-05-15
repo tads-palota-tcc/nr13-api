@@ -1,5 +1,6 @@
 package br.com.smartnr.nr13api.domain.service;
 
+import br.com.smartnr.nr13api.domain.exception.DeviceNotFoundException;
 import br.com.smartnr.nr13api.domain.model.Device;
 import br.com.smartnr.nr13api.domain.repository.DeviceRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,15 @@ public class DeviceService {
     public List<Device> findTop10ByPlantCodeAndTag(String plantCode, String tag) {
         log.info("Iniciando consulta de Dispositivos por Planta={} e Tag={}", plantCode, tag);
         return deviceRepository.findTop10ByPlantCodeAndTagContainingIgnoreCaseOrderByTag(plantCode, tag);
+    }
+
+    public Device findById(Long id) {
+        return findOrFail(id);
+    }
+
+    private Device findOrFail(Long id) {
+        return deviceRepository.findById(id)
+                .orElseThrow(() -> new DeviceNotFoundException(id));
     }
 
 }
