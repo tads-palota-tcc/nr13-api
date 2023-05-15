@@ -39,7 +39,7 @@ public class DeviceController {
     @GetMapping("/{id}/calibrations")
     public ResponseEntity<List<CalibrationSummaryResponse>> findLast10ByDeviceId(@PathVariable Long id) {
         log.info("Recebendo chamada para listagem de Calibrações do Dispositivo Id={}", id);
-        var entities = calibrationService.findLas10ByDeviceid(id);
+        var entities = calibrationService.findLast10ByDeviceId(id);
         return ResponseEntity.ok(calibrationAssembler.toSummaryList(entities));
     }
 

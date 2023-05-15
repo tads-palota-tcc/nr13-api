@@ -3,10 +3,12 @@ package br.com.smartnr.nr13api.domain.service;
 import br.com.smartnr.nr13api.domain.exception.AreaNotFoundException;
 import br.com.smartnr.nr13api.domain.exception.BusinessException;
 import br.com.smartnr.nr13api.domain.exception.EntityNotFoundException;
+import br.com.smartnr.nr13api.domain.exception.FileNotFoundException;
 import br.com.smartnr.nr13api.domain.model.Calibration;
-import br.com.smartnr.nr13api.domain.model.DeviceType;
+import br.com.smartnr.nr13api.domain.model.File;
 import br.com.smartnr.nr13api.domain.model.Status;
 import br.com.smartnr.nr13api.domain.repository.CalibrationRepository;
+import br.com.smartnr.nr13api.domain.repository.FileRepository;
 import br.com.smartnr.nr13api.domain.repository.filters.CalibrationFilter;
 import br.com.smartnr.nr13api.domain.repository.specs.CalibrationSpecs;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +19,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -26,8 +30,8 @@ import java.util.List;
 public class CalibrationService {
 
     private final CalibrationRepository calibrationRepository;
-    private final PressureIndicatorService piService;
-    private final PressureSafetyValveService psvService;
+    private final FileRepository fileRepository;
+    private final FileStorageService fileStorageService;
     private final PlantService plantService;
     private final DeviceService deviceService;
     private final UserService userService;
@@ -37,7 +41,6 @@ public class CalibrationService {
     public Calibration create(Calibration entity) {
         log.info("Iniciando processo de cadastro de Calibração: {}", entity.getDevice().getId());
         try {
-//            var device = entity.getType().equals(DeviceType.PI) ? piService.findByTagAndPlantCode(tag, code) : psvService.findByTagAndPlantCode(tag, code);
             var device = deviceService.findById(entity.getDevice().getId());
             var userPlants = plantService.findByUser();
             if (!userPlants.contains(device.getPlant())) {
@@ -80,7 +83,7 @@ public class CalibrationService {
         return calibrationRepository.findAll(CalibrationSpecs.withFilter(filter, null), pageable);
     }
 
-    public List<Calibration> findLas10ByDeviceid(Long deviceId) {
+    public List<Calibration> findLast10ByDeviceId(Long deviceId) {
         log.info("Iniciando processo de listagem de Calibração pelo Id do dispositivo={}", deviceId);
         return calibrationRepository.findTop10ByDeviceIdOrderByExecutionDateDesc(deviceId);
     }
@@ -88,6 +91,46 @@ public class CalibrationService {
     public Calibration findById(Long id) {
         log.info("Iniciando busca de Calibração id={}", id);
         return findOrFail(id);
+    }
+
+    public File getReportByCalibrationId(Long id) {
+        log.info("Iniciando busca de relatório de calibração id={}", id);
+        var entity = findOrFail(id);
+        if (ObjectUtils.isEmpty(entity.getFile())) {
+            throw new FileNotFoundException(id);
+        }
+        return entity.getFile();
+    }
+
+    @Transactional
+    public File addReportFile(Long calibrationId, MultipartFile multipartFile) throws IOException {
+
+        var calibration = findOrFail(calibrationId);
+
+        String oldFileName = null;
+        if (!ObjectUtils.isEmpty(calibration.getFile())) {
+            oldFileName = calibration.getFile().getName();
+        }
+
+        String newFileName = fileStorageService.generateFileName(multipartFile.getOriginalFilename());
+
+        var file = new File();
+        file.setName(newFileName);
+        file.setType(multipartFile.getContentType());
+        file.setUpdatedBy(userService.getAuthenticatedUser());
+        file.setUrl("/home/apagar/tcc/123.pdf");
+        file = fileRepository.save(file);
+
+        calibration.setFile(file);
+        calibrationRepository.save(calibration);
+
+        var newFile = FileStorageService.NewFile.builder()
+                .fileName(file.getName())
+                .inputStream(multipartFile.getInputStream())
+                .build();
+        fileStorageService.replace(oldFileName, newFile);
+
+        return file;
     }
 
     private Calibration findOrFail(Long id) {
