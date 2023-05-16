@@ -6,6 +6,7 @@ drop table if exists audit.tb_interventions_audit;
 drop table if exists audit.tb_calibrations_audit;
 drop table if exists audit.tb_inspections_audit;
 
+delete from nr13_api.tb_applicable_tests;
 delete from nr13_api.tb_calibrations;
 delete from nr13_api.tb_inspections;
 delete from nr13_api.tb_interventions;
@@ -17,6 +18,7 @@ delete from nr13_api.tb_permissions;
 delete from nr13_api.tb_user_plants;
 delete from nr13_api.tb_devices;
 delete from nr13_api.tb_equipments;
+delete from nr13_api.tb_tests;
 delete from nr13_api.tb_areas;
 delete from nr13_api.tb_plants;
 delete from nr13_api.tb_users;
@@ -32,6 +34,7 @@ alter sequence nr13_api.tb_groups_id_seq restart with 1;
 alter sequence nr13_api.tb_permissions_id_seq restart with 1;
 alter sequence nr13_api.tb_devices_id_seq restart with 1;
 alter sequence nr13_api.tb_files_id_seq restart with 1;
+alter sequence nr13_api.tb_tests_id_seq restart with 1;
 
 insert into nr13_api.tb_groups(name) values ('Admin'), ('Inspetor'), ('Usuário');
 insert into
@@ -90,7 +93,9 @@ insert into
 
 insert into nr13_api.tb_equipments
             (tag, area_id, name, hydrostatic_test_pressure, max_operation_pressure, max_allowed_work_pressure, diameter, volume, fluid_class, active, updated_by)
-    values ('CP-001', 1, 'Compressor de ar', 15.0, 8.0, 10.0, 300, 0.45, 'C', true, 100000);
+    values
+        ('CP-001', 1, 'Compressor de ar', 15.0, 8.0, 10.0, 300, 0.45, 'C', true, 100000),
+        ('CP-002', 1, 'Compressor de ar', 15.0, 8.0, 10.0, 300, 0.45, 'C', true, 100000);
 
 insert into
         nr13_api.tb_devices
@@ -123,3 +128,22 @@ insert into
         nr13_api.tb_calibrations (id, device_id)
     values
         (1, 1), (2, 1), (3, 2), (4, 2), (5, 2), (6, 3), (7, 4), (8, 5), (9, 6), (10, 7);
+
+insert into
+        nr13_api.tb_tests (name, description, frequency, frequency_type)
+    values
+        ('Inspeção visual externa', 'Inspeção visual realizada no exterior do equipamento para detectar anomalias simples', 1, 'MONTH'),
+        ('Medição de espessura', 'Medição da espessura das paredes do equipamento para detecção de desgastes', 6, 'MONTH'),
+        ('Inspeção de integridade física', 'Inspeção realizada com equipamento fora de operação, sob supervição direta do PH', 1, 'YEAR'),
+        ('Teste hidrostático', 'Ensaio realizado sob supervisão do PH para validação da PMTA do equipamento', 5, 'YEAR'),
+        ('Ultrassom das juntas', 'Ensaio alternativo ao teste hidrostático, verificando a integridade das soldas', 5, 'YEAR');
+
+insert into
+        nr13_api.tb_applicable_tests (equipment_id, test_id, frequency, frequency_type, last_test_date, updated_by)
+    values
+        (1, 1, null, null, '2023-05-10', 100000),
+        (1, 2, 2, 'MONTH', null, 100000),
+        (1, 3, null, null, null, 100000),
+        (1, 4, 3, 'YEAR', '2022-05-15', 100000),
+        (2, 1, null, null, null, 100000),
+        (2, 2, 2, 'MONTH', null, 100000);

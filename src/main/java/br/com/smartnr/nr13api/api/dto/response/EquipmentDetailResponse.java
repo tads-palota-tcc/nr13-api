@@ -40,6 +40,7 @@ public class EquipmentDetailResponse {
     private boolean hasInstallationProject;
     private List<PressureSafetyValveSummaryResponse> pressureSafetyValves;
     private List<PressureIndicatorSummaryResponse> pressureIndicators;
+    private List<ApplicableTestResponse> applicableTests;
     private boolean active;
 
 }

@@ -108,6 +108,9 @@ public class Equipment extends BaseEntity<Long> {
     @OneToMany(mappedBy = "equipment")
     private Set<PressureIndicator> pressureIndicators = new HashSet<>();
 
+    @OneToMany(mappedBy = "id.equipment")
+    private Set<ApplicableTest> applicableTests = new HashSet<>();
+
     public void addPressureSafetyValve(PressureSafetyValve pressureSafetyValve) {
         if (pressureSafetyValve.getEquipment() == null) {
             pressureSafetyValve.setEquipment(this);
