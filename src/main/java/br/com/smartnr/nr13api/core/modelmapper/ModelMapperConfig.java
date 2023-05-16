@@ -21,6 +21,7 @@ public class ModelMapperConfig {
 
     private void applicableTestsMappingConfig(ModelMapper modelMapper) {
         modelMapper.typeMap(ApplicableTest.class, ApplicableTestResponse.class)
-                .addMapping(at -> (at.getId().getTest().getName()), ApplicableTestResponse::setName);
+                .addMapping(at -> (at.getId().getTest().getName()), ApplicableTestResponse::setName)
+                .addMapping(at -> (at.getId().getTest().getId()), ApplicableTestResponse::setTestId);
     }
 }

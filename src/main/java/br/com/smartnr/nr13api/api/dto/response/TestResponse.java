@@ -4,17 +4,14 @@ import br.com.smartnr.nr13api.domain.model.FrequencyType;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDate;
-
 @Getter
 @Setter
-public class ApplicableTestResponse {
+public class TestResponse {
 
-    private Long testId;
+    private Long id;
     private String name;
+    private String description;
     private Integer frequency;
     private FrequencyType frequencyType;
-    private LocalDate lastTestDate;
-    private LocalDate nextTestDate;
 
 }
