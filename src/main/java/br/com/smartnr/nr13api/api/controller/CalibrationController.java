@@ -19,6 +19,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -82,6 +83,20 @@ public class CalibrationController {
         file.setName(mpf.getOriginalFilename());
         file.setType(mpf.getContentType());
         return ResponseEntity.ok(fileAssembler.toDetailResponse(calibrationService.addReportFile(id, mpf)));
+    }
+
+    @DeleteMapping("{id}")
+    private ResponseEntity<Void> delete(@PathVariable Long id) throws IOException {
+        log.info("Recebendo chamada para excluir calibração");
+        calibrationService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{id}/reports")
+    public ResponseEntity<Void> deleteReport(@PathVariable Long id) throws IOException {
+        log.info("Recebendo chamada para excluir relatório");
+        calibrationService.deleteReport(id);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping(path = "/{id}/reports", produces = MediaType.APPLICATION_PDF_VALUE)

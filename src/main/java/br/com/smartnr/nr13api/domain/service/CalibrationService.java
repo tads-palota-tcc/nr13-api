@@ -104,33 +104,54 @@ public class CalibrationService {
 
     @Transactional
     public File addReportFile(Long calibrationId, MultipartFile multipartFile) throws IOException {
-
         var calibration = findOrFail(calibrationId);
-
         String oldFileName = null;
         if (!ObjectUtils.isEmpty(calibration.getFile())) {
             oldFileName = calibration.getFile().getName();
         }
-
         String newFileName = fileStorageService.generateFileName(multipartFile.getOriginalFilename());
-
         var file = new File();
         file.setName(newFileName);
         file.setType(multipartFile.getContentType());
         file.setUpdatedBy(userService.getAuthenticatedUser());
         file.setUrl("/home/apagar/tcc/123.pdf");
         file = fileRepository.save(file);
-
         calibration.setFile(file);
         calibrationRepository.save(calibration);
-
         var newFile = FileStorageService.NewFile.builder()
                 .fileName(file.getName())
                 .inputStream(multipartFile.getInputStream())
                 .build();
         fileStorageService.replace(oldFileName, newFile);
-
         return file;
+    }
+
+    @Transactional
+    public void delete(Long id) throws IOException {
+        var calibration = findOrFail(id);
+        if (!ObjectUtils.isEmpty(calibration.getFile())) {
+            var filename = calibration.getFile().getName();
+            var fileId = calibration.getFile().getId();
+            calibration.setFile(null);
+            calibrationRepository.save(calibration);
+            fileRepository.deleteById(fileId);
+            fileStorageService.remove(filename);
+        }
+        calibrationRepository.deleteById(id);
+    }
+
+    @Transactional
+    public void deleteReport(Long calibrationId) throws IOException {
+        var calibration = findOrFail(calibrationId);
+        if (ObjectUtils.isEmpty(calibration.getFile())) {
+            throw new BusinessException(String.format("Calibração de Id=%d não possui relatório anexado", calibration));
+        }
+        var filename = calibration.getFile().getName();
+        var fileId = calibration.getFile().getId();
+        calibration.setFile(null);
+        calibrationRepository.save(calibration);
+        fileRepository.deleteById(fileId);
+        fileStorageService.remove(filename);
     }
 
     private Calibration findOrFail(Long id) {

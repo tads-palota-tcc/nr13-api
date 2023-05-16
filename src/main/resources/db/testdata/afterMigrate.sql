@@ -105,22 +105,18 @@ insert into
         ('PSV-0003', 'ASCO', 'ASCO-PSV40', 2, null, 100000, '2021-05-02', true, 'PSV', null, '2"', null, null, 14.0, 12.0),
         ('PSV-0004', 'ASCO', 'ASCO-PSV40', 2, null, 100000, null, true, 'PSV', null, '2"', null, null, 14.0, 12.0);
 
-insert into nr13_api.tb_files (name, description, type, url, updated_by) values
-    ('relatorio_01.pdf', 'relatório de calibração', 'PDF', 'users/relatorios/', 100000),
-    ('relatorio_02.pdf', 'relatório de calibração', 'PDF', 'users/relatorios/', 100000);
-
 insert into
         nr13_api.tb_interventions (report_number, executor_company, execution_date, comments, status, updated_by, cost, file_id)
     values
-        ('22-0125', 'MegaSteam', '2021-05-02', 'Calibrado no local', 'DONE', 100000, '45.16', 1),
+        ('22-0125', 'MegaSteam', '2021-05-02', 'Calibrado no local', 'DONE', 100000, '45.16', null),
         (null, 'MegaSteam', '2022-05-02', 'Calibrado no local', 'DONE', 100000, '45.16', null),
-        ('22-0125', 'MegaSteam', '2021-05-02', 'Calibrado no local', 'DONE', 100000, '45.16', 2),
+        ('22-0125', 'MegaSteam', '2021-05-02', 'Calibrado no local', 'DONE', 100000, '45.16', null),
         (null, 'MegaSteam', '2022-05-02', 'Calibrado no local', 'WAITING_REPORT', 100000, '45.16', null),
-        ('22-0125', 'MegaSteam', '2023-05-02', 'Calibrado no local', 'DONE', 100000, '45.16', 1),
+        ('22-0125', 'MegaSteam', '2023-05-02', 'Calibrado no local', 'DONE', 100000, '45.16', null),
         (null, 'MegaSteam', '2021-05-02', 'Calibrado no local', 'DONE', 100000, '45.16', null),
-        ('22-0125', 'MegaSteam', '2021-05-02', 'Calibrado no local', 'DONE', 100000, '45.16', 2),
+        ('22-0125', 'MegaSteam', '2021-05-02', 'Calibrado no local', 'DONE', 100000, '45.16', null),
         (null, 'MegaSteam', '2021-05-02', 'Calibrado no local', 'WAITING_REPORT', 100000, '45.16', null),
-        ('22-0125', 'MegaSteam', '2021-05-02', 'Calibrado no local', 'DONE', 100000, '45.16', 2),
+        ('22-0125', 'MegaSteam', '2021-05-02', 'Calibrado no local', 'DONE', 100000, '45.16', null),
         (null, 'MegaSteam', '2021-05-02', 'Calibrado no local', 'WAITING_REPORT', 100000, '45.16', null);
 
 insert into

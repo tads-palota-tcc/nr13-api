@@ -19,6 +19,6 @@ public class CalibrationDetailResponse {
     private BigDecimal cost;
     private LocalDate executionDate;
     private DeviceSummaryResponse device;
-    private FileUrlResponse file;
+    private FileResponse file;
 
 }
