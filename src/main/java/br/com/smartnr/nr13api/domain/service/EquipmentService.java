@@ -3,6 +3,7 @@ package br.com.smartnr.nr13api.domain.service;
 import br.com.smartnr.nr13api.domain.exception.BusinessException;
 import br.com.smartnr.nr13api.domain.exception.EntityNotFoundException;
 import br.com.smartnr.nr13api.domain.exception.EquipmentNotFoundException;
+import br.com.smartnr.nr13api.domain.model.ApplicableTest;
 import br.com.smartnr.nr13api.domain.model.Equipment;
 import br.com.smartnr.nr13api.domain.repository.EquipmentRepository;
 import br.com.smartnr.nr13api.domain.repository.filters.EquipmentFilter;
@@ -22,10 +23,11 @@ public class EquipmentService {
 
     private final EquipmentRepository equipmentRepository;
     private final AreaService areaService;
-    private final PlantService plantService;
     private final UserService userService;
+    private final TestService testService;
     private final PressureSafetyValveService psvService;
     private final PressureIndicatorService piService;
+    private final ApplicableTestService applicableTestService;
     private final ModelMapper modelMapper;
 
     @Transactional
@@ -85,11 +87,6 @@ public class EquipmentService {
         return findOrFail(id);
     }
 
-    private Equipment findOrFail(Long id) {
-        return equipmentRepository.findById(id)
-                .orElseThrow(() -> new EquipmentNotFoundException(id));
-    }
-
     @Transactional
     public void bindPsv(Long id, Long psvId) {
         var equipment = findOrFail(id);
@@ -116,5 +113,20 @@ public class EquipmentService {
         var equipment = findOrFail(id);
         var pi = piService.findById(piId);
         equipment.removePressureIndicator(pi);
+    }
+
+    @Transactional
+    public void addApplicableTest(Long id, ApplicableTest applicableTest) {
+        var equipment = findOrFail(id);
+        var test = testService.findById(applicableTest.getId().getTest().getId());
+        applicableTest.getId().setEquipment(equipment);
+        applicableTest.getId().setTest(test);
+        applicableTest.setUpdatedBy(userService.getAuthenticatedUser());
+        applicableTestService.create(applicableTest);
+    }
+
+    private Equipment findOrFail(Long id) {
+        return equipmentRepository.findById(id)
+                .orElseThrow(() -> new EquipmentNotFoundException(id));
     }
 }

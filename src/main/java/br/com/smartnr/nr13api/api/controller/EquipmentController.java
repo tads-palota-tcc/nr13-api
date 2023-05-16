@@ -1,6 +1,8 @@
 package br.com.smartnr.nr13api.api.controller;
 
+import br.com.smartnr.nr13api.api.assembler.ApplicableTestAssembler;
 import br.com.smartnr.nr13api.api.assembler.EquipmentAssembler;
+import br.com.smartnr.nr13api.api.dto.request.ApplicableTestRequest;
 import br.com.smartnr.nr13api.api.dto.request.EquipmentCreationRequest;
 import br.com.smartnr.nr13api.api.dto.request.EquipmentUpdateRequest;
 import br.com.smartnr.nr13api.api.dto.response.EquipmentDetailResponse;
@@ -34,6 +36,21 @@ public class EquipmentController {
 
     private final EquipmentService equipmentService;
     private final EquipmentAssembler equipmentAssembler;
+    private final ApplicableTestAssembler applicableTestAssembler;
+
+    @GetMapping
+    public Page<EquipmentSummaryResponse> findByFilter(EquipmentFilter filter, Pageable pageable) {
+        log.info("Recebendo chamada para listagem de Equipamentos");
+        var entities = equipmentService.findByFilter(filter, pageable);
+        return equipmentAssembler.toSummaryPageResponse(entities);
+    }
+
+    @GetMapping("/{id}")
+    public EquipmentDetailResponse findById(@PathVariable Long id) {
+        log.info("Recebendo chamada para consulta de Equipamento");
+        var entity = equipmentService.findById(id);
+        return equipmentAssembler.toDetailResponse(entity);
+    }
 
     @PostMapping
     public ResponseEntity<EquipmentDetailResponse> create(@RequestBody EquipmentCreationRequest request, UriComponentsBuilder uriComponentsBuilder) {
@@ -64,20 +81,6 @@ public class EquipmentController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping
-    public Page<EquipmentSummaryResponse> findByFilter(EquipmentFilter filter, Pageable pageable) {
-        log.info("Recebendo chamada para listagem de Equipamentos");
-        var entities = equipmentService.findByFilter(filter, pageable);
-        return equipmentAssembler.toSummaryPageResponse(entities);
-    }
-
-    @GetMapping("/{id}")
-    public EquipmentDetailResponse findById(@PathVariable Long id) {
-        log.info("Recebendo chamada para consulta de Equipamento");
-        var entity = equipmentService.findById(id);
-        return equipmentAssembler.toDetailResponse(entity);
-    }
-
     @PatchMapping("/{id}/pressure-safety-valves/{psvId}")
     public ResponseEntity<Void> bindPsv(@PathVariable Long id, @PathVariable Long psvId) {
         log.info("Recebendo chamada para vincular Válvula de Segurança ao Equipamento");
@@ -89,6 +92,14 @@ public class EquipmentController {
     public ResponseEntity<Void> bindPi(@PathVariable Long id, @PathVariable Long piId) {
         log.info("Recebendo chamada para vincular Indicador de Pressão ao Equipamento");
         equipmentService.bindPi(id, piId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{id}/applicable-tests")
+    public ResponseEntity<Void> addApplicableTest(@PathVariable Long id, @RequestBody @Valid ApplicableTestRequest request) {
+        log.info("Recebendo chamada para adicionar teste aplicável ao Equipamento");
+        var applicableTest = applicableTestAssembler.toEntity(request);
+        equipmentService.addApplicableTest(id, applicableTest);
         return ResponseEntity.noContent().build();
     }
 

@@ -141,9 +141,4 @@ insert into
 insert into
         nr13_api.tb_applicable_tests (equipment_id, test_id, frequency, frequency_type, last_test_date, updated_by)
     values
-        (1, 1, null, null, '2023-05-10', 100000),
-        (1, 2, 2, 'MONTH', null, 100000),
-        (1, 3, null, null, null, 100000),
-        (1, 4, 3, 'YEAR', '2022-05-15', 100000),
-        (2, 1, null, null, null, 100000),
-        (2, 2, 2, 'MONTH', null, 100000);
+        (1, 1, null, null, '2023-05-10', 100000);
