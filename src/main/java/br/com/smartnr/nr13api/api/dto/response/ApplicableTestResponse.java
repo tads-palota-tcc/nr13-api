@@ -16,5 +16,6 @@ public class ApplicableTestResponse {
     private FrequencyType frequencyType;
     private LocalDate lastTestDate;
     private LocalDate nextTestDate;
+    private Boolean active;
 
 }

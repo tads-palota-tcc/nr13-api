@@ -125,6 +125,24 @@ public class EquipmentService {
         applicableTestService.create(applicableTest);
     }
 
+    public void activateApplicableTest(Long id, Long testId) {
+        var equipment = findOrFail(id);
+        equipment.getApplicableTests().forEach(at -> {
+            if (at.getId().getTest().getId().equals(testId)) {
+                applicableTestService.activate(at.getId());
+            }
+        });
+    }
+
+    public void inactivateApplicableTest(Long id, Long testId) {
+        var equipment = findOrFail(id);
+        equipment.getApplicableTests().forEach(at -> {
+            if (at.getId().getTest().getId().equals(testId)) {
+                applicableTestService.inactivate(at.getId());
+            }
+        });
+    }
+
     private Equipment findOrFail(Long id) {
         return equipmentRepository.findById(id)
                 .orElseThrow(() -> new EquipmentNotFoundException(id));

@@ -103,6 +103,13 @@ public class EquipmentController {
         return ResponseEntity.noContent().build();
     }
 
+    @PatchMapping("{id}/applicable-tests/{testId}")
+    ResponseEntity<Void> activateApplicableTest(@PathVariable Long id, @PathVariable Long testId) {
+        log.info("Recebendo chamada para ativar teste aplicável");
+        equipmentService.activateApplicableTest(id, testId);
+        return ResponseEntity.noContent().build();
+    }
+
     @DeleteMapping("/{id}/pressure-safety-valves/{psvId}")
     public ResponseEntity<Void> unbindPsv(@PathVariable Long id, @PathVariable Long psvId) {
         log.info("Recebendo chamada para desvincular Válvula de Segurança do Equipamento");
@@ -114,6 +121,13 @@ public class EquipmentController {
     public ResponseEntity<Void> unbindPi(@PathVariable Long id, @PathVariable Long piId) {
         log.info("Recebendo chamada para desvincular Indicador de Pressão do Equipamento");
         equipmentService.unbindPi(id, piId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("{id}/applicable-tests/{testId}")
+    ResponseEntity<Void> inactivateApplicableTest(@PathVariable Long id, @PathVariable Long testId) {
+        log.info("Recebendo chamada para inativar teste aplicável");
+        equipmentService.inactivateApplicableTest(id, testId);
         return ResponseEntity.noContent().build();
     }
 

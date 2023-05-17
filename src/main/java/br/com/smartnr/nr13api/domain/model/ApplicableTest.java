@@ -13,7 +13,7 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode(of = "id", callSuper = false)
 @Entity
 @Table(name = "tb_applicable_tests")
 public class ApplicableTest extends BaseEntity<ApplicableTestPK> {

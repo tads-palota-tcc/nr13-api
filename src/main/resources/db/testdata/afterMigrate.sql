@@ -139,6 +139,6 @@ insert into
         ('Ultrassom das juntas', 'Ensaio alternativo ao teste hidrostático, verificando a integridade das soldas', 5, 'YEAR');
 
 insert into
-        nr13_api.tb_applicable_tests (equipment_id, test_id, frequency, frequency_type, last_test_date, updated_by)
+        nr13_api.tb_applicable_tests (equipment_id, test_id, frequency, frequency_type, last_test_date, active, updated_by)
     values
-        (1, 1, null, null, '2023-05-10', 100000);
+        (1, 1, null, null, '2023-05-10', 'true', 100000);
