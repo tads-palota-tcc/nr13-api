@@ -6,10 +6,10 @@ drop table if exists audit.tb_interventions_audit;
 drop table if exists audit.tb_calibrations_audit;
 drop table if exists audit.tb_inspections_audit;
 
-delete from nr13_api.tb_applicable_tests;
 delete from nr13_api.tb_calibrations;
 delete from nr13_api.tb_inspections;
 delete from nr13_api.tb_interventions;
+delete from nr13_api.tb_applicable_tests;
 delete from nr13_api.tb_files;
 delete from nr13_api.tb_user_groups;
 delete from nr13_api.tb_group_permissions;
@@ -118,16 +118,16 @@ insert into
         ('22-0125', 'MegaSteam', '2021-05-02', 'Calibrado no local', 'DONE', 100000, '45.16', null),
         (null, 'MegaSteam', '2022-05-02', 'Calibrado no local', 'WAITING_REPORT', 100000, '45.16', null),
         ('22-0125', 'MegaSteam', '2023-05-02', 'Calibrado no local', 'DONE', 100000, '45.16', null),
-        (null, 'MegaSteam', '2021-05-02', 'Calibrado no local', 'DONE', 100000, '45.16', null),
-        ('22-0125', 'MegaSteam', '2021-05-02', 'Calibrado no local', 'DONE', 100000, '45.16', null),
-        (null, 'MegaSteam', '2021-05-02', 'Calibrado no local', 'WAITING_REPORT', 100000, '45.16', null),
-        ('22-0125', 'MegaSteam', '2021-05-02', 'Calibrado no local', 'DONE', 100000, '45.16', null),
-        (null, 'MegaSteam', '2021-05-02', 'Calibrado no local', 'WAITING_REPORT', 100000, '45.16', null);
+        (null, 'MegaSteam', '2021-05-02', 'Inspeção no local', 'DONE', 100000, '45.16', null),
+        ('22-0125', 'MegaSteam', '2021-05-02', 'Inspeção no local', 'DONE', 100000, '45.16', null),
+        (null, 'MegaSteam', '2021-05-02', 'Inspeção no local', 'WAITING_REPORT', 100000, '45.16', null),
+        ('22-0125', 'MegaSteam', '2021-05-02', 'Inspeção no local', 'DONE', 100000, '45.16', null),
+        (null, 'MegaSteam', '2021-05-02', 'Inspeção no local', 'WAITING_REPORT', 100000, '45.16', null);
 
 insert into
         nr13_api.tb_calibrations (id, device_id)
     values
-        (1, 1), (2, 1), (3, 2), (4, 2), (5, 2), (6, 3), (7, 4), (8, 5), (9, 6), (10, 7);
+        (1, 1), (2, 1), (3, 2), (4, 2), (5, 2);
 
 insert into
         nr13_api.tb_tests (name, description, frequency, frequency_type)
@@ -142,3 +142,12 @@ insert into
         nr13_api.tb_applicable_tests (equipment_id, test_id, frequency, frequency_type, last_test_date, active, updated_by)
     values
         (1, 1, null, null, '2023-05-10', 'true', 100000);
+
+insert into
+        nr13_api.tb_inspections (id, equipment_id, test_id)
+    values
+        (6, 1, 1),
+        (7, 1, 1),
+        (8, 1, 1),
+        (9, 1, 1),
+        (10, 1, 1);

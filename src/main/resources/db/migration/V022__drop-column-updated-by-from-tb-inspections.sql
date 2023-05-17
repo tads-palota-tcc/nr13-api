@@ -1,0 +1,1 @@
+alter table nr13_api.tb_inspections drop column updated_by;
