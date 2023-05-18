@@ -1,7 +1,6 @@
 package br.com.smartnr.nr13api.api.assembler;
 
 import br.com.smartnr.nr13api.api.dto.request.InspectionCreationRequest;
-import br.com.smartnr.nr13api.api.dto.response.InspectionDetailResponse;
 import br.com.smartnr.nr13api.api.dto.response.InspectionSummaryResponse;
 import br.com.smartnr.nr13api.domain.model.Inspection;
 import lombok.RequiredArgsConstructor;
@@ -21,8 +20,8 @@ public class InspectionAssembler {
         return modelMapper.map(request, Inspection.class);
     }
 
-    public InspectionDetailResponse toDetailResponse(Inspection entity) {
-        return modelMapper.map(entity, InspectionDetailResponse.class);
+    public InspectionSummaryResponse toSummaryResponse(Inspection entity) {
+        return modelMapper.map(entity, InspectionSummaryResponse.class);
     }
 
     public Page<InspectionSummaryResponse> toSummaryPageResponse(Page<Inspection> entities) {

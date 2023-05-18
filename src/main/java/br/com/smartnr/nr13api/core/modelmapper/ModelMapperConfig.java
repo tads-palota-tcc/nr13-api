@@ -1,9 +1,13 @@
 package br.com.smartnr.nr13api.core.modelmapper;
 
+import br.com.smartnr.nr13api.api.dto.request.InspectionCreationRequest;
 import br.com.smartnr.nr13api.api.dto.response.ApplicableTestResponse;
+import br.com.smartnr.nr13api.api.dto.response.EquipmentSummaryResponse;
 import br.com.smartnr.nr13api.api.dto.response.InspectionSummaryResponse;
 import br.com.smartnr.nr13api.domain.model.ApplicableTest;
+import br.com.smartnr.nr13api.domain.model.Equipment;
 import br.com.smartnr.nr13api.domain.model.Inspection;
+import br.com.smartnr.nr13api.domain.model.Test;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,10 +19,12 @@ public class ModelMapperConfig {
     public ModelMapper modelMapper() {
         var modelMapper = new ModelMapper();
 
+        modelMapper.getConfiguration().setSkipNullEnabled(true);
+
         applicableTestsMappingConfig(modelMapper);
         inspectionSummaryResponseConfig(modelMapper);
+        inspectionCreationConfig(modelMapper);
 
-        modelMapper.getConfiguration().setSkipNullEnabled(true);
         return modelMapper;
     }
 
@@ -30,7 +36,13 @@ public class ModelMapperConfig {
 
     private void inspectionSummaryResponseConfig(ModelMapper modelMapper) {
         modelMapper.typeMap(Inspection.class, InspectionSummaryResponse.class)
-                .addMapping(i -> (i.getApplicableTest().getId().getEquipment()), InspectionSummaryResponse::setEquipment)
+                .addMapping(i -> (i.getApplicableTest().getId().getEquipment()), (dest, v) -> dest.setEquipment((EquipmentSummaryResponse) v))
                 .addMapping(i -> (i.getApplicableTest().getId().getTest()), InspectionSummaryResponse::setTest);
+    }
+
+    private void inspectionCreationConfig(ModelMapper modelMapper) {
+        modelMapper.typeMap(InspectionCreationRequest.class, Inspection.class)
+                .addMapping(InspectionCreationRequest::getEquipment, (dest, v) -> dest.getApplicableTest().getId().setEquipment((Equipment) v))
+                .addMapping(InspectionCreationRequest::getTest, (dest, v) -> dest.getApplicableTest().getId().setTest((Test) v));
     }
 }

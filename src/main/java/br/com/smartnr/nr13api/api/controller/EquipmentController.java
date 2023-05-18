@@ -23,10 +23,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/equipments")
@@ -43,6 +45,14 @@ public class EquipmentController {
         log.info("Recebendo chamada para listagem de Equipamentos");
         var entities = equipmentService.findByFilter(filter, pageable);
         return equipmentAssembler.toSummaryPageResponse(entities);
+    }
+
+    @GetMapping(params = {"plantCode", "tag"})
+    public ResponseEntity<List<EquipmentSummaryResponse>> findByPlantAndTag(
+            @RequestParam(name = "plantCode") String plantCode,
+            @RequestParam(name = "tag") String tag) {
+        log.info("Recebendo chamada para consulta de Equipamento por código da Planta e Tag");
+        return ResponseEntity.ok(equipmentAssembler.toSummaryList(equipmentService.findTop10ByPlantCodeAndTag(plantCode, tag)));
     }
 
     @GetMapping("/{id}")

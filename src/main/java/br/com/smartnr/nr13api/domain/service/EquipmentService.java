@@ -16,6 +16,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -85,6 +87,11 @@ public class EquipmentService {
     public Equipment findById(Long id) {
         log.info("Iniciando busca de Equipamento id={}", id);
         return findOrFail(id);
+    }
+
+    public List<Equipment> findTop10ByPlantCodeAndTag(String plantCode, String tag) {
+        log.info("Iniciando consulta de Equipamentos por Planta={} e Tag={}", plantCode, tag);
+        return equipmentRepository.findTop10ByAreaPlantCodeAndTagContainingIgnoreCaseOrderByTag(plantCode, tag);
     }
 
     @Transactional

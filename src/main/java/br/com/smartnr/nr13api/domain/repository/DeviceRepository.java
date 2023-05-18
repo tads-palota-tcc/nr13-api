@@ -7,8 +7,6 @@ import java.util.List;
 
 public interface DeviceRepository extends JpaRepository<Device, Long> {
 
-    List<Device> findTop10ByPlantCode(String plantCode);
-
     List<Device> findTop10ByPlantCodeAndTagContainingIgnoreCaseOrderByTag(String plantCode, String tag);
 
 }
