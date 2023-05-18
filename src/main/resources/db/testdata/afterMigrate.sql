@@ -118,11 +118,11 @@ insert into
         ('22-0125', 'MegaSteam', '2021-05-02', 'Calibrado no local', 'DONE', 100000, '45.16', null),
         (null, 'MegaSteam', '2022-05-02', 'Calibrado no local', 'WAITING_REPORT', 100000, '45.16', null),
         ('22-0125', 'MegaSteam', '2023-05-02', 'Calibrado no local', 'DONE', 100000, '45.16', null),
-        (null, 'MegaSteam', '2021-05-02', 'Inspeção no local', 'DONE', 100000, '45.16', null),
+        ('23-0122', 'MegaSteam', '2021-05-02', 'Inspeção no local', 'DONE', 100000, '45.16', null),
         ('22-0125', 'MegaSteam', '2021-05-02', 'Inspeção no local', 'DONE', 100000, '45.16', null),
-        (null, 'MegaSteam', '2021-05-02', 'Inspeção no local', 'WAITING_REPORT', 100000, '45.16', null),
+        ('23-0521', 'MegaSteam', '2021-05-02', 'Inspeção no local', 'DONE', 100000, '45.16', null),
         ('22-0125', 'MegaSteam', '2021-05-02', 'Inspeção no local', 'DONE', 100000, '45.16', null),
-        (null, 'MegaSteam', '2021-05-02', 'Inspeção no local', 'WAITING_REPORT', 100000, '45.16', null);
+        ('23-0008', 'MegaSteam', '2021-05-02', 'Inspeção no local', 'DONE', 100000, '45.16', null);
 
 insert into
         nr13_api.tb_calibrations (id, device_id)

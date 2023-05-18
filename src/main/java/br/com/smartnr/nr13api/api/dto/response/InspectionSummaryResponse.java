@@ -4,6 +4,7 @@ import br.com.smartnr.nr13api.domain.model.Status;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Getter
@@ -15,6 +16,8 @@ public class InspectionSummaryResponse {
     private String reportNumber;
     private String executorCompany;
     private Status status;
+    private String comments;
+    private BigDecimal cost;
     private EquipmentSummaryResponse equipment;
     private TestSummaryResponse test;
     private FileResponse file;
