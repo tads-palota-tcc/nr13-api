@@ -5,7 +5,9 @@ drop table if exists audit.tb_devices_autit;
 drop table if exists audit.tb_interventions_audit;
 drop table if exists audit.tb_calibrations_audit;
 drop table if exists audit.tb_inspections_audit;
+drop table if exists audit.tb_pendencies;
 
+delete from nr13_api.tb_pendencies;
 delete from nr13_api.tb_calibrations;
 delete from nr13_api.tb_inspections;
 delete from nr13_api.tb_interventions;
