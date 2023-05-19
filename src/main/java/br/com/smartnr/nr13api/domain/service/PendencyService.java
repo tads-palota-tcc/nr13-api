@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -36,10 +37,14 @@ public class PendencyService {
         return pendencyRepository.save(entity);
     }
 
-    @Transactional
     public Page<PendencyDetailResponse> findByFilter(PendencyFilter filter, Pageable pageable) {
         log.info("Iniciando processo de listagem de Pendências por filtro={}", filter);
         var entities = pendencyRepository.findAll(PendencySpecs.withFilter(filter), pageable);
         return assembler.toPageResponse(entities);
+    }
+
+    public List<Pendency> findAllByInspectionId(Long inspectionId) {
+        log.info("Iniciando processo de listagem de Pendências por Inspeção id={}", inspectionId);
+        return pendencyRepository.findAllByInspectionIdOrderByDeadLineDesc(inspectionId);
     }
 }

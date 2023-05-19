@@ -2,14 +2,17 @@ package br.com.smartnr.nr13api.api.controller;
 
 import br.com.smartnr.nr13api.api.assembler.FileAssembler;
 import br.com.smartnr.nr13api.api.assembler.InspectionAssembler;
+import br.com.smartnr.nr13api.api.assembler.PendencyAssembler;
 import br.com.smartnr.nr13api.api.dto.request.InspectionCreationRequest;
 import br.com.smartnr.nr13api.api.dto.request.InspectionReportRequest;
 import br.com.smartnr.nr13api.api.dto.response.FileResponse;
 import br.com.smartnr.nr13api.api.dto.response.InspectionSummaryResponse;
+import br.com.smartnr.nr13api.api.dto.response.PendencyDetailResponse;
 import br.com.smartnr.nr13api.domain.model.File;
 import br.com.smartnr.nr13api.domain.repository.filters.InspectionFilter;
 import br.com.smartnr.nr13api.domain.service.FileStorageService;
 import br.com.smartnr.nr13api.domain.service.InspectionService;
+import br.com.smartnr.nr13api.domain.service.PendencyService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +34,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/inspections")
@@ -39,9 +43,11 @@ import java.net.URI;
 public class InspectionController {
 
     private final InspectionService inspectionService;
+    private final PendencyService pendencyService;
     private final InspectionAssembler inspectionAssembler;
     private final FileStorageService fileStorageService;
     private final FileAssembler fileAssembler;
+    private final PendencyAssembler pendencyAssembler;
 
     @PostMapping
     public ResponseEntity<InspectionSummaryResponse> create(@RequestBody @Valid InspectionCreationRequest request, UriComponentsBuilder uriComponentsBuilder) {
@@ -89,5 +95,11 @@ public class InspectionController {
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_PDF)
                 .body(new InputStreamResource(inputStream));
+    }
+
+    @GetMapping("/{inspectionId}/pendencies")
+    public ResponseEntity<List<PendencyDetailResponse>> findPendenciesByInspectionId(@PathVariable Long inspectionId) {
+        log.info("Recebendo chamada para listar Pendências por Inspeção");
+        return ResponseEntity.ok(pendencyAssembler.toList(pendencyService.findAllByInspectionId(inspectionId)));
     }
 }
