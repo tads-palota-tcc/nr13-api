@@ -42,5 +42,7 @@ public class EquipmentDetailResponse {
     private List<PressureIndicatorSummaryResponse> pressureIndicators;
     private List<ApplicableTestResponse> applicableTests;
     private boolean active;
-
+    private FileResponse databookFile;
+    private FileResponse safetyJournalFile;
+    private FileResponse installationProjectFile;
 }

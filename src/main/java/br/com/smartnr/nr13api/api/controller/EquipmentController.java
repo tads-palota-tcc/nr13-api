@@ -2,18 +2,26 @@ package br.com.smartnr.nr13api.api.controller;
 
 import br.com.smartnr.nr13api.api.assembler.ApplicableTestAssembler;
 import br.com.smartnr.nr13api.api.assembler.EquipmentAssembler;
+import br.com.smartnr.nr13api.api.assembler.FileAssembler;
 import br.com.smartnr.nr13api.api.dto.request.ApplicableTestRequest;
+import br.com.smartnr.nr13api.api.dto.request.DocumentRequest;
 import br.com.smartnr.nr13api.api.dto.request.EquipmentCreationRequest;
 import br.com.smartnr.nr13api.api.dto.request.EquipmentUpdateRequest;
 import br.com.smartnr.nr13api.api.dto.response.EquipmentDetailResponse;
 import br.com.smartnr.nr13api.api.dto.response.EquipmentSummaryResponse;
+import br.com.smartnr.nr13api.api.dto.response.FileResponse;
+import br.com.smartnr.nr13api.domain.model.DocumentType;
+import br.com.smartnr.nr13api.domain.model.File;
 import br.com.smartnr.nr13api.domain.repository.filters.EquipmentFilter;
 import br.com.smartnr.nr13api.domain.service.EquipmentService;
+import br.com.smartnr.nr13api.domain.service.FileStorageService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,8 +33,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.util.List;
 
@@ -39,6 +50,8 @@ public class EquipmentController {
     private final EquipmentService equipmentService;
     private final EquipmentAssembler equipmentAssembler;
     private final ApplicableTestAssembler applicableTestAssembler;
+    private final FileStorageService fileStorageService;
+    private final FileAssembler fileAssembler;
 
     @GetMapping
     public Page<EquipmentSummaryResponse> findByFilter(EquipmentFilter filter, Pageable pageable) {
@@ -139,6 +152,87 @@ public class EquipmentController {
         log.info("Recebendo chamada para inativar teste aplicável");
         equipmentService.inactivateApplicableTest(id, testId);
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping(path = "{id}/data-book", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<FileResponse> addDatabook(@PathVariable Long id, @Valid DocumentRequest request) throws IOException {
+        log.info("Recebendo chamada para salvar prontuário em PDF");
+        MultipartFile mpf = request.getFile();
+
+        File file = new File();
+        file.setName(mpf.getOriginalFilename());
+        file.setType(mpf.getContentType());
+        return ResponseEntity.ok(fileAssembler.toDetailResponse(equipmentService.addDocumentFile(id, mpf, DocumentType.DATA_BOOK)));
+    }
+
+    @PutMapping(path = "{id}/safety-journal", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<FileResponse> addSafetyJournal(@PathVariable Long id, @Valid DocumentRequest request) throws IOException {
+        log.info("Recebendo chamada para salvar registro de segurança em PDF");
+        MultipartFile mpf = request.getFile();
+
+        File file = new File();
+        file.setName(mpf.getOriginalFilename());
+        file.setType(mpf.getContentType());
+        return ResponseEntity.ok(fileAssembler.toDetailResponse(equipmentService.addDocumentFile(id, mpf, DocumentType.SAFETY_JOURNAL)));
+    }
+
+    @PutMapping(path = "{id}/installation-project", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<FileResponse> addInstallationProject(@PathVariable Long id, @Valid DocumentRequest request) throws IOException {
+        log.info("Recebendo chamada para salvar projeto de instalação em PDF");
+        MultipartFile mpf = request.getFile();
+
+        File file = new File();
+        file.setName(mpf.getOriginalFilename());
+        file.setType(mpf.getContentType());
+        return ResponseEntity.ok(fileAssembler.toDetailResponse(equipmentService.addDocumentFile(id, mpf, DocumentType.INSTALLATION_PROJECT)));
+    }
+
+    @DeleteMapping("/{id}/data-book")
+    public ResponseEntity<Void> deleteDatabook(@PathVariable Long id) throws IOException {
+        log.info("Recebendo chamada para excluir prontuário");
+        equipmentService.deleteDocument(id, DocumentType.DATA_BOOK);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{id}/safety-journal")
+    public ResponseEntity<Void> deleteSafetyJournal(@PathVariable Long id) throws IOException {
+        log.info("Recebendo chamada para excluir registro de segurança");
+        equipmentService.deleteDocument(id, DocumentType.SAFETY_JOURNAL);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{id}/installation-project")
+    public ResponseEntity<Void> deleteInstallationProject(@PathVariable Long id) throws IOException {
+        log.info("Recebendo chamada para excluir projeto de instalação");
+        equipmentService.deleteDocument(id, DocumentType.INSTALLATION_PROJECT);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping(path = "/{id}/data-book", produces = MediaType.APPLICATION_PDF_VALUE)
+    public ResponseEntity<InputStreamResource> serveDatabook(@PathVariable Long id) {
+        File report = equipmentService.getDocument(id, DocumentType.DATA_BOOK);
+        InputStream inputStream = fileStorageService.retrieve(report.getName());
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(new InputStreamResource(inputStream));
+    }
+
+    @GetMapping(path = "/{id}/safety-journal", produces = MediaType.APPLICATION_PDF_VALUE)
+    public ResponseEntity<InputStreamResource> serveSafetyJournal(@PathVariable Long id) {
+        File report = equipmentService.getDocument(id, DocumentType.SAFETY_JOURNAL);
+        InputStream inputStream = fileStorageService.retrieve(report.getName());
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(new InputStreamResource(inputStream));
+    }
+
+    @GetMapping(path = "/{id}/installation-project", produces = MediaType.APPLICATION_PDF_VALUE)
+    public ResponseEntity<InputStreamResource> serveInstallationProject(@PathVariable Long id) {
+        File report = equipmentService.getDocument(id, DocumentType.INSTALLATION_PROJECT);
+        InputStream inputStream = fileStorageService.retrieve(report.getName());
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(new InputStreamResource(inputStream));
     }
 
 }

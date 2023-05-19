@@ -74,6 +74,13 @@ public class CalibrationController {
         return ResponseEntity.ok(calibrationAssembler.toDetailResponse(entity));
     }
 
+    @DeleteMapping("{id}")
+    private ResponseEntity<Void> delete(@PathVariable Long id) throws IOException {
+        log.info("Recebendo chamada para excluir calibração");
+        calibrationService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
     @PutMapping(path = "{id}/reports", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<FileResponse> addReport(@PathVariable Long id, @Valid CalibrationReportRequest request) throws IOException {
         log.info("Recebendo chamada para salvar relatório em PDF");
@@ -83,13 +90,6 @@ public class CalibrationController {
         file.setName(mpf.getOriginalFilename());
         file.setType(mpf.getContentType());
         return ResponseEntity.ok(fileAssembler.toDetailResponse(calibrationService.addReportFile(id, mpf)));
-    }
-
-    @DeleteMapping("{id}")
-    private ResponseEntity<Void> delete(@PathVariable Long id) throws IOException {
-        log.info("Recebendo chamada para excluir calibração");
-        calibrationService.delete(id);
-        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}/reports")

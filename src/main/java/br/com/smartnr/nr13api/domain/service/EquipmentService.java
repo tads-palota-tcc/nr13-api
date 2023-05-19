@@ -3,9 +3,13 @@ package br.com.smartnr.nr13api.domain.service;
 import br.com.smartnr.nr13api.domain.exception.BusinessException;
 import br.com.smartnr.nr13api.domain.exception.EntityNotFoundException;
 import br.com.smartnr.nr13api.domain.exception.EquipmentNotFoundException;
+import br.com.smartnr.nr13api.domain.exception.FileNotFoundException;
 import br.com.smartnr.nr13api.domain.model.ApplicableTest;
+import br.com.smartnr.nr13api.domain.model.DocumentType;
 import br.com.smartnr.nr13api.domain.model.Equipment;
+import br.com.smartnr.nr13api.domain.model.File;
 import br.com.smartnr.nr13api.domain.repository.EquipmentRepository;
+import br.com.smartnr.nr13api.domain.repository.FileRepository;
 import br.com.smartnr.nr13api.domain.repository.filters.EquipmentFilter;
 import br.com.smartnr.nr13api.domain.repository.specs.EquipmentSpecs;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +19,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -30,6 +37,8 @@ public class EquipmentService {
     private final PressureSafetyValveService psvService;
     private final PressureIndicatorService piService;
     private final ApplicableTestService applicableTestService;
+    private final FileStorageService fileStorageService;
+    private final FileRepository fileRepository;
     private final ModelMapper modelMapper;
 
     @Transactional
@@ -148,6 +157,110 @@ public class EquipmentService {
                 applicableTestService.inactivate(at.getId());
             }
         });
+    }
+
+    @Transactional
+    public File addDocumentFile(Long equipmentId, MultipartFile multipartFile, DocumentType type) throws IOException {
+        var equipment = findOrFail(equipmentId);
+        String oldFileName = null;
+        switch (type) {
+            case DATA_BOOK -> {
+                if (!ObjectUtils.isEmpty(equipment.getDatabookFile())) {
+                    oldFileName = equipment.getDatabookFile().getName();
+                }
+            }
+            case SAFETY_JOURNAL -> {
+                if (!ObjectUtils.isEmpty(equipment.getSafetyJournalFile())) {
+                    oldFileName = equipment.getSafetyJournalFile().getName();
+                }
+            }
+            case INSTALLATION_PROJECT -> {
+                if (!ObjectUtils.isEmpty(equipment.getInstallationProjectFile())) {
+                    oldFileName = equipment.getInstallationProjectFile().getName();
+                }
+            }
+        }
+        String newFileName = fileStorageService.generateFileName(multipartFile.getOriginalFilename());
+        var file = new File();
+        file.setName(newFileName);
+        file.setType(multipartFile.getContentType());
+        file.setUpdatedBy(userService.getAuthenticatedUser());
+        file.setUrl("/home/apagar/tcc/123.pdf");
+        file = fileRepository.save(file);
+        switch (type) {
+            case DATA_BOOK -> equipment.setDatabookFile(file);
+            case SAFETY_JOURNAL -> equipment.setSafetyJournalFile(file);
+            case INSTALLATION_PROJECT -> equipment.setInstallationProjectFile(file);
+        }
+        equipmentRepository.save(equipment);
+        var newFile = FileStorageService.NewFile.builder()
+                .fileName(file.getName())
+                .inputStream(multipartFile.getInputStream())
+                .build();
+        fileStorageService.replace(oldFileName, newFile);
+        return file;
+    }
+
+    public File getDocument(Long id, DocumentType type) {
+        log.info("Iniciando busca de documento de equipamento id={}, tipo={}", id, type.toString());
+        var entity = findOrFail(id);
+        switch (type) {
+            case DATA_BOOK -> {
+                if (ObjectUtils.isEmpty(entity.getDatabookFile())) {
+                    throw new FileNotFoundException(id);
+                }
+                return entity.getDatabookFile();
+            }
+            case INSTALLATION_PROJECT -> {
+                if (ObjectUtils.isEmpty(entity.getInstallationProjectFile())) {
+                    throw new FileNotFoundException(id);
+                }
+                return entity.getInstallationProjectFile();
+            }
+            case SAFETY_JOURNAL -> {
+                if (ObjectUtils.isEmpty(entity.getSafetyJournalFile())) {
+                    throw new FileNotFoundException(id);
+                }
+                return entity.getSafetyJournalFile();
+            }
+            default -> throw new FileNotFoundException(id);
+        }
+    }
+
+    @Transactional
+    public void deleteDocument(Long id, DocumentType type) throws IOException {
+        var equipment = findOrFail(id);
+        String filename = null;
+        Long fileId = null;
+        switch (type) {
+            case DATA_BOOK -> {
+                if (ObjectUtils.isEmpty(equipment.getDatabookFile())) {
+                    throw new BusinessException(String.format("Equipamento de Id=%d não possui prontuário anexado", equipment.getId()));
+                }
+                filename = equipment.getDatabookFile().getName();
+                fileId = equipment.getDatabookFile().getId();
+                equipment.setDatabookFile(null);
+            }
+            case SAFETY_JOURNAL -> {
+                if (ObjectUtils.isEmpty(equipment.getSafetyJournalFile())) {
+                    throw new BusinessException(String.format("Equipamento de Id=%d não possui registro de segurança anexado", equipment.getId()));
+                }
+                filename = equipment.getSafetyJournalFile().getName();
+                fileId = equipment.getSafetyJournalFile().getId();
+                equipment.setSafetyJournalFile(null);
+            }
+            case INSTALLATION_PROJECT -> {
+                if (ObjectUtils.isEmpty(equipment.getInstallationProjectFile())) {
+                    throw new BusinessException(String.format("Equipamento de Id=%d não possui projeto de instalação anexado", equipment.getId()));
+                }
+                filename = equipment.getInstallationProjectFile().getName();
+                fileId = equipment.getInstallationProjectFile().getId();
+                equipment.setInstallationProjectFile(null);
+            }
+        }
+        equipmentRepository.save(equipment);
+        fileRepository.deleteById(fileId);
+        fileStorageService.remove(filename);
     }
 
     private Equipment findOrFail(Long id) {
