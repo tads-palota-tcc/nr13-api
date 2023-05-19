@@ -26,6 +26,7 @@ delete from nr13_api.tb_plants;
 delete from nr13_api.tb_users;
 delete from nr13_api.tb_files;
 
+alter sequence nr13_api.tb_pendencies_id_seq restart with 1;
 alter sequence nr13_api.tb_interventions_id_seq restart with 1;
 alter sequence nr13_api.tb_files_id_seq restart with 1;
 alter sequence nr13_api.tb_users_id_seq restart with 100000;

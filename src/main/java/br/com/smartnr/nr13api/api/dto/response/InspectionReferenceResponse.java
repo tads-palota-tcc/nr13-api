@@ -8,5 +8,6 @@ import lombok.Setter;
 public class InspectionReferenceResponse {
 
     private Long id;
+    private ApplicableTestReferenceResponse applicableTest;
 
 }

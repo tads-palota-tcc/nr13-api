@@ -4,9 +4,12 @@ import br.com.smartnr.nr13api.api.dto.request.InspectionCreationRequest;
 import br.com.smartnr.nr13api.api.dto.response.ApplicableTestResponse;
 import br.com.smartnr.nr13api.api.dto.response.EquipmentSummaryResponse;
 import br.com.smartnr.nr13api.api.dto.response.InspectionSummaryResponse;
+import br.com.smartnr.nr13api.api.dto.response.PendencyDetailResponse;
+import br.com.smartnr.nr13api.api.dto.response.TestSummaryResponse;
 import br.com.smartnr.nr13api.domain.model.ApplicableTest;
 import br.com.smartnr.nr13api.domain.model.Equipment;
 import br.com.smartnr.nr13api.domain.model.Inspection;
+import br.com.smartnr.nr13api.domain.model.Pendency;
 import br.com.smartnr.nr13api.domain.model.Test;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
@@ -24,6 +27,7 @@ public class ModelMapperConfig {
         applicableTestsMappingConfig(modelMapper);
         inspectionSummaryResponseConfig(modelMapper);
         inspectionCreationConfig(modelMapper);
+        pendencyReferenceResponseConfig(modelMapper);
 
         return modelMapper;
     }
@@ -44,5 +48,11 @@ public class ModelMapperConfig {
         modelMapper.typeMap(InspectionCreationRequest.class, Inspection.class)
                 .addMapping(InspectionCreationRequest::getEquipment, (dest, v) -> dest.getApplicableTest().getId().setEquipment((Equipment) v))
                 .addMapping(InspectionCreationRequest::getTest, (dest, v) -> dest.getApplicableTest().getId().setTest((Test) v));
+    }
+
+    private void pendencyReferenceResponseConfig(ModelMapper modelMapper) {
+        modelMapper.typeMap(Pendency.class, PendencyDetailResponse.class)
+                .addMapping(p -> (p.getInspection().getApplicableTest().getId().getEquipment()), (dest, v) -> dest.getInspection().getApplicableTest().setEquipment((EquipmentSummaryResponse) v))
+                .addMapping(p -> (p.getInspection().getApplicableTest().getId().getTest()), (dest, v) -> dest.getInspection().getApplicableTest().setTest((TestSummaryResponse) v));
     }
 }

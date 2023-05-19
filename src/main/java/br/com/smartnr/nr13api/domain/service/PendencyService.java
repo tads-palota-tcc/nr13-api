@@ -1,10 +1,16 @@
 package br.com.smartnr.nr13api.domain.service;
 
+import br.com.smartnr.nr13api.api.assembler.PendencyAssembler;
+import br.com.smartnr.nr13api.api.dto.response.PendencyDetailResponse;
 import br.com.smartnr.nr13api.domain.model.Pendency;
 import br.com.smartnr.nr13api.domain.model.PendencyStatus;
 import br.com.smartnr.nr13api.domain.repository.PendencyRepository;
+import br.com.smartnr.nr13api.domain.repository.filters.PendencyFilter;
+import br.com.smartnr.nr13api.domain.repository.specs.PendencySpecs;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +23,7 @@ public class PendencyService {
 
     private final PendencyRepository pendencyRepository;
     private final UserService userService;
+    private final PendencyAssembler assembler;
 
     @Transactional
     public Pendency create(Pendency entity) {
@@ -27,5 +34,12 @@ public class PendencyService {
         entity.setUpdatedBy(user);
         entity.setStatus(PendencyStatus.STARTED);
         return pendencyRepository.save(entity);
+    }
+
+    @Transactional
+    public Page<PendencyDetailResponse> findByFilter(PendencyFilter filter, Pageable pageable) {
+        log.info("Iniciando processo de listagem de Pendências por filtro={}", filter);
+        var entities = pendencyRepository.findAll(PendencySpecs.withFilter(filter), pageable);
+        return assembler.toPageResponse(entities);
     }
 }
