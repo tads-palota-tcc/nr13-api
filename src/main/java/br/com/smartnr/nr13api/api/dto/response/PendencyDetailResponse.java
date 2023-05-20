@@ -5,6 +5,7 @@ import br.com.smartnr.nr13api.domain.model.PendencyType;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Getter
@@ -18,6 +19,7 @@ public class PendencyDetailResponse {
     private String action;
     private LocalDate openedAt;
     private LocalDate deadLine;
+    private BigDecimal cost;
     private PendencyType type;
     private PendencyStatus status;
     private InspectionReferenceResponse inspection;

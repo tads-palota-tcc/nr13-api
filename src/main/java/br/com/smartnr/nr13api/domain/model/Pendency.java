@@ -12,6 +12,7 @@ import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
@@ -35,6 +36,8 @@ public class Pendency {
     private String description;
 
     private String action;
+
+    private BigDecimal cost;
 
     private LocalDate openedAt;
 

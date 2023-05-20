@@ -1,0 +1,1 @@
+alter table nr13_api.tb_pendencies add column cost decimal(7, 2) default '0.0';
