@@ -2,6 +2,7 @@ package br.com.smartnr.nr13api.api.controller;
 
 import br.com.smartnr.nr13api.api.assembler.PendencyAssembler;
 import br.com.smartnr.nr13api.api.dto.request.PendencyCreationRequest;
+import br.com.smartnr.nr13api.api.dto.request.PendencyUpdateRequest;
 import br.com.smartnr.nr13api.api.dto.response.PendencyDetailResponse;
 import br.com.smartnr.nr13api.domain.repository.filters.PendencyFilter;
 import br.com.smartnr.nr13api.domain.service.PendencyService;
@@ -12,7 +13,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,6 +43,13 @@ public class PendencyController {
     @GetMapping
     public Page<PendencyDetailResponse> findByFilter(PendencyFilter filter, Pageable pageable) {
         log.info("Recebendo chamada para listagem de Pendências");
-        return pendencyService.findByFilter(filter, pageable);
+        return pendencyAssembler.toPageResponse(pendencyService.findByFilter(filter, pageable));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<PendencyDetailResponse> update(@PathVariable Long id, @RequestBody @Valid PendencyUpdateRequest request) {
+        log.info("Recebendo chamada para atualização de Pendência");
+        var entity = pendencyAssembler.toEntity(request);
+        return ResponseEntity.ok(pendencyAssembler.toDetailResponse(pendencyService.update(id, entity)));
     }
 }

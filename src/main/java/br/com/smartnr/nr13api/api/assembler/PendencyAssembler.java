@@ -1,6 +1,7 @@
 package br.com.smartnr.nr13api.api.assembler;
 
 import br.com.smartnr.nr13api.api.dto.request.PendencyCreationRequest;
+import br.com.smartnr.nr13api.api.dto.request.PendencyUpdateRequest;
 import br.com.smartnr.nr13api.api.dto.response.PendencyDetailResponse;
 import br.com.smartnr.nr13api.domain.model.Pendency;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,10 @@ public class PendencyAssembler {
     private final ModelMapper modelMapper;
 
     public Pendency toEntity(PendencyCreationRequest request) {
+        return modelMapper.map(request, Pendency.class);
+    }
+
+    public Pendency toEntity(PendencyUpdateRequest request) {
         return modelMapper.map(request, Pendency.class);
     }
 
