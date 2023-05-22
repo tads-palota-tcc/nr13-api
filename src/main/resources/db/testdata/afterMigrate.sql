@@ -12,7 +12,6 @@ delete from nr13_api.tb_calibrations;
 delete from nr13_api.tb_inspections;
 delete from nr13_api.tb_interventions;
 delete from nr13_api.tb_applicable_tests;
-delete from nr13_api.tb_files;
 delete from nr13_api.tb_user_groups;
 delete from nr13_api.tb_group_permissions;
 delete from nr13_api.tb_groups;
@@ -20,6 +19,7 @@ delete from nr13_api.tb_permissions;
 delete from nr13_api.tb_user_plants;
 delete from nr13_api.tb_devices;
 delete from nr13_api.tb_equipments;
+delete from nr13_api.tb_files;
 delete from nr13_api.tb_tests;
 delete from nr13_api.tb_areas;
 delete from nr13_api.tb_plants;
@@ -151,11 +151,17 @@ insert into
     values
         (1, 1, 1, 'MONTH', '2023-05-29', 'true', 100000);
 
---insert into
---        nr13_api.tb_inspections (id, equipment_id, test_id)
---    values
---        (6, 1, 1),
---        (7, 1, 1),
---        (8, 1, 1),
---        (9, 1, 1),
---        (10, 1, 1);
+insert into
+        nr13_api.tb_inspections (id, equipment_id, test_id)
+    values
+        (6, 1, 1),
+        (7, 1, 1),
+        (8, 1, 1),
+        (9, 1, 1),
+        (10, 1, 1);
+
+insert into
+    nr13_api.tb_pendencies (inspection_id, author, type, status, responsible, description, action, opened_at, dead_line, updated_by, cost)
+    values
+        (6, 100000, 'MANDATORY', 'STARTED', 100002, 'Base enferrujada', 'Pintar a base', '2023-05-20', '2023-12-30', 100000, '200.0'),
+        (6, 100000, 'MANDATORY', 'STARTED', 100002, 'Base enferrujada', 'Pintar a base', '2023-05-20', '2023-12-30', 100000, '200.0');
