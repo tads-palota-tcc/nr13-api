@@ -57,6 +57,18 @@ public class PendencyService {
         return existing;
     }
 
+    @Transactional
+    public void delete(Long id) {
+        log.info("Iniciando processo de exclurão de Pendência Id={}", id);
+        var existing = this.findOrFail(id);
+        pendencyRepository.delete(existing);
+    }
+
+    public Pendency findById(Long id) {
+        log.info("Iniciando busca de Pendência id={}", id);
+        return findOrFail(id);
+    }
+
     private Pendency findOrFail(Long id) {
         return pendencyRepository.findById(id)
                 .orElseThrow(() -> new PendencyNotFoundException(id));

@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,10 +47,24 @@ public class PendencyController {
         return pendencyAssembler.toPageResponse(pendencyService.findByFilter(filter, pageable));
     }
 
+    @GetMapping("/{id}")
+    public PendencyDetailResponse findById(@PathVariable Long id) {
+        log.info("Recebendo chamada para consulta de Pendência");
+        var entity = pendencyService.findById(id);
+        return pendencyAssembler.toDetailResponse(entity);
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<PendencyDetailResponse> update(@PathVariable Long id, @RequestBody @Valid PendencyUpdateRequest request) {
         log.info("Recebendo chamada para atualização de Pendência");
         var entity = pendencyAssembler.toEntity(request);
         return ResponseEntity.ok(pendencyAssembler.toDetailResponse(pendencyService.update(id, entity)));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        log.info("Recebendo chamada para exclusão de uma Pendência");
+        pendencyService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }

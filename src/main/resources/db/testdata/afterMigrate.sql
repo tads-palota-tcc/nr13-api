@@ -62,8 +62,13 @@ insert into nr13_api.tb_group_permissions(group_id, permission_id)
         (3, 2), (3, 4), (3, 6), (3, 8), (3, 9), (3, 10), (3, 11);
 
 insert into nr13_api.tb_users (name, email, password) values ('Alexandre Palota da Silva', 'alexandre.palota@gmail.com', '$2a$12$VoUaSPN6Axxo2T4HITqRluBfQL6JL1ksP4OPSa1.KYss4j4YjS8Ba');
+insert into nr13_api.tb_users (name, email, password) values ('José Antônio da Silva', 'jose.silva@email.com', '$2a$12$VoUaSPN6Axxo2T4HITqRluBfQL6JL1ksP4OPSa1.KYss4j4YjS8Ba');
+insert into nr13_api.tb_users (name, email, password) values ('Paula Corrêa', 'paula.correa@email.com', '$2a$12$VoUaSPN6Axxo2T4HITqRluBfQL6JL1ksP4OPSa1.KYss4j4YjS8Ba');
+insert into nr13_api.tb_users (name, email, password) values ('Carlos Fonseca', 'carlos.fonseca@email.com', '$2a$12$VoUaSPN6Axxo2T4HITqRluBfQL6JL1ksP4OPSa1.KYss4j4YjS8Ba');
 
 insert into nr13_api.tb_user_groups (user_id, group_id) values (100000, 1), (100000, 2), (100000, 3);
+insert into nr13_api.tb_user_groups (user_id, group_id) values (100001, 2), (100001, 3);
+insert into nr13_api.tb_user_groups (user_id, group_id) values (100002, 3);
 
 insert into
         nr13_api.tb_plants (code, name, street_name, number, complement, neighborhood, city, state, zip_code, active, updated_by)

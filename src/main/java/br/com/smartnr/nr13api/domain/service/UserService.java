@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -23,6 +25,11 @@ public class UserService {
     public User getAuthenticatedUser() {
         var userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return findOrFail(userDetails.getId());
+    }
+
+    public List<User> findTop10(String name) {
+        log.info("Iniciando processo de listagem dos 10 primeiros Usuários com nome contendo {}", name);
+        return userRepository.findTop10ByNameContainingIgnoreCaseOrderByName(name);
     }
 
     private User findOrFail(Long id) {
