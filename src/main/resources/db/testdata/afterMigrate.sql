@@ -109,8 +109,8 @@ insert into
         nr13_api.tb_devices
         (tag, manufacturer, model, plant_id, equipment_id, updated_by, last_calibration_date, active, type, connection_size, body_size, min_gauge, max_gauge, opening_pressure, closing_pressure)
     values
-        ('PI-0001', 'ASCO', 'ASCO-PI40', 1, 1, 100000, '2022-05-02', true, 'PI', '3/4"', null, 0.0, 25.0, null, null),
-        ('PI-0002', 'ASCO', 'ASCO-PI40', 1, 1, 100000, '2023-05-02', true, 'PI', '3/4"', null, 0.0, 25.0, null, null),
+        ('PI-0001', 'ASCO', 'ASCO-PI40', 1, 1, 100000, '2022-06-20', true, 'PI', '3/4"', null, 0.0, 25.0, null, null),
+        ('PI-0002', 'ASCO', 'ASCO-PI40', 1, 1, 100000, '2021-05-02', true, 'PI', '3/4"', null, 0.0, 25.0, null, null),
         ('PI-0003', 'ASCO', 'ASCO-PI40', 2, null, 100000, '2021-05-02', true, 'PI', '3/4"', null, 0.0, 25.0, null, null),
         ('PI-0004', 'ASCO', 'ASCO-PI40', 2, null, 100000, '2021-05-02', true, 'PI', '3/4"', null, 0.0, 25.0, null, null),
         ('PSV-0001', 'ASCO', 'ASCO-PSV40', 1, 1, 100000, '2021-05-02', true, 'PSV', null, '2"', null, null, 14.0, 12.0),
@@ -121,16 +121,16 @@ insert into
 insert into
         nr13_api.tb_interventions (report_number, executor_company, execution_date, comments, status, updated_by, cost, file_id)
     values
-        ('22-0125', 'MegaSteam', '2021-05-02', 'Calibrado no local', 'DONE', 100000, '45.16', null),
-        (null, 'MegaSteam', '2022-05-02', 'Calibrado no local', 'DONE', 100000, '45.16', null),
-        ('22-0125', 'MegaSteam', '2021-05-02', 'Calibrado no local', 'DONE', 100000, '45.16', null),
-        (null, 'MegaSteam', '2022-05-02', 'Calibrado no local', 'WAITING_REPORT', 100000, '45.16', null),
-        ('22-0125', 'MegaSteam', '2023-05-02', 'Calibrado no local', 'DONE', 100000, '45.16', null),
-        ('23-0122', 'MegaSteam', '2021-05-02', 'Inspeção no local', 'DONE', 100000, '45.16', null),
-        ('22-0125', 'MegaSteam', '2021-05-02', 'Inspeção no local', 'DONE', 100000, '45.16', null),
-        ('23-0521', 'MegaSteam', '2021-05-02', 'Inspeção no local', 'DONE', 100000, '45.16', null),
-        ('22-0125', 'MegaSteam', '2021-05-02', 'Inspeção no local', 'DONE', 100000, '45.16', null),
-        ('23-0008', 'MegaSteam', '2021-05-02', 'Inspeção no local', 'DONE', 100000, '45.16', null);
+        ('22-0125', 'MegaSteam', '2020-05-25', 'Calibrado no local', 'DONE', 100000, '45.16', null),
+        (null, 'MegaSteam', '2020-05-02', 'Calibrado no local', 'DONE', 100000, '45.16', null),
+        ('22-0125', 'MegaSteam', '2020-05-02', 'Calibrado no local', 'DONE', 100000, '45.16', null),
+        (null, 'MegaSteam', '2020-05-02', 'Calibrado no local', 'WAITING_REPORT', 100000, '45.16', null),
+        ('22-0125', 'MegaSteam', '2020-05-02', 'Calibrado no local', 'DONE', 100000, '45.16', null),
+        ('23-0122', 'MegaSteam', '2020-05-02', 'Inspeção no local', 'DONE', 100000, '45.16', null),
+        ('22-0125', 'MegaSteam', '2020-05-02', 'Inspeção no local', 'DONE', 100000, '45.16', null),
+        ('23-0521', 'MegaSteam', '2020-05-02', 'Inspeção no local', 'DONE', 100000, '45.16', null),
+        ('22-0125', 'MegaSteam', '2020-05-02', 'Inspeção no local', 'DONE', 100000, '45.16', null),
+        ('23-0008', 'MegaSteam', '2020-05-02', 'Inspeção no local', 'DONE', 100000, '45.16', null);
 
 insert into
         nr13_api.tb_calibrations (id, device_id)
@@ -149,13 +149,13 @@ insert into
 insert into
         nr13_api.tb_applicable_tests (equipment_id, test_id, frequency, frequency_type, last_test_date, active, updated_by)
     values
-        (1, 1, null, null, '2023-05-10', 'true', 100000);
+        (1, 1, 1, 'MONTH', '2023-05-29', 'true', 100000);
 
-insert into
-        nr13_api.tb_inspections (id, equipment_id, test_id)
-    values
-        (6, 1, 1),
-        (7, 1, 1),
-        (8, 1, 1),
-        (9, 1, 1),
-        (10, 1, 1);
+--insert into
+--        nr13_api.tb_inspections (id, equipment_id, test_id)
+--    values
+--        (6, 1, 1),
+--        (7, 1, 1),
+--        (8, 1, 1),
+--        (9, 1, 1),
+--        (10, 1, 1);

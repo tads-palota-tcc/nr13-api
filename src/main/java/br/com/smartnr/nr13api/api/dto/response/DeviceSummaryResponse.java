@@ -13,6 +13,7 @@ public class DeviceSummaryResponse {
     private String tag;
     private String description;
     private LocalDate lastCalibrationDate;
+    private LocalDate nextCalibrationDate;
     private PlantSummaryResponse plant;
 
 }

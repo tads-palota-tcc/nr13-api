@@ -18,6 +18,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.util.ObjectUtils;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -201,6 +202,44 @@ public class Equipment extends BaseEntity<Long> {
         if (diameter < 150.0) return false;
         if (FluidClass.A.equals(fluidClass)) return true;
         return (maxOperationPressure * volume) > 8.0;
+    }
+
+    public Integer getExpiredCalibrations() {
+        Integer count = 0;
+        for (var pi : this.getPressureIndicators()) {
+            if (pi.getNextCalibrationDate().isBefore(LocalDate.now())) count++;
+        }
+        for (var psv : this.getPressureSafetyValves()) {
+            if (psv.getNextCalibrationDate().isBefore(LocalDate.now())) count++;
+        }
+        return count;
+    }
+
+    public Integer getExpiredInspections() {
+        Integer count = 0;
+        for (var a : this.getApplicableTests()) {
+            if (a.getNextTestDate().isBefore(LocalDate.now())) count++;
+        }
+        return count;
+    }
+
+    public Integer getNextToExpireCalibrations() {
+        Integer count = 0;
+        for (var pi : this.getPressureIndicators()) {
+            if (pi.getNextCalibrationDate().isBefore(LocalDate.now().plusDays(30)) && pi.getNextCalibrationDate().isAfter(LocalDate.now().minusDays(1))) count++;
+        }
+        for (var psv : this.getPressureSafetyValves()) {
+            if (psv.getNextCalibrationDate().isBefore(LocalDate.now().plusDays(30)) && psv.getNextCalibrationDate().isAfter(LocalDate.now().minusDays(1))) count++;
+        }
+        return count;
+    }
+
+    public Integer getNextToExpireInspections() {
+        Integer count = 0;
+        for (var a : this.getApplicableTests()) {
+            if (a.getNextTestDate().isBefore(LocalDate.now().plusDays(30)) && a.getNextTestDate().isAfter(LocalDate.now().minusDays(1))) count++;
+        }
+        return count;
     }
 
     private PotentialRiskGroup getPotentialRiskGroup() {

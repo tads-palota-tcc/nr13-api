@@ -2,6 +2,7 @@ package br.com.smartnr.nr13api.core.modelmapper;
 
 import br.com.smartnr.nr13api.api.dto.request.InspectionCreationRequest;
 import br.com.smartnr.nr13api.api.dto.response.ApplicableTestResponse;
+import br.com.smartnr.nr13api.api.dto.response.EquipmentSituationResponse;
 import br.com.smartnr.nr13api.api.dto.response.EquipmentSummaryResponse;
 import br.com.smartnr.nr13api.api.dto.response.InspectionSummaryResponse;
 import br.com.smartnr.nr13api.api.dto.response.PendencyDetailResponse;
@@ -28,6 +29,7 @@ public class ModelMapperConfig {
         inspectionSummaryResponseConfig(modelMapper);
         inspectionCreationConfig(modelMapper);
         pendencyReferenceResponseConfig(modelMapper);
+        equipmentSituationResponseConfig(modelMapper);
 
         return modelMapper;
     }
@@ -54,5 +56,11 @@ public class ModelMapperConfig {
         modelMapper.typeMap(Pendency.class, PendencyDetailResponse.class)
                 .addMapping(p -> (p.getInspection().getApplicableTest().getId().getEquipment()), (dest, v) -> dest.getInspection().getApplicableTest().setEquipment((EquipmentSummaryResponse) v))
                 .addMapping(p -> (p.getInspection().getApplicableTest().getId().getTest()), (dest, v) -> dest.getInspection().getApplicableTest().setTest((TestSummaryResponse) v));
+    }
+
+    private void equipmentSituationResponseConfig(ModelMapper modelMapper) {
+        modelMapper.typeMap(Equipment.class, EquipmentSituationResponse.class)
+                .addMapping(Equipment::getTag, EquipmentSituationResponse::setTag)
+                .addMapping(e -> e.getArea().getPlant().getCode(), EquipmentSituationResponse::setPlant);
     }
 }

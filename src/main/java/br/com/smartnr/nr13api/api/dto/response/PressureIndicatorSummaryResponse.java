@@ -14,5 +14,6 @@ public class PressureIndicatorSummaryResponse extends DeviceSummaryResponse {
     private Double maxGauge;
     private PlantSummaryResponse plant;
     private LocalDate lastCalibration;
+    private Boolean active;
 
 }

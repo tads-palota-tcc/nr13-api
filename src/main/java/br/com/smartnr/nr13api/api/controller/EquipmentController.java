@@ -8,6 +8,7 @@ import br.com.smartnr.nr13api.api.dto.request.DocumentRequest;
 import br.com.smartnr.nr13api.api.dto.request.EquipmentCreationRequest;
 import br.com.smartnr.nr13api.api.dto.request.EquipmentUpdateRequest;
 import br.com.smartnr.nr13api.api.dto.response.EquipmentDetailResponse;
+import br.com.smartnr.nr13api.api.dto.response.EquipmentSituationResponse;
 import br.com.smartnr.nr13api.api.dto.response.EquipmentSummaryResponse;
 import br.com.smartnr.nr13api.api.dto.response.FileResponse;
 import br.com.smartnr.nr13api.domain.model.DocumentType;
@@ -233,6 +234,12 @@ public class EquipmentController {
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_PDF)
                 .body(new InputStreamResource(inputStream));
+    }
+
+    @GetMapping("/situation")
+    public ResponseEntity<Page<EquipmentSituationResponse>> findEquipmentsSituation(EquipmentFilter filter, Pageable pageable) {
+        var entities = equipmentService.findByFilter(filter, pageable);
+        return ResponseEntity.ok(equipmentAssembler.toSituationPageResponse(entities));
     }
 
 }

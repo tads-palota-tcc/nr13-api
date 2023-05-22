@@ -18,6 +18,7 @@ public class CalibrationDetailResponse {
     private Status status;
     private BigDecimal cost;
     private LocalDate executionDate;
+    private LocalDate nextCalibrationDate;
     private DeviceSummaryResponse device;
     private FileResponse file;
 

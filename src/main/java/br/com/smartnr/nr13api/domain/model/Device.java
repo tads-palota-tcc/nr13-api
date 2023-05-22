@@ -47,4 +47,9 @@ public class Device extends BaseEntity<Long> {
     @JoinColumn(name = "plant_id", nullable = false)
     private Plant plant;
 
+    public LocalDate getNextCalibrationDate() {
+        if (this.lastCalibrationDate == null) return LocalDate.now();
+        return this.lastCalibrationDate.plusMonths(12);
+    }
+
 }

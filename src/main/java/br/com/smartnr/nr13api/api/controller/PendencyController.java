@@ -67,4 +67,5 @@ public class PendencyController {
         pendencyService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
 }

@@ -3,6 +3,7 @@ package br.com.smartnr.nr13api.api.assembler;
 import br.com.smartnr.nr13api.api.dto.request.EquipmentCreationRequest;
 import br.com.smartnr.nr13api.api.dto.request.EquipmentUpdateRequest;
 import br.com.smartnr.nr13api.api.dto.response.EquipmentDetailResponse;
+import br.com.smartnr.nr13api.api.dto.response.EquipmentSituationResponse;
 import br.com.smartnr.nr13api.api.dto.response.EquipmentSummaryResponse;
 import br.com.smartnr.nr13api.domain.model.Equipment;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +33,10 @@ public class EquipmentAssembler {
 
     public Page<EquipmentSummaryResponse> toSummaryPageResponse(Page<Equipment> entities) {
         return entities.map(p -> modelMapper.map(p, EquipmentSummaryResponse.class));
+    }
+
+    public Page<EquipmentSituationResponse> toSituationPageResponse(Page<Equipment> entities) {
+        return entities.map(p -> modelMapper.map(p, EquipmentSituationResponse.class));
     }
 
     public List<EquipmentSummaryResponse> toSummaryList(List<Equipment> entities) {
