@@ -19,6 +19,7 @@ public class PressureSafetyValveCreationRequest {
 
     private String model;
 
+    @NotBlank
     private String bodySize;
 
     private Double openingPressure;

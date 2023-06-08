@@ -71,12 +71,12 @@ insert into nr13_api.tb_user_groups (user_id, group_id) values (100001, 2), (100
 insert into nr13_api.tb_user_groups (user_id, group_id) values (100002, 3);
 
 insert into
-        nr13_api.tb_plants (code, name, street_name, number, complement, neighborhood, city, state, zip_code, active, updated_by)
+        nr13_api.tb_plants (code, name, city, state, active, updated_by)
     values
-        ('RGD1', 'Unidade Rio Grande 1', 'Rua Valporto', '1000', null, 'Lar Gaúcho', 'Rio Grande', 'RS', '96200000', 'true', 100000),
-        ('PEL1', 'Unidade Pelotas 1', 'Rua General Osório', '1000', null, 'Centro', 'Pelotas', 'RS', '96200000', 'true', 100000),
-        ('POA1', 'Unidade Porto Alegre 1', 'Av. Ipiranta', '121', null, 'Centro', 'Porto Alegre', 'RS', '96200000', 'true', 100000),
-        ('POA5', 'Unidade Porto Alegre 5', 'Av. Ipiranta', '121', null, 'Centro', 'Porto Alegre', 'RS', '96200000', 'false', 100000);
+        ('RGD1', 'Unidade Rio Grande 1', 'Rio Grande', 'RS','true', 100000),
+        ('PEL1', 'Unidade Pelotas 1', 'Pelotas', 'RS', 'true', 100000),
+        ('POA1', 'Unidade Porto Alegre 1', 'Porto Alegre', 'RS', 'true', 100000),
+        ('POA5', 'Unidade Porto Alegre 5', 'Porto Alegre', 'RS', 'false', 100000);
 
 insert into nr13_api.tb_user_plants (user_id, plant_id) values (100000, 1), (100000, 2), (100000, 3), (100000, 4);
 

@@ -1,17 +1,8 @@
 package br.com.smartnr.nr13api.core.modelmapper;
 
 import br.com.smartnr.nr13api.api.dto.request.InspectionCreationRequest;
-import br.com.smartnr.nr13api.api.dto.response.ApplicableTestResponse;
-import br.com.smartnr.nr13api.api.dto.response.EquipmentSituationResponse;
-import br.com.smartnr.nr13api.api.dto.response.EquipmentSummaryResponse;
-import br.com.smartnr.nr13api.api.dto.response.InspectionSummaryResponse;
-import br.com.smartnr.nr13api.api.dto.response.PendencyDetailResponse;
-import br.com.smartnr.nr13api.api.dto.response.TestSummaryResponse;
-import br.com.smartnr.nr13api.domain.model.ApplicableTest;
-import br.com.smartnr.nr13api.domain.model.Equipment;
-import br.com.smartnr.nr13api.domain.model.Inspection;
-import br.com.smartnr.nr13api.domain.model.Pendency;
-import br.com.smartnr.nr13api.domain.model.Test;
+import br.com.smartnr.nr13api.api.dto.response.*;
+import br.com.smartnr.nr13api.domain.model.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

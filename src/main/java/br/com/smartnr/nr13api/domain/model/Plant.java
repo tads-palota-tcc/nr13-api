@@ -1,11 +1,6 @@
 package br.com.smartnr.nr13api.domain.model;
 
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -23,11 +18,14 @@ public class Plant extends BaseEntity<Long> implements Comparable<Plant> {
 
     private String name;
 
-    @Embedded
-    private Address address;
+    private String city;
+
+    @Enumerated(EnumType.STRING)
+    private State state;
 
     @Override
     public int compareTo(Plant plant) {
         return getCode().compareTo(plant.getCode());
     }
+
 }
