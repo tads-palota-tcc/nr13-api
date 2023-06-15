@@ -98,6 +98,11 @@ public class EquipmentService {
         return findOrFail(id);
     }
 
+    public List<Equipment> findAll() {
+        log.info("Iniciando processo de listagem de todos os Equipamentos");
+        return equipmentRepository.findAll();
+    }
+
     public List<Equipment> findAllByPlantId(Long plantId) {
         log.info("Iniciando processo de listagem de Equipamento por planta Id={}", plantId);
         return equipmentRepository.findAllByAreaPlantId(plantId);
@@ -272,4 +277,5 @@ public class EquipmentService {
         return equipmentRepository.findById(id)
                 .orElseThrow(() -> new EquipmentNotFoundException(id));
     }
+
 }

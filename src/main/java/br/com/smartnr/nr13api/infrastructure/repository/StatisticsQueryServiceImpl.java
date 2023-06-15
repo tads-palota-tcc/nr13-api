@@ -4,6 +4,7 @@ import br.com.smartnr.nr13api.api.dto.response.CostForecastResponse;
 import br.com.smartnr.nr13api.api.dto.response.PendenciesByPlant;
 import br.com.smartnr.nr13api.api.dto.response.PendenciesByResponsible;
 import br.com.smartnr.nr13api.domain.model.Device;
+import br.com.smartnr.nr13api.domain.model.Equipment;
 import br.com.smartnr.nr13api.domain.model.Pendency;
 import br.com.smartnr.nr13api.domain.model.PendencyStatus;
 import br.com.smartnr.nr13api.domain.service.EquipmentService;
@@ -60,7 +61,13 @@ public class StatisticsQueryServiceImpl implements StatisticsQueryService {
 
     public List<CostForecastResponse> costForecast(Long plantId) {
 
-        var equipments = equipmentService.findAllByPlantId(plantId);
+        List<Equipment> equipments = new ArrayList<>();
+
+        if (plantId != null) {
+            equipments = equipmentService.findAllByPlantId(plantId);
+        } else {
+            equipments = equipmentService.findAll();
+        }
 
         List<CostForecastResponse> forecast = new ArrayList<>();
 
