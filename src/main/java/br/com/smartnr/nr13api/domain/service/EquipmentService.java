@@ -4,10 +4,7 @@ import br.com.smartnr.nr13api.domain.exception.BusinessException;
 import br.com.smartnr.nr13api.domain.exception.EntityNotFoundException;
 import br.com.smartnr.nr13api.domain.exception.EquipmentNotFoundException;
 import br.com.smartnr.nr13api.domain.exception.FileNotFoundException;
-import br.com.smartnr.nr13api.domain.model.ApplicableTest;
-import br.com.smartnr.nr13api.domain.model.DocumentType;
-import br.com.smartnr.nr13api.domain.model.Equipment;
-import br.com.smartnr.nr13api.domain.model.File;
+import br.com.smartnr.nr13api.domain.model.*;
 import br.com.smartnr.nr13api.domain.repository.EquipmentRepository;
 import br.com.smartnr.nr13api.domain.repository.FileRepository;
 import br.com.smartnr.nr13api.domain.repository.filters.EquipmentFilter;
@@ -96,6 +93,11 @@ public class EquipmentService {
     public Equipment findById(Long id) {
         log.info("Iniciando busca de Equipamento id={}", id);
         return findOrFail(id);
+    }
+
+    public List<Equipment> findAllByPlantId(Long plantId) {
+        log.info("Iniciando processo de listagem de Equipamento por planta Id={}", plantId);
+        return equipmentRepository.findAllByAreaPlantId(plantId);
     }
 
     public List<Equipment> findTop10ByPlantCodeAndTag(String plantCode, String tag) {

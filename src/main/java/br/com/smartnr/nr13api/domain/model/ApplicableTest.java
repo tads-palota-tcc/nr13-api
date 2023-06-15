@@ -5,7 +5,10 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -24,6 +27,8 @@ public class ApplicableTest extends BaseEntity<ApplicableTestPK> {
 
     private LocalDate lastTestDate;
 
+    private BigDecimal lastCost = BigDecimal.ZERO;
+
     public Integer getFrequency() {
         if (frequency == null) {
             return id.getTest().getFrequency();
@@ -40,7 +45,17 @@ public class ApplicableTest extends BaseEntity<ApplicableTestPK> {
 
     public LocalDate getNextTestDate() {
         if (lastTestDate == null) return LocalDate.now();
-        return lastTestDate.plusDays(getFrequencyType().getDays());
+        return lastTestDate.plusDays((long) getFrequencyType().getDays() * getFrequency());
+    }
+
+    public List<LocalDate> getNextTestDatesUntil(LocalDate date) {
+        List<LocalDate> dates = new ArrayList<>();
+        var nextDate = getNextTestDate();
+        while (nextDate.isBefore(date)) {
+            dates.add(nextDate);
+            nextDate = nextDate.plusDays((long) getFrequencyType().getDays() * getFrequency());
+        }
+        return dates;
     }
 
 }

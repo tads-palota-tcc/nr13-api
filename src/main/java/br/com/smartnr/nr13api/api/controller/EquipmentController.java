@@ -68,7 +68,7 @@ public class EquipmentController {
     }
 
     @PostMapping
-    public ResponseEntity<EquipmentDetailResponse> create(@RequestBody EquipmentCreationRequest request, UriComponentsBuilder uriComponentsBuilder) {
+    public ResponseEntity<EquipmentDetailResponse> create(@RequestBody @Valid EquipmentCreationRequest request, UriComponentsBuilder uriComponentsBuilder) {
         log.info("Recebendo chamada para cadastro de Equipamento");
         var entity = equipmentService.create(equipmentAssembler.toEntity(request));
         URI uri = uriComponentsBuilder.path("/equipments/{id}").buildAndExpand(entity.getId()).toUri();

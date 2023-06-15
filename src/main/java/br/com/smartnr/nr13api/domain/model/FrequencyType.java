@@ -4,7 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum FrequencyType {
-    DAY(7),
+    DAY(1),
     MONTH(30),
     YEAR(365);
 

@@ -5,7 +5,10 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -30,6 +33,8 @@ public class Device extends BaseEntity<Long> {
 
     private LocalDate lastCalibrationDate;
 
+    private BigDecimal lastCalibrationCost;
+
     @ManyToOne
     @JoinColumn(name = "equipment_id")
     private Equipment equipment;
@@ -41,6 +46,16 @@ public class Device extends BaseEntity<Long> {
     public LocalDate getNextCalibrationDate() {
         if (this.lastCalibrationDate == null) return LocalDate.now();
         return this.lastCalibrationDate.plusMonths(12);
+    }
+
+    public List<LocalDate> getNextCalibrationDatesUntil(LocalDate date) {
+        List<LocalDate> dates = new ArrayList<>();
+        var nextDate = getNextCalibrationDate();
+        while (nextDate.isBefore(date)) {
+            dates.add(nextDate);
+            nextDate = nextDate.plusMonths(12);
+        }
+        return dates;
     }
 
 }

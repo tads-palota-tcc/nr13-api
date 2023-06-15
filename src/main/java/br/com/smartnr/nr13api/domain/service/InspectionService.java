@@ -55,6 +55,7 @@ public class InspectionService {
             for (ApplicableTest at : equipment.getApplicableTests()) {
                 if (at.equals(entity.getApplicableTest())) {
                     at.setLastTestDate(entity.getExecutionDate());
+                    at.setLastCost(entity.getCost());
                     applicableTestRepository.save(at);
                 }
             }
