@@ -3,7 +3,6 @@ package br.com.smartnr.nr13api.infrastructure.repository;
 import br.com.smartnr.nr13api.api.dto.response.CostForecastResponse;
 import br.com.smartnr.nr13api.api.dto.response.PendenciesByPlant;
 import br.com.smartnr.nr13api.api.dto.response.PendenciesByResponsible;
-import br.com.smartnr.nr13api.domain.model.ApplicableTest;
 import br.com.smartnr.nr13api.domain.model.Device;
 import br.com.smartnr.nr13api.domain.model.Pendency;
 import br.com.smartnr.nr13api.domain.model.PendencyStatus;
@@ -14,11 +13,9 @@ import jakarta.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.Month;
-import java.time.format.TextStyle;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Repository
 public class StatisticsQueryServiceImpl implements StatisticsQueryService {
