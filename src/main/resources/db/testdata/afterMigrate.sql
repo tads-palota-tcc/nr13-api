@@ -243,8 +243,8 @@ insert into
     values
         (21, 100000, 'MANDATORY', 'STARTED', 100001, 'Base enferrujada', 'Pintar a base', '2023-05-20', '2023-12-30', 100000, '200.0'),
         (22, 100000, 'MANDATORY', 'STARTED', 100002, 'Base enferrujada', 'Pintar a base', '2023-10-20', '2023-12-30', 100000, '200.0'),
-        (22, 100000, 'MANDATORY', 'STARTED', 100000, 'Base enferrujada', 'Pintar a base', '2023-10-20', '2023-12-30', 100000, '200.0'),
-        (23, 100000, 'MANDATORY', 'STARTED', 100000, 'Base enferrujada', 'Pintar a base', '2023-05-20', '2023-12-30', 100000, '200.0'),
+        (22, 100000, 'MANDATORY', 'STARTED', 100000, 'Base enferrujada', 'Pintar a base', '2023-10-20', '2023-06-30', 100000, '200.0'),
+        (23, 100000, 'MANDATORY', 'STARTED', 100000, 'Base enferrujada', 'Pintar a base', '2023-05-20', '2022-12-30', 100000, '200.0'),
         (24, 100000, 'MANDATORY', 'STARTED', 100003, 'Base enferrujada', 'Pintar a base', '2023-10-20', '2023-12-30', 100000, '200.0'),
         (24, 100000, 'MANDATORY', 'STARTED', 100000, 'Base enferrujada', 'Pintar a base', '2023-10-20', '2023-12-30', 100000, '200.0'),
         (25, 100000, 'MANDATORY', 'STARTED', 100002, 'Base enferrujada', 'Pintar a base', '2023-05-20', '2023-12-30', 100000, '200.0'),
