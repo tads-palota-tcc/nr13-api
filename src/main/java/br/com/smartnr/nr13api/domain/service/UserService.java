@@ -2,6 +2,7 @@ package br.com.smartnr.nr13api.domain.service;
 
 import br.com.smartnr.nr13api.core.security.UserDetailsImpl;
 import br.com.smartnr.nr13api.core.security.UserRepository;
+import br.com.smartnr.nr13api.domain.model.Plant;
 import br.com.smartnr.nr13api.domain.model.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +31,11 @@ public class UserService {
     public List<User> findTop10(String name) {
         log.info("Iniciando processo de listagem dos 10 primeiros Usuários com nome contendo {}", name);
         return userRepository.findTop10ByNameContainingIgnoreCaseOrderByName(name);
+    }
+
+    public List<User> findAllByPlant(Plant plant) {
+        log.info("Iniciando processo de listagem de Usuários por Planta id={}", plant.getId());
+        return userRepository.findAllByPlant(plant);
     }
 
     private User findOrFail(Long id) {

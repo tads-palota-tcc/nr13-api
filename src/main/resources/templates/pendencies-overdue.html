@@ -1,0 +1,30 @@
+<html>
+
+<body>
+    <h1 sytle="color: red; font-size: 26px">Fique atento às suas pendências!</h1>
+
+    <p>Olá, ${name}!</p>
+
+    <p>Você tem pendências NR-13 vencidas ou com data de vencimento dentro dos próximos ${days} dias.</p>
+
+    <p>Confira na lista abaixo:</p>
+
+    <table>
+        <thead>
+            <th>Equipamento</th>
+            <th>Título</th>
+            <th>Prazo</th>
+        </thead>
+        <tbody>
+            <#list pendencies as pendency>
+            <tr>
+                <td>${pendency.inspection.applicableTest.id.equipment.tag}</td>
+                <td>${pendency.description}</td>
+                <td>${pendency.deadLine}</td>
+            </tr>
+            </#list>
+        </tbody>
+
+    </table>
+</body>
+</html>

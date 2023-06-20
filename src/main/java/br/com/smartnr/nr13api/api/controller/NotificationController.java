@@ -16,7 +16,12 @@ public class NotificationController {
     private final NotificationService notificationService;
 
     @GetMapping("pendencies")
-    public int notifyOverduePendencies() {
-        return notificationService.notifyPendencies();
+    public void notifyOverduePendencies() {
+        notificationService.notifyPendencies();
+    }
+
+    @GetMapping("calibrations")
+    public void notifyOverdueCalibrations() {
+        notificationService.notifyCalibrations();
     }
 }
