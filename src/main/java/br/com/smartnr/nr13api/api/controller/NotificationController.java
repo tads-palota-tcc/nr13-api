@@ -24,4 +24,9 @@ public class NotificationController {
     public void notifyOverdueCalibrations() {
         notificationService.notifyCalibrations();
     }
+
+    @GetMapping("inspections")
+    public void notifyOverdueInspections() {
+        notificationService.notifyInspections();
+    }
 }

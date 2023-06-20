@@ -19,7 +19,7 @@
             <tr>
                 <td style="border: 1px solid #6F6F6F; padding: 10px 0; border-collapse: collapse">${device.tag}</td>
                 <td style="border: 1px solid #6F6F6F; padding: 10px 0; border-collapse: collapse">${device.plant.code}</td>
-                <td style="border: 1px solid #6F6F6F; padding: 10px 0; border-collapse: collapse">${device.nextCalibrationDate}</td>
+                <td style="border: 1px solid #6F6F6F; padding: 10px 0; border-collapse: collapse">${device.nextCalibrationDate.format('dd/MM/yyyy')}</td>
             </tr>
             </#list>
         </tbody>

@@ -1,26 +1,26 @@
 <html>
 
-<body>
-    <h1 sytle="color: red; font-size: 26px">Fique atento às suas pendências!</h1>
+<body style="font: 14px Arial, Helvetica, sans-serif">
+    <h1 style="color: red; font-size: 26px">Fique atento às suas pendências!</h1>
 
     <p>Olá, ${name}!</p>
 
-    <p>Você tem pendências NR-13 vencidas ou com data de vencimento dentro dos próximos ${days} dias.</p>
+    <p>Você tem <stron>pendências NR-13</stron> vencidas ou com data de vencimento dentro dos próximos <strong>${days} dias</strong>.</p>
 
     <p>Confira na lista abaixo:</p>
 
-    <table>
+    <table style="max-width: 600px; color: #6F6F6F; border: 1px solid #6F6F6F; border-collapse: collapse">
         <thead>
-            <th>Equipamento</th>
-            <th>Título</th>
-            <th>Prazo</th>
+            <th style="border: 1px solid #6F6F6F; border-collapse: collapse">Equipamento</th>
+            <th style="border: 1px solid #6F6F6F; border-collapse: collapse">Título</th>
+            <th style="border: 1px solid #6F6F6F; border-collapse: collapse">Prazo</th>
         </thead>
         <tbody>
             <#list pendencies as pendency>
             <tr>
-                <td>${pendency.inspection.applicableTest.id.equipment.tag}</td>
-                <td>${pendency.description}</td>
-                <td>${pendency.deadLine}</td>
+                <td style="border: 1px solid #6F6F6F; padding: 10px 0; border-collapse: collapse">${pendency.inspection.applicableTest.id.equipment.tag}</td>
+                <td style="border: 1px solid #6F6F6F; padding: 10px 0; border-collapse: collapse">${pendency.description}</td>
+                <td style="border: 1px solid #6F6F6F; padding: 10px 0; border-collapse: collapse">${pendency.deadLine.format('dd/MM/yyyy')}</td>
             </tr>
             </#list>
         </tbody>
