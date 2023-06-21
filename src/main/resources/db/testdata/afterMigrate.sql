@@ -47,17 +47,18 @@ insert into
         ('USER_READ'),          -- 2
         ('EQUIPMENT_WRITE'),    -- 3
         ('EQUIPMENT_READ'),     -- 4
-        ('INSTALATION_WRITE'),  -- 5
-        ('INSTALATION_READ'),   -- 6
+        ('INSTALLATION_WRITE'),  -- 5
+        ('INSTALLATION_READ'),   -- 6
         ('INTERVENTION_WRITE'), -- 7
         ('INTERVENTION_READ'),  -- 8
         ('ACTIONS_WRITE'),      -- 9
         ('ACTIONS_READ'),       -- 10
-        ('REPORTS_READ');       -- 11
+        ('REPORTS_READ'),       -- 11
+        ('NOTIFICATION');       -- 12
 
 insert into nr13_api.tb_group_permissions(group_id, permission_id)
     values
-        (1, 2), (1, 2), (1, 5), (1, 6),
+        (1, 2), (1, 2), (1, 5), (1, 6), (1, 12),
         (2, 2), (2, 3), (2, 4), (2, 7), (2, 8), (2, 9), (2, 10), (2, 11),
         (3, 2), (3, 4), (3, 6), (3, 8), (3, 9), (3, 10), (3, 11);
 

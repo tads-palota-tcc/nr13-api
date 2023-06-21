@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -27,6 +28,7 @@ public class PendencyController {
     private final PendencyAssembler pendencyAssembler;
 
     @PostMapping
+    @Secured({"ACTIONS_WRITE"})
     public ResponseEntity<PendencyDetailResponse> create(@RequestBody @Valid PendencyCreationRequest request, UriComponentsBuilder uriComponentsBuilder) {
         log.info("Recebendo chamada para cadastro de Pendência");
         var entity = pendencyService.create(pendencyAssembler.toEntity(request));
@@ -35,12 +37,14 @@ public class PendencyController {
     }
 
     @GetMapping
+    @Secured({"ACTIONS_READ"})
     public Page<PendencyDetailResponse> findByFilter(PendencyFilter filter, Pageable pageable) {
         log.info("Recebendo chamada para listagem de Pendências");
         return pendencyAssembler.toPageResponse(pendencyService.findByFilter(filter, pageable));
     }
 
     @GetMapping("/{id}")
+    @Secured({"ACTIONS_READ"})
     public PendencyDetailResponse findById(@PathVariable Long id) {
         log.info("Recebendo chamada para consulta de Pendência");
         var entity = pendencyService.findById(id);
@@ -48,6 +52,7 @@ public class PendencyController {
     }
 
     @PutMapping("/{id}")
+    @Secured({"ACTIONS_WRITE"})
     public ResponseEntity<PendencyDetailResponse> update(@PathVariable Long id, @RequestBody @Valid PendencyUpdateRequest request) {
         log.info("Recebendo chamada para atualização de Pendência");
         var entity = pendencyAssembler.toEntity(request);
@@ -55,6 +60,7 @@ public class PendencyController {
     }
 
     @DeleteMapping("/{id}")
+    @Secured({"ACTIONS_WRITE"})
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         log.info("Recebendo chamada para exclusão de uma Pendência");
         pendencyService.delete(id);

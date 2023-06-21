@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -28,6 +29,7 @@ public class PressureSafetyValveController {
     private final PressureSafetyValveAssembler psvAssembler;
 
     @GetMapping
+    @Secured({"EQUIPMENT_READ"})
     public Page<PressureSafetyValveSummaryResponse> findByFilter(PressureSafetyValveFilter filter, Pageable pageable) {
         log.info("Recebendo chamada para listagem de Válvula de Segurança");
         var entities = psvService.findByFilter(filter, pageable);
@@ -35,6 +37,7 @@ public class PressureSafetyValveController {
     }
 
     @GetMapping("/available")
+    @Secured({"EQUIPMENT_READ"})
     public List<PressureSafetyValveSummaryResponse> findAllAvailable() {
         log.info("Recebendo chamada para listagem de Válvulas de Segurança disponíveis");
         var entity = psvService.findAllAvailableByUserPlant();
@@ -42,6 +45,7 @@ public class PressureSafetyValveController {
     }
 
     @GetMapping("/{id}")
+    @Secured({"EQUIPMENT_READ"})
     public PressureSafetyValveDetailResponse findById(@PathVariable Long id) {
         log.info("Recebendo chamada para consulta de Válvula de Segurança por Id={}", id);
         var entity = psvService.findById(id);
@@ -49,6 +53,7 @@ public class PressureSafetyValveController {
     }
 
     @PostMapping
+    @Secured({"EQUIPMENT_WRITE"})
     public ResponseEntity<PressureSafetyValveDetailResponse> create(@RequestBody @Valid PressureSafetyValveCreationRequest request, UriComponentsBuilder uriComponentsBuilder) {
         log.info("Recebendo chamada para cadastro de Válvula de Segurança");
         var entity = psvService.create(psvAssembler.toEntity(request));
@@ -57,6 +62,7 @@ public class PressureSafetyValveController {
     }
 
     @PutMapping("/{id}")
+    @Secured({"EQUIPMENT_WRITE"})
     public ResponseEntity<PressureSafetyValveDetailResponse> update(@PathVariable Long id, @RequestBody @Valid PressureSafetyValveCreationRequest request) {
         log.info("Recebendo chamada para atualização de Válvula de Segurança");
         var entity = psvService.update(id, psvAssembler.toEntity(request));
@@ -64,6 +70,7 @@ public class PressureSafetyValveController {
     }
 
     @PatchMapping("/{id}/inactivate")
+    @Secured({"EQUIPMENT_WRITE"})
     public ResponseEntity<Void> inactivate(@PathVariable Long id) {
         log.info("Recebendo chamada para inativação de Válvula de Segurança");
         psvService.inactivate(id);
@@ -71,6 +78,7 @@ public class PressureSafetyValveController {
     }
 
     @PatchMapping("/{id}/activate")
+    @Secured({"EQUIPMENT_WRITE"})
     public ResponseEntity<Void> activate(@PathVariable Long id) {
         log.info("Recebendo chamada para ativação de Válvula de Segurança");
         psvService.activate(id);

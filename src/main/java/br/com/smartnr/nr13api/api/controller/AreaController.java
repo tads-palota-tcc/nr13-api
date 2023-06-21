@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -28,6 +29,7 @@ public class AreaController {
     private final AreaAssembler areaAssembler;
 
     @PostMapping
+    @Secured({"INSTALLATION_WRITE"})
     public ResponseEntity<AreaDetailResponse> create(@RequestBody @Valid AreaCreationRequest request, UriComponentsBuilder uriComponentsBuilder) {
         log.info("Recebendo chamada para cadastro de Área");
         var entity = areaService.create(areaAssembler.toEntity(request));
@@ -36,6 +38,7 @@ public class AreaController {
     }
 
     @PutMapping("/{id}")
+    @Secured({"INSTALLATION_WRITE"})
     public ResponseEntity<AreaDetailResponse> update(@PathVariable Long id, @RequestBody @Valid AreaCreationRequest request) {
         log.info("Recebendo chamada para atualização de Área");
         var entity = areaService.update(id, areaAssembler.toEntity(request));
@@ -43,6 +46,7 @@ public class AreaController {
     }
 
     @GetMapping
+    @Secured({"INSTALLATION_READ"})
     public Page<AreaSummaryResponse> findByFilter(AreaFilter filter, Pageable pageable) {
         log.info("Recebendo chamada para listagem de Áreas");
         var entities = areaService.findByFilter(filter, pageable);
@@ -50,6 +54,7 @@ public class AreaController {
     }
 
     @GetMapping("/{id}")
+    @Secured({"INSTALLATION_READ"})
     public AreaDetailResponse findById(@PathVariable Long id) {
         log.info("Recebendo chamada para consulta de Área");
         var entity = areaService.findById(id);
@@ -57,6 +62,7 @@ public class AreaController {
     }
 
     @GetMapping("/top10")
+    @Secured({"INSTALLATION_READ"})
     public List<AreaSummaryResponse> findTop10(@RequestParam(name = "code") String code) {
         log.info("Recebendo chamada para listagem das 10 primeiras Áreas ativas com código={}", code);
         var entities = areaService.findTop10(code);
@@ -64,6 +70,7 @@ public class AreaController {
     }
 
     @PatchMapping("/{id}/inactivate")
+    @Secured({"INSTALLATION_READ"})
     public ResponseEntity<Void> inactivate(@PathVariable Long id) {
         log.info("Recebendo chamada para inativação de Área");
         areaService.inactivate(id);
@@ -71,6 +78,7 @@ public class AreaController {
     }
 
     @PatchMapping("/{id}/activate")
+    @Secured({"INSTALLATION_READ"})
     public ResponseEntity<Void> activate(@PathVariable Long id) {
         log.info("Recebendo chamada para ativação de Área");
         areaService.activate(id);

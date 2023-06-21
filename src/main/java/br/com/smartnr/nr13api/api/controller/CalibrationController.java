@@ -19,6 +19,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -39,6 +40,7 @@ public class CalibrationController {
     private final FileStorageService fileStorageService;
 
     @PostMapping
+    @Secured({"INTERVENTION_WRITE"})
     public ResponseEntity<CalibrationDetailResponse> create(@RequestBody @Valid CalibrationCreationRequest request, UriComponentsBuilder uriComponentsBuilder) {
         log.info("Recebendo chamada para cadastro de Calibração");
         var entity = calibrationService.create(calibrationAssembler.toEntity(request));
@@ -47,6 +49,7 @@ public class CalibrationController {
     }
 
     @GetMapping
+    @Secured({"INTERVENTION_READ"})
     public ResponseEntity<Page<CalibrationSummaryResponse>> findByFilter(CalibrationFilter filter, Pageable pageable) {
         log.info("Recebendo chamada para listagem de Calibrações");
         var entities = calibrationService.findByFilter(filter, pageable);
@@ -54,6 +57,7 @@ public class CalibrationController {
     }
 
     @GetMapping("/{id}")
+    @Secured({"INTERVENTION_READ"})
     public ResponseEntity<CalibrationDetailResponse> findById(@PathVariable Long id) {
         log.info("Recebendo chamada para consulta de Calibração");
         var entity = calibrationService.findById(id);
@@ -61,6 +65,7 @@ public class CalibrationController {
     }
 
     @PutMapping("/{id}")
+    @Secured({"INTERVENTION_WRITE"})
     public ResponseEntity<CalibrationDetailResponse> update(@PathVariable Long id, @RequestBody @Valid CalibrationCreationRequest request) {
         log.info("Recebendo chamada para atualizar uma Calibração");
         var entity = calibrationService.update(id, calibrationAssembler.toEntity(request));
@@ -68,6 +73,7 @@ public class CalibrationController {
     }
 
     @DeleteMapping("{id}")
+    @Secured({"INTERVENTION_WRITE"})
     private ResponseEntity<Void> delete(@PathVariable Long id) throws IOException {
         log.info("Recebendo chamada para excluir calibração");
         calibrationService.delete(id);
@@ -75,6 +81,7 @@ public class CalibrationController {
     }
 
     @PutMapping(path = "{id}/reports", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @Secured({"INTERVENTION_WRITE"})
     public ResponseEntity<FileResponse> addReport(@PathVariable Long id, @Valid CalibrationReportRequest request) throws IOException {
         log.info("Recebendo chamada para salvar relatório em PDF");
         MultipartFile mpf = request.getFile();
@@ -86,6 +93,7 @@ public class CalibrationController {
     }
 
     @DeleteMapping("/{id}/reports")
+    @Secured({"INTERVENTION_WRITE"})
     public ResponseEntity<Void> deleteReport(@PathVariable Long id) throws IOException {
         log.info("Recebendo chamada para excluir relatório");
         calibrationService.deleteReport(id);
@@ -93,6 +101,7 @@ public class CalibrationController {
     }
 
     @GetMapping(path = "/{id}/reports", produces = MediaType.APPLICATION_PDF_VALUE)
+    @Secured({"INTERVENTION_READ"})
     public ResponseEntity<InputStreamResource> serveReport(@PathVariable Long id) {
         File report = calibrationService.getReportByCalibrationId(id);
         InputStream inputStream = fileStorageService.retrieve(report.getName());

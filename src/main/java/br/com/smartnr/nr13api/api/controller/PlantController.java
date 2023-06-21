@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -28,6 +29,7 @@ public class PlantController {
     private final PlantAssembler plantAssembler;
 
     @PostMapping
+    @Secured({"INSTALLATION_WRITE"})
     public ResponseEntity<PlantDetailResponse> create(@RequestBody @Valid PlantCreationRequest request, UriComponentsBuilder uriComponentsBuilder) {
         log.info("Recebendo chamada para cadastro de Planta");
         var entity = plantService.create(plantAssembler.toEntity(request));
@@ -36,6 +38,7 @@ public class PlantController {
     }
 
     @PutMapping("/{id}")
+    @Secured({"INSTALLATION_WRITE"})
     public ResponseEntity<PlantDetailResponse> update(@PathVariable Long id, @RequestBody @Valid PlantCreationRequest request) {
         log.info("Recebendo chamada para atualização de Planta");
         var entity = plantService.update(id, plantAssembler.toEntity(request));
@@ -43,6 +46,7 @@ public class PlantController {
     }
 
     @GetMapping
+    @Secured({"INSTALLATION_READ"})
     public Page<PlantSummaryResponse> findByFilter(PlantFilter filter, Pageable pageable) {
         log.info("Recebendo chamada para listagem de Plantas");
         var entities = plantService.findByFilter(filter, pageable);
@@ -50,6 +54,7 @@ public class PlantController {
     }
 
     @GetMapping("/from-user")
+    @Secured({"INSTALLATION_READ"})
     public List<PlantSummaryResponse> findByUser() {
         log.info("Recebendo chamada para listagem de Plantas vinculadas ao usuário");
         var entities = plantService.findByUser();
@@ -57,6 +62,7 @@ public class PlantController {
     }
 
     @GetMapping("/top10")
+    @Secured({"INSTALLATION_READ"})
     public List<PlantSummaryResponse> findTop10(@RequestParam(name = "code") String code) {
         log.info("Recebendo chamada para listagem das 10 primeiras Plantas ativas com código={}", code);
         var entities = plantService.findTop10(code);
@@ -64,6 +70,7 @@ public class PlantController {
     }
 
     @GetMapping("/{id}")
+    @Secured({"INSTALLATION_READ"})
     public PlantDetailResponse findById(@PathVariable Long id) {
         log.info("Recebendo chamada para consulta de Planta");
         var entity = plantService.findById(id);
@@ -71,6 +78,7 @@ public class PlantController {
     }
 
     @PatchMapping("/{id}/inactivate")
+    @Secured({"INSTALLATION_WRITE"})
     public ResponseEntity<Void> inactivate(@PathVariable Long id) {
         log.info("Recebendo chamada para inativação de Planta");
         plantService.inactivate(id);
@@ -78,6 +86,7 @@ public class PlantController {
     }
 
     @PatchMapping("/{id}/activate")
+    @Secured({"INSTALLATION_WRITE"})
     public ResponseEntity<Void> activate(@PathVariable Long id) {
         log.info("Recebendo chamada para ativação de Planta");
         plantService.activate(id);
