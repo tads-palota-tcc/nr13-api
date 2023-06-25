@@ -3,6 +3,7 @@ package br.com.smartnr.nr13api.api.exceptionhandler;
 import br.com.smartnr.nr13api.domain.exception.BusinessException;
 import br.com.smartnr.nr13api.domain.exception.EntityNotFoundException;
 import br.com.smartnr.nr13api.domain.exception.TokenValidationException;
+import br.com.smartnr.nr13api.infrastructure.storage.StorageException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.exc.PropertyBindingException;
@@ -97,6 +98,16 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         var detail = "Acesso negado";
         var problem = createErrorBuilder(status, errorType, detail)
                 .userMessage("Usuário não possui acesso ao recurso solicitado")
+                .build();
+        return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
+    }
+
+    public ResponseEntity<?> handleStorageException(StorageException ex, WebRequest request) {
+        var status = HttpStatus.INTERNAL_SERVER_ERROR;
+        var errorType = ErrorType.SYSTEM_ERROR;
+        var detail = ex.getMessage();
+        var problem = createErrorBuilder(status, errorType, detail)
+                .userMessage(ex.getMessage())
                 .build();
         return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
     }

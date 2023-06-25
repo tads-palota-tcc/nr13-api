@@ -1,19 +1,19 @@
 package br.com.smartnr.nr13api.infrastructure.storage;
 
+import br.com.smartnr.nr13api.core.storage.StorageProperties;
 import br.com.smartnr.nr13api.domain.service.FileStorageService;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
+import lombok.RequiredArgsConstructor;
 import org.springframework.util.FileCopyUtils;
 
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-@Service
+//@Service
+@RequiredArgsConstructor
 public class LocalFileStorageService implements FileStorageService {
 
-    @Value("${smartnr.storage.local.path}")
-    private Path fileDirectory;
+    private final StorageProperties storageProperties;
 
     @Override
     public void store(NewFile newFile) {
@@ -46,6 +46,6 @@ public class LocalFileStorageService implements FileStorageService {
     }
 
     private Path getFilePath(String fileName) {
-        return fileDirectory.resolve(Path.of(fileName));
+        return storageProperties.getLocal().getPath().resolve(Path.of(fileName));
     }
 }
