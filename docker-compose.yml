@@ -1,0 +1,29 @@
+version: "3.9"
+
+networks:
+  smartnr-network:
+    driver: bridge
+
+services:
+  nr13-api-db:
+    image: postgres:13
+    environment:
+      POSTGRES_DB: "nr13_api"
+      POSTGRES_USER: "admin"
+      POSTGRES_PASSWORD: "123456"
+    ports:
+      - "15432:5432"
+    networks:
+      - smartnr-network
+  smartnr13-api:
+    image: smartnr13-api
+    environment:
+      DB_HOST: nr13-api-db
+      SPRING_PROFILES_ACTIVE: dev
+    ports:
+      - "8080:8080"
+    networks:
+      - smartnr-network
+    depends_on:
+      nr13-api-db:
+        condition: service_started
