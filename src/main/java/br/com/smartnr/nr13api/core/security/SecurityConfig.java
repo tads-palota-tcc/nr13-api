@@ -30,6 +30,7 @@ public class SecurityConfig {
 //                .cors().disable()
                 .authorizeHttpRequests().requestMatchers("/auth/**").permitAll()
                 .and().authorizeHttpRequests().requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                .and().authorizeHttpRequests().requestMatchers(HttpMethod.GET, "/health-check").permitAll()
                 .anyRequest().authenticated()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authenticationProvider(authenticationProvider)
