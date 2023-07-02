@@ -104,4 +104,11 @@ public class InspectionController {
         log.info("Recebendo chamada para listar Pendências por Inspeção");
         return ResponseEntity.ok(pendencyAssembler.toList(pendencyService.findAllByInspectionId(inspectionId)));
     }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) throws IOException {
+        log.info("Recebendo chamada para excluir inspeção");
+        inspectionService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }

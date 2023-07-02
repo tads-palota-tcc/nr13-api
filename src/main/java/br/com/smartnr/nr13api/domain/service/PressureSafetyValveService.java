@@ -49,6 +49,12 @@ public class PressureSafetyValveService {
     public void inactivate(Long id) {
         log.info("Iniciando processo de inativação de Válvula de segurança Id={}", id);
         var entity = this.findOrFail(id);
+        if (entity.getEquipment() != null) {
+            throw new BusinessException(String.format(
+                    "Válvula de segurança com id=%d não pode ser inativada pois pertence ao equipamento %s",
+                    id,
+                    entity.getEquipment().getTag()));
+        }
         if (!entity.getActive()) {
             throw new BusinessException(String.format("Válvula de segurança com id=%d já encontra-se inativa", id));
         }

@@ -32,12 +32,16 @@ public class CalibrationSpecs {
                 predicates.add(criteriaBuilder.like(criteriaBuilder.upper(root.get("reportNumber")), "%" + filter.getReportNumber().toUpperCase() + "%"));
             }
 
-            if (!ObjectUtils.isEmpty(filter.getReportNumber())) {
+            if (!ObjectUtils.isEmpty(filter.getExecutorCompany())) {
                 predicates.add(criteriaBuilder.like(criteriaBuilder.upper(root.get("executorCompany")), "%" + filter.getExecutorCompany().toUpperCase() + "%"));
             }
 
             if (!ObjectUtils.isEmpty(filter.getStatus())) {
                 predicates.add(criteriaBuilder.like(criteriaBuilder.upper(root.get("status")), "%" + filter.getStatus().toUpperCase() + "%"));
+            }
+
+            if (!ObjectUtils.isEmpty(filter.getDeviceTag())) {
+                predicates.add(criteriaBuilder.like(criteriaBuilder.upper(root.get("device").get("tag")), "%" + filter.getDeviceTag().toUpperCase() + "%"));
             }
 
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));

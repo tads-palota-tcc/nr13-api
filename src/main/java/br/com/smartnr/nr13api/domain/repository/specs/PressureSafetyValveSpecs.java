@@ -42,11 +42,11 @@ public class PressureSafetyValveSpecs {
             }
 
             if (!ObjectUtils.isEmpty(filter.getOpeningPressure())) {
-                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("openingPressure").as(Double.class), filter.getOpeningPressure()));
+                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("openingPressure").as(Double.class), filter.getOpeningPressure()));
             }
 
             if (!ObjectUtils.isEmpty(filter.getClosingPressure())) {
-                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("closingPressure").as(Double.class), filter.getClosingPressure()));
+                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("closingPressure").as(Double.class), filter.getClosingPressure()));
             }
 
             if (!ObjectUtils.isEmpty(filter.getPlantCode())) {

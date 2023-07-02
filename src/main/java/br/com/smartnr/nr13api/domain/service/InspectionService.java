@@ -4,10 +4,7 @@ import br.com.smartnr.nr13api.domain.exception.BusinessException;
 import br.com.smartnr.nr13api.domain.exception.EntityNotFoundException;
 import br.com.smartnr.nr13api.domain.exception.FileNotFoundException;
 import br.com.smartnr.nr13api.domain.exception.InspectionNotFoundException;
-import br.com.smartnr.nr13api.domain.model.ApplicableTest;
-import br.com.smartnr.nr13api.domain.model.File;
-import br.com.smartnr.nr13api.domain.model.Inspection;
-import br.com.smartnr.nr13api.domain.model.Status;
+import br.com.smartnr.nr13api.domain.model.*;
 import br.com.smartnr.nr13api.domain.repository.ApplicableTestRepository;
 import br.com.smartnr.nr13api.domain.repository.FileRepository;
 import br.com.smartnr.nr13api.domain.repository.InspectionRepository;
@@ -32,6 +29,7 @@ public class InspectionService {
 
     private final InspectionRepository inspectionRepository;
     private final TestService testService;
+    private final PendencyService pendencyService;
     private final UserService userService;
     private final FileStorageService fileStorageService;
     private final FileRepository fileRepository;
@@ -143,5 +141,21 @@ public class InspectionService {
             throw new FileNotFoundException(id);
         }
         return entity.getFile();
+    }
+
+    @Transactional
+    public void delete(Long id) throws IOException {
+        log.info("Iniciando processo de exclusão de inspeção id={}", id);
+        var entity = findOrFail(id);
+        var pendencies = pendencyService.findAllByInspectionId(id);
+        pendencies.forEach(p -> {
+            if (!PendencyStatus.CANCELED.equals(p.getStatus())) {
+                throw new BusinessException("Não é possível excluir inspeções que possuam pendências não canceladas.");
+            }
+        });
+        if (entity.getFile() != null) {
+            fileStorageService.remove(entity.getFile().getName());
+        }
+        inspectionRepository.delete(entity);
     }
 }

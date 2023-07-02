@@ -49,6 +49,12 @@ public class PressureIndicatorService {
     public void inactivate(Long id) {
         log.info("Iniciando processo de inativação de Indicador de Pressão Id={}", id);
         var entity = this.findOrFail(id);
+        if (entity.getEquipment() != null) {
+            throw new BusinessException(String.format(
+                    "Indicador de Pressão com id=%d não pode ser inativado pois pertence ao equipamento %s",
+                    id,
+                    entity.getEquipment().getTag()));
+        }
         if (!entity.getActive()) {
             throw new BusinessException(String.format("Indicador de Pressão com id=%d já encontra-se inativo", id));
         }

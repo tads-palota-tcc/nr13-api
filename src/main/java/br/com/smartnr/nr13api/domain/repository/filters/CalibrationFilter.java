@@ -13,5 +13,6 @@ public class CalibrationFilter {
     private String reportNumber;
     private String executorCompany;
     private String status;
+    private String deviceTag;
 
 }
