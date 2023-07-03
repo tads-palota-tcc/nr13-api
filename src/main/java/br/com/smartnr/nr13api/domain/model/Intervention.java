@@ -29,7 +29,7 @@ public abstract class Intervention {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    private BigDecimal cost;
+    private BigDecimal cost = BigDecimal.ZERO;
 
     private LocalDate executionDate;
 
