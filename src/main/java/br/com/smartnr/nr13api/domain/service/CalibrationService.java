@@ -42,13 +42,6 @@ public class CalibrationService {
         log.info("Iniciando processo de cadastro de Calibração: {}", entity.getDevice().getId());
         try {
             var device = deviceService.findById(entity.getDevice().getId());
-            var userPlants = plantService.findByUser();
-            if (!userPlants.contains(device.getPlant())) {
-                throw new BusinessException(String
-                        .format("Dispositivo com id=%d e Tag=%s não pertence a uma Planta vinculada ao usuário",
-                                device.getId(),
-                                device.getTag()));
-            }
             device.setLastCalibrationDate(entity.getExecutionDate());
             entity.setDevice(device);
             entity.setUpdatedBy(userService.getAuthenticatedUser());

@@ -10,7 +10,5 @@ public class PressureSafetyValveSummaryResponse extends DeviceSummaryResponse {
     private String bodySize;
     private Double openingPressure;
     private Double closingPressure;
-    private PlantSummaryResponse plant;
-    private Boolean active;
 
 }

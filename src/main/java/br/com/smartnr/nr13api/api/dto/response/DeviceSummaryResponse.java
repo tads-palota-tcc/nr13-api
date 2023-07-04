@@ -15,5 +15,6 @@ public class DeviceSummaryResponse {
     private LocalDate lastCalibrationDate;
     private LocalDate nextCalibrationDate;
     private PlantSummaryResponse plant;
+    private Boolean active;
 
 }
