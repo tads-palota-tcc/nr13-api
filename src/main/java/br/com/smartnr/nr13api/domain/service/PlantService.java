@@ -93,4 +93,8 @@ public class PlantService {
                 .orElseThrow(() -> new PlantNotFoundException(id));
     }
 
+    public List<Plant> findAll() {
+        log.info("Iniciando processo de listagem de Plantas");
+        return plantRepository.findAll();
+    }
 }

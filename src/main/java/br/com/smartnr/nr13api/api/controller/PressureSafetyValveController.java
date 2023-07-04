@@ -38,9 +38,9 @@ public class PressureSafetyValveController {
 
     @GetMapping("/available")
     @Secured({"EQUIPMENT_READ"})
-    public List<PressureSafetyValveSummaryResponse> findAllAvailable() {
+    public List<PressureSafetyValveSummaryResponse> findAllAvailable(@RequestParam(name = "plantId") Long plantId) {
         log.info("Recebendo chamada para listagem de Válvulas de Segurança disponíveis");
-        var entity = psvService.findAllAvailableByUserPlant();
+        var entity = psvService.findAllAvailableByPlant(plantId);
         return psvAssembler.toSummaryList(entity);
     }
 

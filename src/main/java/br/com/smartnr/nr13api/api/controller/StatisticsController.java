@@ -34,6 +34,7 @@ public class StatisticsController {
 
     @GetMapping("costs-forecast")
     public List<CostForecastResponse> costForecast(@RequestParam(required = false) Long plantId) {
+        log.info("Recebendo chamada para forecast por plantId={}", plantId);
         return statisticsQueryService.costForecast(plantId);
     }
 }

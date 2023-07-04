@@ -77,6 +77,15 @@ public class PlantController {
         return plantAssembler.toDetailResponse(entity);
     }
 
+    @GetMapping("/all")
+    @Secured({"INSTALLATION_READ"})
+    public List<PlantSummaryResponse> findAll() {
+        log.info("Recebendo chamada para listagem de todas as Plantas");
+        var entities = plantService.findAll();
+        return plantAssembler.toSummaryList(entities);
+    }
+
+
     @PatchMapping("/{id}/inactivate")
     @Secured({"INSTALLATION_WRITE"})
     public ResponseEntity<Void> inactivate(@PathVariable Long id) {

@@ -22,7 +22,6 @@ import java.util.List;
 public class PressureIndicatorService {
 
     private final PressureIndicatorRepository piRepository;
-    private final PlantService plantService;
     private final UserService userService;
     private final ModelMapper modelMapper;
 
@@ -76,9 +75,9 @@ public class PressureIndicatorService {
         return piRepository.findAll(PressureIndicatorSpecs.withFilter(filter), pageable);
     }
 
-    public List<PressureIndicator> findAllAvailableByUserPlant() {
+    public List<PressureIndicator> findAllAvailableByPlant(Long plantId) {
         log.info("Iniciando processo de listagem de Indicadores de Pressão disponíveis");
-        return piRepository.findAvailableByPlants(plantService.findByUser());
+        return piRepository.findAvailableByPlant(plantId);
     }
 
     public PressureIndicator findByTagAndPlantCode(String tag, String plantCode) {

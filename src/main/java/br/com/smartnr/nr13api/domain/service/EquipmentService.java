@@ -108,6 +108,11 @@ public class EquipmentService {
         return equipmentRepository.findAllByAreaPlantId(plantId);
     }
 
+    public Page<Equipment> findAllByPlantId(Long plantId, Pageable pageable) {
+        log.info("Iniciando processo de listagem de Equipamento por planta Id={}", plantId);
+        return equipmentRepository.findAllByAreaPlantId(plantId, pageable);
+    }
+
     public List<Equipment> findTop10ByPlantCodeAndTag(String plantCode, String tag) {
         log.info("Iniciando consulta de Equipamentos por Planta={} e Tag={}", plantCode, tag);
         return equipmentRepository.findTop10ByAreaPlantCodeAndTagContainingIgnoreCaseOrderByTag(plantCode, tag);

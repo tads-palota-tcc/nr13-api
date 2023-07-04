@@ -7,6 +7,7 @@ import lombok.Setter;
 @Setter
 public class EquipmentSituationResponse {
 
+    private Long id;
     private String tag;
     private String plant;
     private Integer expiredInspections;

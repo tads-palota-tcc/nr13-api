@@ -38,9 +38,9 @@ public class PressureIndicatorController {
 
     @GetMapping("/available")
     @Secured({"EQUIPMENT_READ"})
-    public List<PressureIndicatorSummaryResponse> findAllAvailable() {
+    public List<PressureIndicatorSummaryResponse> findAllAvailable(@RequestParam(name = "plantId") Long plantId) {
         log.info("Recebendo chamada para listagem de Indicadores de Pressão disponíveis");
-        var entity = piService.findAllAvailableByUserPlant();
+        var entity = piService.findAllAvailableByPlant(plantId);
         return piAssembler.toSummaryList(entity);
     }
 

@@ -253,8 +253,8 @@ public class EquipmentController {
 
     @GetMapping("/situation")
     @Secured({"EQUIPMENT_READ"})
-    public ResponseEntity<Page<EquipmentSituationResponse>> findEquipmentsSituation(EquipmentFilter filter, Pageable pageable) {
-        var entities = equipmentService.findByFilter(filter, pageable);
+    public ResponseEntity<Page<EquipmentSituationResponse>> findEquipmentsSituation(@RequestParam(name = "plantId", required = false) Long plantId, Pageable pageable) {
+        var entities = equipmentService.findAllByPlantId(plantId, pageable);
         return ResponseEntity.ok(equipmentAssembler.toSituationPageResponse(entities));
     }
 

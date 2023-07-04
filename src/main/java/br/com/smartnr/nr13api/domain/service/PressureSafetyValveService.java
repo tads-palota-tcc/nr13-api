@@ -22,7 +22,6 @@ import java.util.List;
 public class PressureSafetyValveService {
 
     private final PressureSafetyValveRepository psvRepository;
-    private final PlantService plantService;
     private final UserService userService;
     private final ModelMapper modelMapper;
 
@@ -76,9 +75,9 @@ public class PressureSafetyValveService {
         return psvRepository.findAll(PressureSafetyValveSpecs.withFilter(filter), pageable);
     }
 
-    public List<PressureSafetyValve> findAllAvailableByUserPlant() {
+    public List<PressureSafetyValve> findAllAvailableByPlant(Long plantId) {
         log.info("Iniciando processo de listagem de Válvulas de Segurança disponíveis");
-        return psvRepository.findAvailableByPlants(plantService.findByUser());
+        return psvRepository.findAvailableByPlant(plantId);
     }
 
     public PressureSafetyValve findByTagAndPlantCode(String tag, String plantCode) {
