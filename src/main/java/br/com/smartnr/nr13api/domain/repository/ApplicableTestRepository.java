@@ -11,7 +11,7 @@ import java.util.List;
 public interface ApplicableTestRepository extends JpaRepository<ApplicableTest, ApplicableTestPK> {
 
     @Query("select a from ApplicableTest a " +
-            "where a.lastTestDate + (a.frequency * (" +
+            "where a.lastTestDate is NULL or a.lastTestDate + (a.frequency * (" +
             "   case " +
             "       when a.frequencyType = 'DAY' then 1 " +
             "       when a.frequencyType = 'MONTH' then 30 " +

@@ -5,6 +5,7 @@ import br.com.smartnr.nr13api.domain.exception.BusinessException;
 import br.com.smartnr.nr13api.domain.exception.EntityNotFoundException;
 import br.com.smartnr.nr13api.domain.exception.FileNotFoundException;
 import br.com.smartnr.nr13api.domain.model.Calibration;
+import br.com.smartnr.nr13api.domain.model.Device;
 import br.com.smartnr.nr13api.domain.model.File;
 import br.com.smartnr.nr13api.domain.model.Status;
 import br.com.smartnr.nr13api.domain.repository.CalibrationRepository;
@@ -42,7 +43,9 @@ public class CalibrationService {
         log.info("Iniciando processo de cadastro de Calibração: {}", entity.getDevice().getId());
         try {
             var device = deviceService.findById(entity.getDevice().getId());
-            device.setLastCalibrationDate(entity.getExecutionDate());
+
+            updateLasCalibrationDateAndCost(entity, device);
+
             entity.setDevice(device);
             entity.setUpdatedBy(userService.getAuthenticatedUser());
             entity = calibrationRepository.save(entity);
@@ -64,8 +67,12 @@ public class CalibrationService {
             throw new BusinessException("Para calibração com relatório informado, o status deve ser Concluído");
         }
         var existing = this.findOrFail(id);
+        var device = deviceService.findById(existing.getDevice().getId());
         modelMapper.map(entity, existing);
         existing.setUpdatedBy(userService.getAuthenticatedUser());
+
+        updateLasCalibrationDateAndCost(entity, device);
+
         existing.getDevice().setLastCalibrationDate(entity.getExecutionDate());
         calibrationRepository.save(existing);
         return existing;
@@ -150,5 +157,16 @@ public class CalibrationService {
     private Calibration findOrFail(Long id) {
         return calibrationRepository.findById(id)
                 .orElseThrow(() -> new AreaNotFoundException(id));
+    }
+
+    private void updateLasCalibrationDateAndCost(Calibration entity, Device device) {
+        var lastCalibration = calibrationRepository.findTop10ByDeviceIdOrderByExecutionDateDesc(device.getId()).stream().findFirst();
+        if (lastCalibration.isPresent() && lastCalibration.get().getExecutionDate().isAfter(entity.getExecutionDate())) {
+            device.setLastCalibrationDate(lastCalibration.get().getExecutionDate());
+            device.setLastCalibrationCost(lastCalibration.get().getCost());
+        } else {
+            device.setLastCalibrationDate(entity.getExecutionDate());
+            device.setLastCalibrationCost(entity.getCost());
+        }
     }
 }

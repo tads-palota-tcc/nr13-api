@@ -33,7 +33,7 @@ public class Device extends BaseEntity<Long> {
 
     private LocalDate lastCalibrationDate;
 
-    private BigDecimal lastCalibrationCost;
+    private BigDecimal lastCalibrationCost = BigDecimal.ZERO;
 
     @ManyToOne
     @JoinColumn(name = "equipment_id")

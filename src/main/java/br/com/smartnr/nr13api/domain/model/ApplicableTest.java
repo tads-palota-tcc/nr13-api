@@ -45,7 +45,11 @@ public class ApplicableTest extends BaseEntity<ApplicableTestPK> {
 
     public LocalDate getNextTestDate() {
         if (lastTestDate == null) return LocalDate.now();
-        return lastTestDate.plusDays((long) getFrequencyType().getDays() * getFrequency());
+        return switch (getFrequencyType()) {
+            case DAY -> lastTestDate.plusDays(getFrequency());
+            case MONTH -> lastTestDate.plusMonths(getFrequency());
+            case YEAR -> lastTestDate.plusYears(getFrequency());
+        };
     }
 
     public List<LocalDate> getNextTestDatesUntil(LocalDate date) {
