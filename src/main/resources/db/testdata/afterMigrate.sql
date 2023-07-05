@@ -1,7 +1,7 @@
 drop table if exists audit.tb_plants_audit;
 drop table if exists audit.tb_areas_audit;
 drop table if exists audit.tb_equipments_audit;
-drop table if exists audit.tb_devices_autit;
+drop table if exists audit.tb_devices_audit;
 drop table if exists audit.tb_interventions_audit;
 drop table if exists audit.tb_calibrations_audit;
 drop table if exists audit.tb_inspections_audit;
@@ -93,13 +93,13 @@ insert into nr13_api.tb_user_plants (user_id, plant_id) values (100000, 1), (100
 insert into
         nr13_api.tb_areas (code, name, plant_id, updated_by, active)
     values
-        ('CMP-01', 'Unidade de compressão de gás', 1, 100000, true),
-        ('RFG-01', 'Unidade de refrigeração', 1, 100000, true),
-        ('ETA-01', 'Unidade de tratamento de água', 1, 100000, true),
-        ('PNT-01', 'Unidade de pintura', 2, 100000, true),
-        ('CRT-01', 'Unidade de corte', 2, 100000, true),
-        ('USN-01', 'Unidade de usinagem', 3, 100000, true),
-        ('RFN-01', 'Unidade de refino', 4, 100000, true);
+        ('RGD1-CMP-01', 'Unidade de compressão de gás', 1, 100000, true),
+        ('RGD1-RFG-01', 'Unidade de refrigeração', 1, 100000, true),
+        ('RGD1-ETA-01', 'Unidade de tratamento de água', 1, 100000, true),
+        ('PEL1-PNT-01', 'Unidade de pintura', 2, 100000, true),
+        ('PEL1-CRT-01', 'Unidade de corte', 2, 100000, true),
+        ('POA1-USN-01', 'Unidade de usinagem', 3, 100000, true),
+        ('POA5-RFN-01', 'Unidade de refino', 4, 100000, false);
 
 --insert into nr13_api.tb_equipments
 --            (tag, area_id, name, hydrostatic_test_pressure, max_operation_pressure, max_allowed_work_pressure, diameter, volume, fluid_class, active, updated_by)
